@@ -8,6 +8,11 @@ repositories {
     mavenCentral()
     maven("https://papermc.io/repo/repository/maven-public/")
 }
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(16))
+    }
+}
 
 dependencies {
     compileOnly(kotlin("stdlib"))
@@ -15,7 +20,7 @@ dependencies {
     compileOnly("io.github.monun:tap-api:4.1.9")
     compileOnly("io.github.monun:kommand-api:2.6.6")
     compileOnly("net.projecttl:InventoryGUI-api:4.1.8")
-    implementation("net.projecttl:PBalance-api:1.2.0")
+
 }
 
 tasks {

@@ -1,5 +1,5 @@
 name: Recipe
-version: 0.0.1
+version: 0.0.2
 api-version: 1.17
 author: w0819
 libraries:
@@ -7,3 +7,4 @@ libraries:
   - io.github.monun:kommand-api:2.6.6
   - net.projecttl:InventoryGUI-api:4.1.8
 main: com.github.w0819.main.Main
+description: this plugin ip is on hypixel

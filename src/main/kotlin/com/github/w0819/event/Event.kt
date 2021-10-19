@@ -1,38 +1,29 @@
 package com.github.w0819.event
 
 import com.github.w0819.Item
-import com.github.w0819.main.Main
-import com.github.w0819.main.openRecipeStore
-import net.kyori.adventure.text.Component.text
 import org.bukkit.Material
-import org.bukkit.Particle
-import org.bukkit.entity.EntityType
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.block.Action
+import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.PlayerDeathEvent
+import org.bukkit.event.inventory.CraftItemEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerItemConsumeEvent
 import org.bukkit.event.player.PlayerJoinEvent
-import org.bukkit.event.player.PlayerLoginEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
 
-class Event(private val plugin: Main) : Listener {
+class Event : Listener {
     @EventHandler
-    fun onPlayerInteract(event: PlayerInteractEvent) {
-        if (event.action == Action.LEFT_CLICK_BLOCK || event.action == Action.LEFT_CLICK_AIR) {
-            when (event.item) {
-                Item.dragon_sword -> {
-                    event.player.damage(7.0)
-                }
-                ItemStack(Material.EMERALD) -> {
-                    event.player.openRecipeStore(plugin)
-                }
-            }
-        }
+    fun onPlayerJoin(event: PlayerJoinEvent) {
+        val player = event.player
+        val health = player.health
+        val playerHealth = health + 20
+
+        player.health = playerHealth
     }
     @EventHandler
     fun onPlayerDeath(event: PlayerDeathEvent) {
@@ -41,7 +32,6 @@ class Event(private val plugin: Main) : Listener {
 
         world?.dropItemNaturally(loc, ItemStack(Material.PLAYER_HEAD,1))
         world?.strikeLightningEffect(loc)
-
     }
     @EventHandler
     fun onPlayerEat(event: PlayerItemConsumeEvent) {
@@ -52,32 +42,30 @@ class Event(private val plugin: Main) : Listener {
         }
     }
     @EventHandler
-    fun onPlayerJoin(event: PlayerJoinEvent) {
-        event.joinMessage(text("Hello ${event.player.name}"))
-        event.player.inventory.setItem(8, ItemStack(Material.EMERALD))
-    }
-
-    @EventHandler
-    fun onPlayerFirstJoin(event: PlayerLoginEvent) {
-        val p = event.player
-        if (!p.hasPlayedBefore()) {
-            p.inventory.addItem(ItemStack(Material.STONE_PICKAXE))
-            p.inventory.addItem(ItemStack(Material.STONE_AXE))
-            p.inventory.addItem(ItemStack(Material.STONE_SWORD))
-            p.inventory.addItem(ItemStack(Material.STONE_SHOVEL))
-        }
-    }
-    @EventHandler(ignoreCancelled = true)
     fun onPlayerItemConsume(event: PlayerItemConsumeEvent) {
         val item = event.item
         if (item == Item.golden_head) {
-            event.player.removePotionEffect(PotionEffectType.REGENERATION)
-            event.player.removePotionEffect(PotionEffectType.ABSORPTION)
-            event.player.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE)
-            event.player.removePotionEffect(PotionEffectType.FIRE_RESISTANCE)
             event.player.addPotionEffect(PotionEffect(PotionEffectType.SPEED,200,1,true,false,true))
             event.player.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200,1,true,false,true))
             event.player.addPotionEffect(PotionEffect(PotionEffectType.HEAL,100,1,true,false,true))
+        }
+    }
+    @EventHandler
+    fun onDamage(event: EntityDamageEvent,e: PlayerInteractEvent) {
+            when(e.item) {
+                Item.dragon_sword -> {
+                    event.damage = 8.0
+                }
+            }
+    }
+    @EventHandler
+    fun onPlayerCraft(event: CraftItemEvent) {
+        val item = event.recipe
+        if (item == Item.apprentice_Sword) {
+            Thread.sleep(600_000)
+            Item.apprentice_Sword.addEnchantment(Enchantment.DAMAGE_ALL,1)
+            Thread.sleep(600_000)
+            Item.apprentice_Sword.addEnchantment(Enchantment.DAMAGE_ALL,1)
         }
     }
 }
