@@ -7,7 +7,7 @@ import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 
 object Item {
-    val notchApple = ItemStack(Material.ENCHANTED_GOLDEN_APPLE).apply {
+    val notch_apple = ItemStack(Material.ENCHANTED_GOLDEN_APPLE).apply {
         itemMeta = itemMeta.apply {
             displayName(text("notch Golden Apple").decorate(TextDecoration.BOLD))
         }
@@ -47,7 +47,7 @@ object Item {
             displayName(text("Tarnhelm").decorate(TextDecoration.BOLD))
             addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,1)
             addEnchantment(Enchantment.PROTECTION_FIRE,1)
-            addEnchantment(Enchantment.WATER_WORKER,3)
+            addEnchantment(Enchantment.WATER_WORKER,1)
         }
     }
 }

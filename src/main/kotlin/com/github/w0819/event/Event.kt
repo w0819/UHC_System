@@ -5,10 +5,8 @@ import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.inventory.CraftItemEvent
-import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerItemConsumeEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.inventory.ItemStack
@@ -49,14 +47,6 @@ class Event : Listener {
             event.player.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200,1,true,false,true))
             event.player.addPotionEffect(PotionEffect(PotionEffectType.HEAL,100,1,true,false,true))
         }
-    }
-    @EventHandler
-    fun onDamage(event: EntityDamageEvent,e: PlayerInteractEvent) {
-            when(e.item) {
-                Item.dragon_sword -> {
-                    event.damage = 8.0
-                }
-            }
     }
     @EventHandler
     fun onPlayerCraft(event: CraftItemEvent) {
