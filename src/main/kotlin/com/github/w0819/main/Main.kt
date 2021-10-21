@@ -28,7 +28,7 @@ class Main : JavaPlugin(){
                     "121",
                     "111"
                 )
-                setIngredient('1', Material.GOLD_INGOT)
+                setIngredient('1', ItemStack(Material.GOLD_INGOT,2))
                 setIngredient('2', Material.APPLE)
             }
         )
@@ -45,6 +45,20 @@ class Main : JavaPlugin(){
                 setIngredient('1', Material.OBSIDIAN)
                 setIngredient('2', Material.DIAMOND_SWORD)
                 setIngredient('3', Material.BLAZE_POWDER)
+            }
+        )
+        server.addRecipe(
+            ShapedRecipe(
+                NamespacedKey.minecraft("apprentice_sword"),
+                Item.apprentice_Sword
+            ).apply {
+                shape(
+                    " 1 ",
+                    " 2 ",
+                    " 1 "
+                )
+                setIngredient('1',Material.REDSTONE_BLOCK)
+                setIngredient('2',Material.IRON_SWORD)
             }
         )
         server.addRecipe(
@@ -78,7 +92,23 @@ class Main : JavaPlugin(){
         )
         server.addRecipe(
             ShapedRecipe(
-                NamespacedKey.minecraft("iron_bundle"),
+                NamespacedKey.minecraft("philosopher_pickaxe"),
+                Item.Philosopher_Pickaxe
+            ).apply {
+                shape(
+                    "121",
+                    "343",
+                    " 4 "
+                )
+                setIngredient('1',Material.IRON_ORE)
+                setIngredient('2',Material.GOLD_ORE)
+                setIngredient('3',Material.LAPIS_LAZULI)
+                setIngredient('4',Material.STICK)
+            }
+        )
+        server.addRecipe(
+            ShapedRecipe(
+                NamespacedKey.minecraft("iron_pack"),
                 ItemStack(Material.IRON_INGOT,8)
             ).apply {
                 shape(
@@ -92,7 +122,7 @@ class Main : JavaPlugin(){
         )
         server.addRecipe(
             ShapedRecipe(
-                NamespacedKey.minecraft("gold_bundle"),
+                NamespacedKey.minecraft("gold_pack"),
                 ItemStack(Material.GOLD_INGOT,8)
             ).apply {
                 shape(
