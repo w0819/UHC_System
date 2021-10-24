@@ -14,9 +14,6 @@ class Main : JavaPlugin(){
         server.logger.info("Recipe is onEnable")
         recipe()
     }
-    override fun onDisable() {
-        server.logger.info("Recipe is onDisable")
-    }
     private fun recipe() {
         server.addRecipe(
             ShapedRecipe(
@@ -30,6 +27,20 @@ class Main : JavaPlugin(){
                 )
                 setIngredient('1', ItemStack(Material.GOLD_INGOT,2))
                 setIngredient('2', Material.APPLE)
+            }
+        )
+        server.addRecipe(
+            ShapedRecipe(
+                NamespacedKey.minecraft("sparkling_watermelon."),
+                ItemStack(Material.GLISTERING_MELON_SLICE)
+            ).apply {
+                shape(
+                    "111",
+                    "121",
+                    "111"
+                )
+                setIngredient('1',Material.IRON_INGOT)
+                setIngredient('2',Material.MELON_SLICE)
             }
         )
         server.addRecipe(

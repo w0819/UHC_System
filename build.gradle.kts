@@ -7,6 +7,7 @@ plugins {
 repositories {
     mavenCentral()
     maven("https://papermc.io/repo/repository/maven-public/")
+    maven("https://repo.dmulloy2.net/repository/public/")
 }
 java {
     toolchain {
@@ -20,6 +21,8 @@ dependencies {
     compileOnly("io.github.monun:tap-api:4.1.9")
     compileOnly("io.github.monun:kommand-api:2.6.6")
     compileOnly("net.projecttl:InventoryGUI-api:4.1.8")
+    compileOnly("com.comphenix.protocol:ProtocolLib:4.7.0")
+
 
 }
 
