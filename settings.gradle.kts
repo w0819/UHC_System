@@ -1,3 +1,1 @@
-
-rootProject.name = "Recipe"
-
+rootProject.name = "UHC_System"
