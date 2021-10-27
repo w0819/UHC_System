@@ -3,8 +3,8 @@ version: 0.0.2
 api-version: 1.17
 author: w0819
 libraries:
-  - io.github.monun:tap-api:4.1.9
-  - io.github.monun:kommand-api:2.6.6
+  - io.github.monun:tap:4.1.9
+  - io.github.monun:kommand:2.6.6
   - net.projecttl:InventoryGUI-api:4.1.8
 main: com.github.w0819.main.Main
 description: this plugin ip is on hypixel
