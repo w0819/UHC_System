@@ -22,8 +22,7 @@ import kotlin.random.Random
 
 class Event : Listener {
 
-    private var count = 0
-
+    // 플레이어 조인
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
         val player = event.player
@@ -32,6 +31,8 @@ class Event : Listener {
 
         loc.world.time = 1000
     }
+
+    // 일반 플레이어 머리
     @EventHandler
     fun onPlayerInteract(event: PlayerInteractEvent) {
         val player = event.player
@@ -46,6 +47,8 @@ class Event : Listener {
 
         }
     }
+
+    // 앙털
     @EventHandler
     fun onPlayerEntityInteract(event: EntityInteractEvent) {
         if (event.entity is Sheep) {
@@ -58,6 +61,8 @@ class Event : Listener {
             }
         }
     }
+
+    // 블럭 드롭아이템
     @EventHandler
     fun onPlayerBreakBlack(event: PlayerItemBreakEvent) {
         if(event.brokenItem.isSimilar(ItemStack(Material.GRAVEL))) {
@@ -70,6 +75,8 @@ class Event : Listener {
             }
         }
     }
+
+    // 엔티티 드롭아이템
     @EventHandler
     fun onEntityDeath(e: EntityDeathEvent) {
         if (e.entity is Spider) {
@@ -126,11 +133,12 @@ class Event : Listener {
             )
         }
     }
+
+    // 플레이어 죽을때의 효과
     @EventHandler
     fun onPlayerDeath(event: PlayerDeathEvent) {
         val loc = event.entity.player?.location
         val world = loc?.world
-        count = 0
         val killer = event.entity.player?.killer
         killer?.giveExp(50)
         val r = Random
@@ -140,6 +148,8 @@ class Event : Listener {
         }
         world?.strikeLightningEffect(loc)
     }
+
+    // 금머리 효과
     @EventHandler
     fun onPlayerItemConsume(event: PlayerItemConsumeEvent) {
         val item = event.item

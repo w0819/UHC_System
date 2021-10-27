@@ -14,6 +14,9 @@ class Main : JavaPlugin(){
         server.logger.info("Recipe is onEnable")
         recipe()
     }
+
+    // 레시피
+
     private fun recipe() {
         server.addRecipe(
             ShapedRecipe(
