@@ -16,7 +16,6 @@ object Item {
     var Philosopher_Pickaxe = ItemStack(Material.DIAMOND_PICKAXE,1).apply {
         itemMeta = itemMeta.apply {
         }
-        addEnchantment(Enchantment.LURE,2)
     }
     var dragon_sword = ItemStack(Material.DIAMOND_SWORD).apply {
         itemMeta = itemMeta.apply {
