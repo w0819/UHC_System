@@ -156,7 +156,7 @@ class Main : JavaPlugin(){
                     "   "
                 )
                 setIngredient('1', Material.IRON_INGOT)
-                setIngredient('2', Material.IRON_HELMET)
+                setIngredient('2', Material.REDSTONE_TORCH)
             }
         )
         server.addRecipe(

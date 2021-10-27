@@ -16,14 +16,10 @@ import org.bukkit.event.player.PlayerItemBreakEvent
 import org.bukkit.event.player.PlayerItemConsumeEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import kotlin.random.Random
 
-
-val apprentice_Sword_enchant: ItemMeta = Item.apprentice_Sword.itemMeta
-val apprentice_Bow_enchant: ItemMeta = Item.apprentice_Bow.itemMeta
 class Event : Listener {
 
     private var count = 0
@@ -108,6 +104,13 @@ class Event : Listener {
                 e.entity.location, ItemStack(Material.ARROW)
             )
         }
+        if (e.entity is Zombie) {
+            val r = Random
+            val chance: Float = r.nextFloat()
+            if (chance <= 0.20f) {
+                e.entity.killer?.giveExp(1000)
+            }
+        }
         if (e.entity is Skeleton) {
             val r = Random
             val chance: Float = r.nextFloat()
@@ -128,10 +131,13 @@ class Event : Listener {
         val loc = event.entity.player?.location
         val world = loc?.world
         count = 0
-        val killer = event.entity.killer
+        val killer = event.entity.player?.killer
         killer?.giveExp(50)
-
-        world?.dropItemNaturally(loc, ItemStack(Material.PLAYER_HEAD, 1))
+        val r = Random
+        val chance: Float = r.nextFloat()
+        if (chance <= 0.5f) {
+            world?.dropItemNaturally(loc, ItemStack(Material.PLAYER_HEAD, 1))
+        }
         world?.strikeLightningEffect(loc)
     }
     @EventHandler
@@ -146,34 +152,19 @@ class Event : Listener {
         }
     }
     @EventHandler
-    fun onPlayerEat(event: PlayerItemConsumeEvent) {
-        val item = event.item
-        val player = event.player
-        if (item == Item.golden_head) {
-            player.addPotionEffect(PotionEffect(PotionEffectType.HEAL, 2400, 1, true, true, true))
-            event.player.addPotionEffect(PotionEffect(PotionEffectType.SPEED, 200, 1, true, false, true))
-            event.player.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200, 1, true, false, true))
-            event.player.addPotionEffect(PotionEffect(PotionEffectType.HEAL, 100, 1, true, false, true))
-        }
-    }
-    @EventHandler
     fun onPlayerCraft(event: CraftItemEvent) {
         val item = event.recipe
         if (item == Item.apprentice_Sword) {
             Thread.sleep(6_0000)
-            apprentice_Sword_enchant.addEnchant(Enchantment.DAMAGE_ALL,1,true)
-            Item.apprentice_Sword.itemMeta = apprentice_Sword_enchant
+            Item.apprentice_Sword.itemMeta.addEnchant(Enchantment.DAMAGE_ALL,1,true)
             Thread.sleep(6_0000)
-            apprentice_Sword_enchant.addEnchant(Enchantment.DAMAGE_ALL,1,true)
-            Item.apprentice_Sword.itemMeta = apprentice_Sword_enchant
+            Item.dragon_sword.itemMeta.addEnchant(Enchantment.DAMAGE_ALL,1,true)
         }
         if (item == Item.apprentice_Bow) {
             Thread.sleep(6_000)
-            apprentice_Bow_enchant.addEnchant(Enchantment.ARROW_DAMAGE,1,true)
-            Item.apprentice_Bow.itemMeta = apprentice_Bow_enchant
+            Item.apprentice_Bow.itemMeta.addEnchant(Enchantment.ARROW_DAMAGE,1,true)
             Thread.sleep(3_000)
-            apprentice_Bow_enchant.addEnchant(Enchantment.ARROW_DAMAGE,1,true)
-            Item.apprentice_Bow.itemMeta = apprentice_Bow_enchant
+            Item.apprentice_Bow.itemMeta.addEnchant(Enchantment.ARROW_DAMAGE,1,true)
         }
     }
 }
