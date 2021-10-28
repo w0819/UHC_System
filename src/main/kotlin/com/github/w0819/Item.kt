@@ -100,5 +100,11 @@ object Item {
         addEnchantment(Enchantment.PROTECTION_FIRE,1)
         addEnchantment(Enchantment.WATER_WORKER,1)
     }
+
+    val recipeBook = ItemStack(Material.ENCHANTED_BOOK).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("recipe_book"))
+        }
+    }
 }
 
