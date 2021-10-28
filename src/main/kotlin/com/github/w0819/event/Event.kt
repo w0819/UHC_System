@@ -241,58 +241,60 @@ class Event(private val plugin: JavaPlugin) : Listener {
     @EventHandler
     fun onRecipeBookUse(e: PlayerInteractEvent) {
         if (e.player.inventory.itemInMainHand == Item.recipeBook) {
-            lateinit var inventory: Inventory
-            var page = 0
-            val pages = organizePages(Main.recipeList)
-            val left = ItemStack(Material.ARROW)
-            val right = ItemStack(Material.ARROW)
-            fun updatePages() {
-                if (page == 0) {
-                    left.amount = 0
-                } else {
-                    left.amount = 1
-                }
-                if (page == pages.size - 1) {
-                    right.amount = 0
-                } else {
-                    right.amount = 1
-                }
-                inventory.setItem(45, left)
-                inventory.setItem(53, right)
-                for (index in 0..6) {
-                    inventory.setItem(10 + index, null)
-                }
-                for (index in 7..13) {
-                    inventory.setItem(12 + index, null)
-                }
-                for (index in 14..20) {
-                    inventory.setItem(14 + index, null)
-                }
-                pages[page].forEachIndexed { i, recipe ->
-                    when (i) {
-                        in 0..6 -> inventory.setItem(10 + i, recipe.recipe.result)
-                        in 7..13 -> inventory.setItem(12 + i, recipe.recipe.result)
-                        in 14..20 -> inventory.setItem (14 + i, recipe.recipe.result)
-                        else -> throw RuntimeException("Should not reach here: $i")
+            if (e.action == Action.RIGHT_CLICK_AIR || e.action == Action.RIGHT_CLICK_BLOCK) {
+                lateinit var inventory: Inventory
+                var page = 0
+                val pages = organizePages(Main.recipeList)
+                val left = ItemStack(Material.ARROW)
+                val right = ItemStack(Material.ARROW)
+                fun updatePages() {
+                    if (page == 0) {
+                        left.amount = 0
+                    } else {
+                        left.amount = 1
+                    }
+                    if (page == pages.size - 1) {
+                        right.amount = 0
+                    } else {
+                        right.amount = 1
+                    }
+                    inventory.setItem(45, left)
+                    inventory.setItem(53, right)
+                    for (index in 0..6) {
+                        inventory.setItem(10 + index, null)
+                    }
+                    for (index in 7..13) {
+                        inventory.setItem(12 + index, null)
+                    }
+                    for (index in 14..20) {
+                        inventory.setItem(14 + index, null)
+                    }
+                    pages[page].forEachIndexed { i, recipe ->
+                        when (i) {
+                            in 0..6 -> inventory.setItem(10 + i, recipe.recipe.result)
+                            in 7..13 -> inventory.setItem(12 + i, recipe.recipe.result)
+                            in 14..20 -> inventory.setItem (14 + i, recipe.recipe.result)
+                            else -> throw RuntimeException("Should not reach here: $i")
+                        }
                     }
                 }
+                val builder: InventoryGuiBuilder.() -> Unit = {
+                    slot(49, ItemStack(Material.BARRIER)) {
+                        e.player.closeInventory()
+                    }
+                    slot(45, left) {
+                        page--
+                        updatePages()
+                    }
+                    slot(53, right) {
+                        page++
+                        updatePages()
+                    }
+                }
+                val a = InventoryGuiBuilder(e.player, InventoryType.CHEST_54, Component.text("Recipe Book"), plugin)
+                inventory = a.apply(builder).build()
+                updatePages()
             }
-            val builder: InventoryGuiBuilder.() -> Unit = {
-                slot(49, ItemStack(Material.BARRIER)) {
-                    e.player.closeInventory()
-                }
-                slot(45, left) {
-                    page--
-                    updatePages()
-                }
-                slot(53, right) {
-                    page++
-                    updatePages()
-                }
-            }
-            val a = InventoryGuiBuilder(e.player, InventoryType.CHEST_54, Component.text("Recipe Book"), plugin)
-            inventory = a.apply(builder).build()
-            updatePages()
         }
     }
 }
