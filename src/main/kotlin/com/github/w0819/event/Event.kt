@@ -11,14 +11,12 @@ import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.entity.EntityInteractEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.inventory.CraftItemEvent
-import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.event.player.PlayerItemBreakEvent
-import org.bukkit.event.player.PlayerItemConsumeEvent
-import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.*
 import org.bukkit.inventory.ItemStack
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import kotlin.random.Random
+
 
 class Event : Listener {
 
@@ -26,25 +24,49 @@ class Event : Listener {
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
         val player = event.player
-        val loc = player.location
         player.health + 20.0
 
-        loc.world.time = 1000
+        player.sendMessage("오늘의 폐치노트 마컴이 추가됨 (플레이어 없으면 작동안함 주의)")
+
     }
 
+    @EventHandler
+    fun onServerTimeSet(event: PlayerMoveEvent) {
+        val world = event.player.location.world
+        world.time = 1000
+    }
     // 일반 플레이어 머리
     @EventHandler
     fun onPlayerInteract(event: PlayerInteractEvent) {
         val player = event.player
+        val loc = player.location
         val item = ItemStack(Material.PLAYER_HEAD)
-        if (event.action == Action.RIGHT_CLICK_AIR || event.action == Action.RIGHT_CLICK_BLOCK) {
-            when(event.item) {
-                item -> {
-                    player.inventory.removeItem(item)
-                    player.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,100,1,true,true))
+        val world = player.location.world
+        val entities: ArrayList<Entity> = world.getNearbyEntities(player.location, 10000.0, 10000.0, 10000.0) as ArrayList<Entity>
+        var lowestDistanceSoFar = Double.MAX_VALUE
+
+            if (event.action == Action.RIGHT_CLICK_AIR || event.action == Action.RIGHT_CLICK_BLOCK) {
+                when(event.item) {
+                    item -> {
+                        player.inventory.removeItem(item)
+                        player.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,100,1,true,true))
+                    }
+                    Item.Master_Compass -> {
+                        player.inventory.removeItem(Item.Master_Compass)
+                        for (entity in entities) { // This loops through all the entities, setting the variable "entity" to each element.
+                            if (entity is Player) {
+                                if(entity != player) {
+                                val distance = entity.location.distance(loc)
+                                if (distance < lowestDistanceSoFar) {
+                                    lowestDistanceSoFar = distance
+
+                                    event.player.sendMessage("주변 플레이어의 위치는 ${distance}입니다.")
+                                }
+                            }
+                        }
+                    }
                 }
             }
-
         }
     }
 
@@ -149,16 +171,30 @@ class Event : Listener {
         world?.strikeLightningEffect(loc)
     }
 
+    @EventHandler
+    fun onPlayerDamage(event: PlayerItemDamageEvent) {
+        if (event.player.inventory.helmet == Item.Exodus) {
+            event.player.addPotionEffect(PotionEffect(PotionEffectType.HEAL,50,1,true,true,true))
+        }
+
+    }
+
     // 금머리 효과
     @EventHandler
     fun onPlayerItemConsume(event: PlayerItemConsumeEvent) {
         val item = event.item
         val player = event.player
         if (item == Item.golden_head) {
-            player.health + 8.0
+            player.health += 8.0
             event.player.addPotionEffect(PotionEffect(PotionEffectType.SPEED,200,1,true,false,true))
             event.player.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200,1,true,false,true))
             event.player.addPotionEffect(PotionEffect(PotionEffectType.HEAL,100,1,true,false,true))
+        }
+        if (item == Item.panacea) {
+            player.health += 16.0
+        }
+        if (item == Item.potion_of_toughness) {
+            player.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,2400,2,true,true,true))
         }
     }
     @EventHandler
