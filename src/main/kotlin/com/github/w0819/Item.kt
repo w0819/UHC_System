@@ -29,7 +29,7 @@ object Item {
         itemMeta = itemMeta.apply {
             displayName(text("Dragon Armor"))
         }
-        addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,5)
+        addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,4)
     }
     var Cupid_s_Bow = ItemStack(Material.BOW).apply {
         itemMeta = itemMeta.apply {
