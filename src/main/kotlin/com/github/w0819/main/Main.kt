@@ -173,10 +173,10 @@ class Main : JavaPlugin() {
                 setIngredient('2', Material.COAL)
             }
         )
-        var LeatherHelmet1 = ItemStack(Material.LEATHER_HELMET)
-        val meta = LeatherHelmet1.getItemMeta() as LeatherArmorMeta
+        val LeatherHelmet1 = ItemStack(Material.LEATHER_HELMET)
+        val meta = LeatherHelmet1.itemMeta as LeatherArmorMeta
         meta.setColor(Color.PURPLE)
-        LeatherHelmet1.setItemMeta(meta)
+        LeatherHelmet1.itemMeta = meta
         server.addRecipe(
             ShapedRecipe(
                 NamespacedKey.minecraft("saddle"),
@@ -320,7 +320,7 @@ class Main : JavaPlugin() {
             }
         )
         val book_of_protection = ItemStack(Material.ENCHANTED_BOOK)
-        val book_of_protection_meta = book_of_protection as EnchantmentStorageMeta
+        val book_of_protection_meta = book_of_protection.itemMeta as EnchantmentStorageMeta
         book_of_protection_meta.addStoredEnchant(Enchantment.PROTECTION_ENVIRONMENTAL,1,true)
         book_of_protection.setItemMeta(book_of_protection_meta)
         server.addRecipe(
@@ -338,7 +338,7 @@ class Main : JavaPlugin() {
             }
         )
         val Artemis_Book = ItemStack(Material.ENCHANTED_BOOK)
-        val artemis_book_meta = Artemis_Book as EnchantmentStorageMeta
+        val artemis_book_meta = Artemis_Book.itemMeta as EnchantmentStorageMeta
         artemis_book_meta.addStoredEnchant(Enchantment.PROTECTION_PROJECTILE,1,true)
         Artemis_Book.setItemMeta(artemis_book_meta)
         server.addRecipe(
