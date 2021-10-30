@@ -3,7 +3,7 @@ package com.github.w0819.event
 import com.github.w0819.Item
 import com.github.w0819.UHCRecipe
 import com.github.w0819.main.Main
-import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.Component.text
 import net.projecttl.inventory.gui.InventoryGuiBuilder
 import net.projecttl.inventory.gui.utils.InventoryType
 import org.bukkit.Material
@@ -16,6 +16,7 @@ import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.entity.EntityInteractEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.inventory.CraftItemEvent
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.*
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
@@ -34,7 +35,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
         player.health + 20.0
 
         player.sendMessage("오늘의 폐치노트 마컴이 추가됨 (플레이어 없으면 작동안함 주의)")
-
+        player.inventory.addItem(Item.recipeBook)
     }
 
     @EventHandler
@@ -239,14 +240,27 @@ class Event(private val plugin: JavaPlugin) : Listener {
     }
 
     @EventHandler
-    fun onRecipeBookUse(e: PlayerInteractEvent) {
+    fun onRecipeBookUse(e: PlayerInteractEvent,event: InventoryClickEvent) {
         if (e.player.inventory.itemInMainHand == Item.recipeBook) {
             if (e.action == Action.RIGHT_CLICK_AIR || e.action == Action.RIGHT_CLICK_BLOCK) {
                 lateinit var inventory: Inventory
                 var page = 0
                 val pages = organizePages(Main.recipeList)
-                val left = ItemStack(Material.ARROW)
-                val right = ItemStack(Material.ARROW)
+                val close = ItemStack(Material.BARRIER).apply {
+                    itemMeta = itemMeta.apply {
+                        displayName(text("close"))
+                    }
+                }
+                val left = ItemStack(Material.ARROW).apply {
+                    itemMeta = itemMeta.apply {
+                        displayName(text("left"))
+                    }
+                }
+                val right = ItemStack(Material.ARROW).apply {
+                    itemMeta = itemMeta.apply {
+                        displayName(text("right"))
+                    }
+                }
                 fun updatePages() {
                     if (page == 0) {
                         left.amount = 0
@@ -279,7 +293,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
                     }
                 }
                 val builder: InventoryGuiBuilder.() -> Unit = {
-                    slot(49, ItemStack(Material.BARRIER)) {
+                    slot(49, close) {
                         e.player.closeInventory()
                     }
                     slot(45, left) {
@@ -291,11 +305,12 @@ class Event(private val plugin: JavaPlugin) : Listener {
                         updatePages()
                     }
                 }
-                val a = InventoryGuiBuilder(e.player, InventoryType.CHEST_54, Component.text("Recipe Book"), plugin)
+                val a = InventoryGuiBuilder(e.player, InventoryType.CHEST_54, text("Recipe Book"), plugin)
                 inventory = a.apply(builder).build()
                 updatePages()
             }
         }
+
     }
 }
 

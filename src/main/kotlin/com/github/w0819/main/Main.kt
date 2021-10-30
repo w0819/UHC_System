@@ -25,8 +25,34 @@ class Main : JavaPlugin() {
         server.pluginManager.registerEvents(Event(this), this)
         server.logger.info("Recipe is onEnable")
         recipe()
+        recipeList.add(UHCRecipe(ShapedRecipe(
+            NamespacedKey.minecraft("light_anvil"),
+            ItemStack(Material.ANVIL)
+        ).apply {
+            shape(
+                "111",
+                " 2 ",
+                "111"
+            )
+            setIngredient('1',Material.IRON_INGOT)
+            setIngredient('2',Material.IRON_BLOCK)
+        }
+        ))
+        recipeList.add(
+            UHCRecipe(ShapedRecipe(
+                NamespacedKey.minecraft("notch_apple"),
+                Item.notch_apple
+            ).apply {
+                shape(
+                    "111",
+                    "121",
+                    "111"
+                )
+                setIngredient('1',Material.GOLD_INGOT)
+                setIngredient('2',Material.APPLE)
+            })
+        )
     }
-
     private fun recipe() {
         server.addRecipe(
             ShapedRecipe(
