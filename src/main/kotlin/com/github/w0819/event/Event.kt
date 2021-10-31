@@ -306,7 +306,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
                 fun renderRecipe(recipe: UHCRecipe) {
                     recipeView = false
                     for (i in 0..53) {
-                        inventory.setItem(i, null)
+                        inventory.setItem(i, ItemStack(Material.GRAY_STAINED_GLASS_PANE))
                     }
                     recipeToMap(recipe).forEachIndexed { i, item ->
                         inventory.setItem((i % 3) + 11 + ((i / 3) * 9), item)
@@ -327,7 +327,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
                         right.amount = 1
                     }
                     for (i in 0..53) {
-                        inventory.setItem(i, ItemStack(Material.GRAY_STAINED_GLASS_PANE))
+                        inventory.setItem(i, null)
                     }
                     inventory.setItem(45, left)
                     inventory.setItem(53, right)
