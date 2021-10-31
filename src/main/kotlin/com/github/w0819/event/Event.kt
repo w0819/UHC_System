@@ -4,6 +4,7 @@ import com.github.w0819.Item
 import com.github.w0819.UHCRecipe
 import com.github.w0819.main.Main
 import net.kyori.adventure.text.Component.text
+import net.kyori.adventure.text.format.NamedTextColor
 import net.projecttl.inventory.gui.InventoryGuiBuilder
 import net.projecttl.inventory.gui.utils.InventoryType
 import org.bukkit.Material
@@ -27,23 +28,21 @@ import kotlin.random.Random
 
 class Event(private val plugin: JavaPlugin) : Listener {
 
+
     // 플레이어 조인
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
+        val playerCoin = event.player.scoreboard
+        val coin = playerCoin.getObjective("coin")
+        if (coin == null) playerCoin.registerNewObjective("coin","coin",text("coin", NamedTextColor.GOLD))
+        val giveCoin = event.player.killer?.scoreboard?.getObjective("coin")
+        giveCoin?.name + 10
         val player = event.player
         player.health + 20.0
 
         player.sendMessage("오늘의 폐치노트 마컴이 추가됨 (플레이어 없으면 작동안함 주의)")
         player.inventory.setItem(4,Item.recipeBook)
     }
-    @EventHandler
-    fun onPlayerKill(event: PlayerKickEvent) {
-        val player = event.player
-        if (player.itemInUse == Item.Bloodlust) {
-            Item.Bloodlust.addEnchantment(Enchantment.DAMAGE_ALL,2)
-        }
-    }
-
     @EventHandler
     fun onServerTimeSet(event: PlayerMoveEvent) {
         val world = event.player.location.world

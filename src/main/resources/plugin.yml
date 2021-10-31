@@ -1,10 +1,11 @@
 name: UHC_System
-version: 0.0.2
+version: 0.0.3
 api-version: 1.17
-author: w0819
+authors: [w0819, dolphin2410]
 libraries:
   - io.github.monun:tap:4.1.9
   - io.github.monun:kommand:2.6.6
   - net.projecttl:InventoryGUI-api:4.1.8
 main: com.github.w0819.main.Main
 description: this plugin ip is on hypixel
+website: github.com/w0819/UHC_System
