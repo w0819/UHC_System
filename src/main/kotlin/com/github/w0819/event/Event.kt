@@ -3,7 +3,7 @@ package com.github.w0819.event
 import com.github.w0819.Item
 import com.github.w0819.UHCRecipe
 import com.github.w0819.main.Main
-import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.Component.text
 import net.projecttl.inventory.gui.InventoryGuiBuilder
 import net.projecttl.inventory.gui.utils.InventoryType
 import org.bukkit.Material
@@ -34,7 +34,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
         player.health + 20.0
 
         player.sendMessage("오늘의 폐치노트 마컴이 추가됨 (플레이어 없으면 작동안함 주의)")
-
+        player.inventory.addItem(Item.recipeBook)
     }
 
     @EventHandler
@@ -245,8 +245,21 @@ class Event(private val plugin: JavaPlugin) : Listener {
                 lateinit var inventory: Inventory
                 var page = 0
                 val pages = organizePages(Main.recipeList)
-                val left = ItemStack(Material.ARROW)
-                val right = ItemStack(Material.ARROW)
+                val close = ItemStack(Material.BARRIER).apply {
+                    itemMeta = itemMeta.apply {
+                        displayName(text("close"))
+                    }
+                }
+                val left = ItemStack(Material.ARROW).apply {
+                    itemMeta = itemMeta.apply {
+                        displayName(text("left"))
+                    }
+                }
+                val right = ItemStack(Material.ARROW).apply {
+                    itemMeta = itemMeta.apply {
+                        displayName(text("right"))
+                    }
+                }
                 fun updatePages() {
                     if (page == 0) {
                         left.amount = 0
@@ -266,13 +279,13 @@ class Event(private val plugin: JavaPlugin) : Listener {
 
                     pages[page].forEachIndexed { i, recipe ->
                         when (i) {
-                            in 0..20 -> inventory.setItem(10 + (2 * (i / 7)) + i, recipe.recipe.result)
+                            in 0..20 -> inventory.setItem(10 + (2 * (i / 7)) + i, recipe.result)
                             else -> throw RuntimeException("Should not reach here: $i")
                         }
                     }
                 }
                 val builder: InventoryGuiBuilder.() -> Unit = {
-                    slot(49, ItemStack(Material.BARRIER)) {
+                    slot(49, close) {
                         e.player.closeInventory()
                     }
                     slot(45, left) {
@@ -290,11 +303,12 @@ class Event(private val plugin: JavaPlugin) : Listener {
                         }
                     }
                 }
-                val a = InventoryGuiBuilder(e.player, InventoryType.CHEST_54, Component.text("Recipe Book"), plugin)
+                val a = InventoryGuiBuilder(e.player, InventoryType.CHEST_54, text("Recipe Book"), plugin)
                 inventory = a.apply(builder).build()
                 updatePages()
             }
         }
+
     }
 }
 

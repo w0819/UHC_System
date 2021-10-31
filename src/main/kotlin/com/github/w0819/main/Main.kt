@@ -48,7 +48,6 @@ class Main : JavaPlugin() {
             SugarRush().register(),
             Tarnhelm().register()
         ))
-
 //        val leatherHelmet = ItemStack(Material.LEATHER_HELMET).apply {
 //            itemMeta = itemMeta.apply {
 //                (this as LeatherArmorMeta).setColor(Color.PURPLE)
