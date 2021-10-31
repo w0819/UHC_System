@@ -280,7 +280,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
                 fun renderRecipe(recipe: UHCRecipe) {
                     recipeView = false
                     for (i in 0..53) {
-                        inventory.setItem(i, ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE))
+                        inventory.setItem(i, null)
                     }
                     recipeToMap(recipe).forEachIndexed { i, item ->
                         inventory.setItem((i % 3) + 11 + ((i / 3) * 9), item)
@@ -299,6 +299,9 @@ class Event(private val plugin: JavaPlugin) : Listener {
                         right.amount = 0
                     } else {
                         right.amount = 1
+                    }
+                    for (i in 0..53) {
+                        inventory.setItem(i, ItemStack(Material.GRAY_STAINED_GLASS_PANE))
                     }
                     inventory.setItem(45, left)
                     inventory.setItem(53, right)
@@ -346,6 +349,3 @@ class Event(private val plugin: JavaPlugin) : Listener {
 
     }
 }
-
-
-
