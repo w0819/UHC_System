@@ -3,6 +3,7 @@ package com.github.w0819.main
 import com.github.w0819.Item
 import com.github.w0819.UHCRecipe
 import com.github.w0819.event.Event
+import com.github.w0819.recipes.LightAnvil
 import net.kyori.adventure.text.Component.text
 import org.bukkit.Color
 import org.bukkit.Material
@@ -13,6 +14,8 @@ import org.bukkit.inventory.ShapedRecipe
 import org.bukkit.inventory.meta.EnchantmentStorageMeta
 import org.bukkit.inventory.meta.LeatherArmorMeta
 import org.bukkit.plugin.java.JavaPlugin
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class Main : JavaPlugin() {
@@ -24,24 +27,14 @@ class Main : JavaPlugin() {
     override fun onEnable() {
         server.pluginManager.registerEvents(Event(this), this)
         server.logger.info("Recipe is onEnable")
+        for (i in 0..90) {
+            recipeList.add(UHCRecipe(ShapedRecipe(NamespacedKey.minecraft(UUID.randomUUID().toString()), ItemStack(Material.STICK))))
+        }
         recipe()
     }
 
     private fun recipe() {
-        server.addRecipe(
-            ShapedRecipe(
-                NamespacedKey.minecraft("light_anvil"),
-                ItemStack(Material.ANVIL)
-            ).apply {
-                shape(
-                    "111",
-                    " 2 ",
-                    "111"
-                )
-                setIngredient('1',Material.IRON_INGOT)
-                setIngredient('2',Material.IRON_BLOCK)
-            }
-        )
+        server.addRecipe(LightAnvil())
         server.addRecipe(
             ShapedRecipe(
                 NamespacedKey.minecraft("notch_apple"),
