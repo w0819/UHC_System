@@ -16,6 +16,7 @@ class Main : JavaPlugin() {
         server.pluginManager.registerEvents(Event(this), this)
         recipe()
         server.logger.info("Recipe is enabled")
+
     }
 
     private fun recipe() {
@@ -46,7 +47,17 @@ class Main : JavaPlugin() {
             Saddle().register(),
             SparklingWatermelon().register(),
             SugarRush().register(),
-            Tarnhelm().register()
+            Tarnhelm().register(),
+            VorpalSword().register(),
+            Cupid_s_Bow().register(),
+            spiked_armor().register(),
+            chest_Of_Fate().register(),
+            Cornucopia().register(),
+            Essence_of_yggdrasil().register(),
+            Potion_of_velocity().register(),
+            Panacea().register(),
+            EnchantmentBook().register(),
+            Shoes_of_Vidar().register()
         ))
 //        val leatherHelmet = ItemStack(Material.LEATHER_HELMET).apply {
 //            itemMeta = itemMeta.apply {
