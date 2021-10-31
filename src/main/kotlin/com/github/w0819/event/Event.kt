@@ -16,6 +16,7 @@ import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.entity.EntityInteractEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.inventory.CraftItemEvent
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.*
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
@@ -34,7 +35,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
         player.health + 20.0
 
         player.sendMessage("오늘의 폐치노트 마컴이 추가됨 (플레이어 없으면 작동안함 주의)")
-        player.inventory.removeItem(Item.recipeBook) // 레시피 북 버그 때문에 임시 차단
+        player.inventory.addItem(Item.recipeBook)
     }
 
     @EventHandler
@@ -239,7 +240,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
     }
 
     @EventHandler
-    fun onRecipeBookUse(e: PlayerInteractEvent) {
+    fun onRecipeBookUse(e: PlayerInteractEvent,event: InventoryClickEvent) {
         if (e.player.inventory.itemInMainHand == Item.recipeBook) {
             if (e.action == Action.RIGHT_CLICK_AIR || e.action == Action.RIGHT_CLICK_BLOCK) {
                 lateinit var inventory: Inventory
