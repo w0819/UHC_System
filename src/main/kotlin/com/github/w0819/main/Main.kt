@@ -34,8 +34,8 @@ class Main : JavaPlugin() {
                 " 2 ",
                 "111"
             )
-            setIngredient('1', Material.IRON_INGOT)
-            setIngredient('2', Material.IRON_BLOCK)
+            setIngredient('1',Material.IRON_INGOT)
+            setIngredient('2',Material.IRON_BLOCK)
         }
         ))
         recipeList.add(
@@ -48,381 +48,8 @@ class Main : JavaPlugin() {
                     "121",
                     "111"
                 )
-                setIngredient('1', Material.GOLD_INGOT)
-                setIngredient('2', Material.APPLE)
-            })
-        )
-        recipeList.add(
-            UHCRecipe(
-                ShapedRecipe(
-                    NamespacedKey.minecraft("sparkling_watermelon"),
-                    ItemStack(Material.GLISTERING_MELON_SLICE)
-                )
-            )
-        )
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("dragon_sword"),
-                Item.dragon_sword
-            ).apply {
-                shape(
-                    " 1 ",
-                    " 2 ",
-                    "313"
-                )
-                setIngredient('1', Material.OBSIDIAN)
-                setIngredient('2', Material.DIAMOND_SWORD)
-                setIngredient('3', Material.BLAZE_POWDER)
-            })
-        )
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("dragon_sword"),
-                Item.dragon_sword
-            ).apply {
-                shape(
-                    " 1 ",
-                    " 2 ",
-                    "313"
-                )
-                setIngredient('1', Material.OBSIDIAN)
-                setIngredient('2', Material.DIAMOND_SWORD)
-                setIngredient('3', Material.BLAZE_POWDER)
-            })
-        )
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("apprentice_sword"),
-                Item.apprentice_Sword
-            ).apply {
-                shape(
-                    " 1 ",
-                    " 2 ",
-                    " 1 "
-                )
-                setIngredient('1', Material.REDSTONE_BLOCK)
-                setIngredient('2', Material.IRON_SWORD)
-            })
-        )
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("golden_head"),
-                Item.golden_head
-            ).apply {
-                shape(
-                    "111",
-                    "121",
-                    "111"
-                )
-                setIngredient('1', Material.GOLD_INGOT)
-                setIngredient('2', Material.PLAYER_HEAD)
-            })
-        )
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("tarnhelm"),
-                Item.tarnhelm
-            ).apply {
-                shape(
-                    "121",
-                    "131",
-                    "   "
-                )
-                setIngredient('1', Material.DIAMOND)
-                setIngredient('2', Material.IRON_INGOT)
-                setIngredient('3', Material.REDSTONE_BLOCK)
-            })
-        )
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("philosopher_pickaxe"),
-                Item.Philosopher_Pickaxe
-            ).apply {
-                shape(
-                    "121",
-                    "343",
-                    " 4 "
-                )
-                setIngredient('1',Material.IRON_ORE)
-                setIngredient('2',Material.GOLD_ORE)
-                setIngredient('3',Material.LAPIS_LAZULI)
-                setIngredient('4',Material.STICK)
-            })
-        )
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("arrow_economy"),
-                ItemStack(Material.ARROW,20)
-            ).apply {
-                shape(
-                    "111",
-                    "222",
-                    "333"
-                )
-                setIngredient('1',Material.FLINT)
-                setIngredient('2',Material.STICK)
-                setIngredient('3',Material.FEATHER)
-            })
-        )
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("iron_economy"),
-                ItemStack(Material.IRON_INGOT,8)
-            ).apply {
-                shape(
-                    "111",
-                    "121",
-                    "111"
-                )
-                setIngredient('1', Material.IRON_ORE)
-                setIngredient('2', Material.COAL)
-            })
-        )
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("saddle"),
-                ItemStack(Material.SADDLE,1)
-            ).apply {
-                shape(
-                    "111",
-                    "212",
-                    "3 3"
-                )
-                setIngredient('1',Material.LEATHER)
-                setIngredient('2',Material.STRING)
-                setIngredient('3',Material.IRON_INGOT)
-            })
-        )
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("gold_pack"),
-                ItemStack(Material.GOLD_INGOT,8)
-            ).apply {
-                shape(
-                    "111",
-                    "121",
-                    "111"
-                )
-                setIngredient('1', Material.GOLD_ORE)
-                setIngredient('2', Material.COAL)
-            })
-        )
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("apprentice_helmet"),
-                Item.apprentice_Helmet
-            ).apply {
-                shape(
-                    "111",
-                    "121",
-                    "   "
-                )
-                setIngredient('1', Material.IRON_INGOT)
-                setIngredient('2', Material.REDSTONE_TORCH)
-            })
-        )
-        recipeList.add(UHCRecipe(ShapedRecipe(
-            NamespacedKey.minecraft("apprentice_bow"),
-            Item.apprentice_Bow
-        ).apply {
-            shape(
-                " 12",
-                "1 2",
-                " 12"
-            )
-            setIngredient('1', Material.REDSTONE_TORCH)
-            setIngredient('2', Material.STRING)
-        }))
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("new_apple"),
-                ItemStack(Material.GOLDEN_APPLE,2)
-            ).apply {
-                shape(
-                    " 1 ",
-                    "121",
-                    " 1 "
-                )
-                setIngredient('1', Material.GOLD_INGOT)
-                setIngredient('2', Material.APPLE)
-            })
-        )
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("eve_is_temptation"),
-                ItemStack(Material.APPLE,2)
-            ).apply {
-                shape(
-                    "   ",
-                    " 1 ",
-                    " 2 "
-                )
-                setIngredient('1', Material.BONE_MEAL)
-                setIngredient('2', Material.APPLE)
-            })
-        )
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("quick_pick"),
-                Item.quick_pick
-            ).apply {
-                shape(
-                    "111",
-                    "232",
-                    " 3 "
-                )
-                setIngredient('1',Material.IRON_ORE)
-                setIngredient('2',Material.COAL)
-                setIngredient('3',Material.STICK)
-            })
-        )
-        val bookOfSharpening = ItemStack(Material.ENCHANTED_BOOK).apply {
-            itemMeta = itemMeta.apply {
-                displayName(text("Book of Sharpening"))
-            }
-        }
-        val aMeta = bookOfSharpening.itemMeta as EnchantmentStorageMeta
-        aMeta.addStoredEnchant(Enchantment.DAMAGE_ALL, 1, true)
-        bookOfSharpening.itemMeta = aMeta
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("book_of_sharpening"),
-                bookOfSharpening
-            ).apply {
-                shape(
-                    "1  ",
-                    " 22",
-                    " 23"
-                )
-                setIngredient('1',Material.FLINT)
-                setIngredient('2',Material.PAPER)
-                setIngredient('3',Material.IRON_SWORD)
-            })
-        )
-        val bookOfPower = ItemStack(Material.ENCHANTED_BOOK)
-        val powerMeta = bookOfPower.itemMeta as EnchantmentStorageMeta
-        powerMeta.addStoredEnchant(Enchantment.ARROW_DAMAGE, 1, true)
-        bookOfPower.itemMeta = powerMeta
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("book_of_power"),
-                bookOfPower
-            ).apply {
-                shape(
-                    "1  ",
-                    " 22",
-                    " 23"
-                )
-                setIngredient('1',Material.FLINT)
-                setIngredient('2',Material.PAPER)
-                setIngredient('3',Material.BONE)
-            })
-        )
-        val artemisBook = ItemStack(Material.ENCHANTED_BOOK)
-        val artemisBookMeta = artemisBook.itemMeta as EnchantmentStorageMeta
-        artemisBookMeta.addStoredEnchant(Enchantment.PROTECTION_PROJECTILE,1,true)
-        artemisBook.itemMeta = artemisBookMeta
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("artemis_book"),
-                artemisBook
-            ).apply {
-                shape(
-                    "   ",
-                    " 11",
-                    " 12"
-                )
-                setIngredient('1',Material.PAPER)
-                setIngredient('2',Material.ARROW)
-            })
-        )
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("dragon_armor"),
-                Item.dragon_armor
-            ).apply {
-                shape(
-                    " 1 ",
-                    " 2 ",
-                    "343"
-                )
-                setIngredient('1',Material.MAGMA_CREAM)
-                setIngredient('2',Material.DIAMOND_CHESTPLATE)
-                setIngredient('3',Material.OBSIDIAN)
-                setIngredient('4',Material.ANVIL)
-            })
-        )
-        recipeList.add(UHCRecipe(
-            ShapedRecipe(
-                NamespacedKey.minecraft("brewing_artifact"),
-                ItemStack(Material.NETHER_WART)
-            ).apply {
-                shape(
-                    " 1 ",
-                    "121",
-                    " 1 "
-                )
-                setIngredient('1',Material.WHEAT_SEEDS)
-                setIngredient('2',Material.SPIDER_EYE)
-            }
-        ))
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("nether_artifact"),
-                ItemStack(Material.BLAZE_ROD)
-            ).apply {
-                shape(
-                    "121",
-                    "131",
-                    "121"
-                )
-                setIngredient('1',Material.GRASS_BLOCK)
-                setIngredient('2',Material.LAVA_BUCKET)
-                setIngredient('3',Material.FIREWORK_ROCKET)
-            })
-        )
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("leather_economy"),
-                ItemStack(Material.LEATHER,8)
-            ).apply {
-                shape(
-                    "121",
-                    "121",
-                    "121"
-                )
-                setIngredient('1',Material.STICK)
-                setIngredient('2',Material.LEATHER)
-            })
-        )
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("sugar_rush"),
-                ItemStack(Material.SUGAR,4)
-
-            ).apply {
-                shape(
-                    " 1 ",
-                    "232",
-                    "   "
-                )
-                setIngredient('1',Material.OAK_SAPLING)
-                setIngredient('2',Material.WHEAT_SEEDS)
-                setIngredient('3',Material.SUGAR)
-            })
-        )
-        recipeList.add(
-            UHCRecipe(ShapedRecipe(
-                NamespacedKey.minecraft("master_compass"),
-                Item.Master_Compass
-            ).apply {
-                shape(
-                    "111",
-                    "121",
-                    "111"
-                )
-                setIngredient('1',Material.REDSTONE)
-                setIngredient('2',Material.COMPASS)
+                setIngredient('1',Material.GOLD_INGOT)
+                setIngredient('2',Material.APPLE)
             })
         )
     }
@@ -572,10 +199,10 @@ class Main : JavaPlugin() {
                 setIngredient('2', Material.COAL)
             }
         )
-        val leatherHelmet = ItemStack(Material.LEATHER_HELMET)
-        val meta = leatherHelmet.itemMeta as LeatherArmorMeta
+        val LeatherHelmet1 = ItemStack(Material.LEATHER_HELMET)
+        val meta = LeatherHelmet1.itemMeta as LeatherArmorMeta
         meta.setColor(Color.PURPLE)
-        leatherHelmet.itemMeta = meta
+        LeatherHelmet1.itemMeta = meta
         server.addRecipe(
             ShapedRecipe(
                 NamespacedKey.minecraft("saddle"),
@@ -676,18 +303,18 @@ class Main : JavaPlugin() {
                 setIngredient('3',Material.STICK)
             }
         )
-        val bookOfSharpening = ItemStack(Material.ENCHANTED_BOOK).apply {
+        val Book_of_Sharpening = ItemStack(Material.ENCHANTED_BOOK).apply {
             itemMeta = itemMeta.apply {
                 displayName(text("Book of Sharpening"))
             }
         }
-        val aMeta = bookOfSharpening.itemMeta as EnchantmentStorageMeta
-        aMeta.addStoredEnchant(Enchantment.DAMAGE_ALL, 1, true)
-        bookOfSharpening.itemMeta = aMeta
+        val AMeta = Book_of_Sharpening.itemMeta as EnchantmentStorageMeta
+        AMeta.addStoredEnchant(Enchantment.DAMAGE_ALL, 1, true)
+        Book_of_Sharpening.itemMeta = AMeta
         server.addRecipe(
             ShapedRecipe(
                 NamespacedKey.minecraft("book_of_sharpening"),
-                bookOfSharpening
+                Book_of_Sharpening
             ).apply {
                 shape(
                     "1  ",
@@ -699,14 +326,14 @@ class Main : JavaPlugin() {
                 setIngredient('3',Material.IRON_SWORD)
             }
         )
-        val bookOfPower = ItemStack(Material.ENCHANTED_BOOK)
-        val powerMeta = bookOfPower.itemMeta as EnchantmentStorageMeta
-        powerMeta.addStoredEnchant(Enchantment.ARROW_DAMAGE, 1, true)
-        bookOfPower.itemMeta = powerMeta
+        val book_of_power = ItemStack(Material.ENCHANTED_BOOK)
+        val power_meta = book_of_power.itemMeta as EnchantmentStorageMeta
+        power_meta.addStoredEnchant(Enchantment.ARROW_DAMAGE, 1, true)
+        book_of_power.itemMeta = power_meta
         server.addRecipe(
             ShapedRecipe(
                 NamespacedKey.minecraft("book_of_power"),
-                bookOfPower
+                book_of_power
             ).apply {
                 shape(
                     "1  ",
@@ -718,14 +345,14 @@ class Main : JavaPlugin() {
                 setIngredient('3',Material.BONE)
             }
         )
-        val bookOfProtection = ItemStack(Material.ENCHANTED_BOOK)
-        val bookOfProtectionMeta = bookOfProtection.itemMeta as EnchantmentStorageMeta
-        bookOfProtectionMeta.addStoredEnchant(Enchantment.PROTECTION_ENVIRONMENTAL,1,true)
-        bookOfProtection.itemMeta = bookOfProtectionMeta
+        val book_of_protection = ItemStack(Material.ENCHANTED_BOOK)
+        val book_of_protection_meta = book_of_protection.itemMeta as EnchantmentStorageMeta
+        book_of_protection_meta.addStoredEnchant(Enchantment.PROTECTION_ENVIRONMENTAL,1,true)
+        book_of_protection.itemMeta = book_of_protection_meta
         server.addRecipe(
             ShapedRecipe(
                 NamespacedKey.minecraft("book_of_protection"),
-                bookOfProtection
+                book_of_protection
             ).apply {
                 shape(
                     "   ",
@@ -736,14 +363,14 @@ class Main : JavaPlugin() {
                 setIngredient('2',Material.IRON_INGOT)
             }
         )
-        val artemisBook = ItemStack(Material.ENCHANTED_BOOK)
-        val artemisBookMeta = artemisBook.itemMeta as EnchantmentStorageMeta
-        artemisBookMeta.addStoredEnchant(Enchantment.PROTECTION_PROJECTILE,1,true)
-        artemisBook.itemMeta = artemisBookMeta
+        val Artemis_Book = ItemStack(Material.ENCHANTED_BOOK)
+        val artemis_book_meta = Artemis_Book.itemMeta as EnchantmentStorageMeta
+        artemis_book_meta.addStoredEnchant(Enchantment.PROTECTION_PROJECTILE,1,true)
+        Artemis_Book.itemMeta = artemis_book_meta
         server.addRecipe(
             ShapedRecipe(
                 NamespacedKey.minecraft("artemis_book"),
-                artemisBook
+                Artemis_Book
             ).apply {
                 shape(
                     "   ",
