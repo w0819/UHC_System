@@ -8,6 +8,14 @@ import org.bukkit.inventory.ItemStack
 
 
 object Item {
+    var vorpal_sword = ItemStack(Material.IRON_SWORD).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Vorpal Sword"))
+        }
+        addEnchantment(Enchantment.DAMAGE_ARTHROPODS,2)
+        addEnchantment(Enchantment.DAMAGE_UNDEAD,2)
+        addEnchantment(Enchantment.LOOT_BONUS_MOBS,2)
+    }
     var notch_apple = ItemStack(Material.ENCHANTED_GOLDEN_APPLE).apply {
     }
     var Philosopher_Pickaxe = ItemStack(Material.DIAMOND_PICKAXE,1).apply {
@@ -38,7 +46,27 @@ object Item {
         addEnchantment(Enchantment.ARROW_DAMAGE,2)
         addEnchantment(Enchantment.ARROW_FIRE,1)
     }
-    var golden_head = ItemStack(Material.ENCHANTED_GOLDEN_APPLE).apply {
+    var Potion_of_velocity = ItemStack(Material.POTION).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Potion of Velocity"))
+        }
+    }
+    var Cornucopia = ItemStack(Material.GOLDEN_CARROT).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Cornucopia"))
+        }
+    }
+    var Essence_of_yggdrasil = ItemStack(Material.ENCHANTING_TABLE).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Essence of Yggdrasil"))
+        }
+    }
+    var chest_of_fate = ItemStack(Material.PLAYER_HEAD).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Chest of Fate").decorate(TextDecoration.BOLD))
+        }
+    }
+    var golden_head = ItemStack(Material.PLAYER_HEAD).apply {
         itemMeta = itemMeta.apply {
             displayName(text("GOLDEN HEAD!!!").decorate(TextDecoration.BOLD))
         }
@@ -54,13 +82,18 @@ object Item {
             displayName(text("Potion of Toughness"))
         }
     }
-
-
-
+    var Andūril = ItemStack(Material.IRON_SWORD).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Andūril"))
+        }
+        addEnchantment(Enchantment.DAMAGE_ALL,2)
+    }
     var spiked_armor = ItemStack(Material.LEATHER_CHESTPLATE).apply {
         itemMeta = itemMeta.apply {
-
+            displayName(text("Spiked Armor"))
         }
+        addEnchantment(Enchantment.THORNS,1)
+        addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,4)
     }
     var Exodus = ItemStack(Material.DIAMOND_HELMET).apply {
         itemMeta = itemMeta.apply {

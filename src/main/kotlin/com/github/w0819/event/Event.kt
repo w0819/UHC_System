@@ -16,7 +16,6 @@ import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.entity.EntityInteractEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.inventory.CraftItemEvent
-import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.*
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
@@ -73,6 +72,23 @@ class Event(private val plugin: JavaPlugin) : Listener {
                             }
                         }
                     }
+                }
+                Item.Essence_of_yggdrasil -> {
+                    player.inventory.removeItem(Item.Essence_of_yggdrasil)
+                    player.giveExpLevels(30)
+                }
+                Item.golden_head -> {
+                     player.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,200,2,true,true,true))
+                    player.addPotionEffect(PotionEffect(PotionEffectType.ABSORPTION,2400,1,true,true,true))
+                    player.health += 6.0
+                }
+                Item.chest_of_fate -> {
+                    player.addPotionEffect(PotionEffect(PotionEffectType.ABSORPTION,2400,5,true,true,true))
+                    player.addPotionEffect(PotionEffect(PotionEffectType.SPEED,2400,2,true,true,true))
+                }
+                Item.Cornucopia -> {
+                    player.addPotionEffect(PotionEffect(PotionEffectType.SATURATION,1_4400,1,true,true,true))
+                    player.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,240,1,true,true,true))
                 }
             }
         }
@@ -192,17 +208,8 @@ class Event(private val plugin: JavaPlugin) : Listener {
     fun onPlayerItemConsume(event: PlayerItemConsumeEvent) {
         val item = event.item
         val player = event.player
-        if (item == Item.golden_head) {
-            player.health += 8.0
-            event.player.addPotionEffect(PotionEffect(PotionEffectType.SPEED,200,1,true,false,true))
-            event.player.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200,1,true,false,true))
-            event.player.addPotionEffect(PotionEffect(PotionEffectType.HEAL,100,1,true,false,true))
-        }
-        if (item == Item.panacea) {
-            player.health += 16.0
-        }
         if (item == Item.potion_of_toughness) {
-            player.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,2400,2,true,true,true))
+            player.player?.addPotionEffect(PotionEffect(PotionEffectType.SPEED,240,3,true,true,true))
         }
     }
     @EventHandler
@@ -238,7 +245,13 @@ class Event(private val plugin: JavaPlugin) : Listener {
         }
         return result
     }
-
+    @EventHandler
+    fun onInventoryItemMove(event: PlayerItemHeldEvent) {
+        while(event.player.inventory.itemInMainHand == Item.Andūril) {
+            event.player.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,1,2,true,true,true))
+            event.player.addPotionEffect(PotionEffect(PotionEffectType.SPEED,1,1,true,true,true))
+        }
+    }
     @EventHandler
     fun onRecipeBookUse(e: PlayerInteractEvent) {
         if (e.player.inventory.itemInMainHand == Item.recipeBook) {
@@ -261,35 +274,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
                         displayName(text("right"))
                     }
                 }
-                // When viewer is viewing the list of recipes
-                // False if the viewer is viewing one item's recipe
-                var recipeView = true
-                fun recipeToMap(recipe: UHCRecipe): Array<ItemStack?> {
-                    val result = ArrayList<ItemStack?>()
-                    recipe.shape.map { line ->
-                        line.forEach { char ->
-                            if (char == ' ') {
-                                result.add(null)
-                            } else {
-                                result.add(recipe.ingredientMap[char])
-                            }
-                        }
-                    }
-                    return result.toTypedArray()
-                }
-                fun renderRecipe(recipe: UHCRecipe) {
-                    recipeView = false
-                    for (i in 0..53) {
-                        inventory.setItem(i, null)
-                    }
-                    recipeToMap(recipe).forEachIndexed { i, item ->
-                        inventory.setItem((i % 3) + 11 + ((i / 3) * 9), item)
-                    }
-                    inventory.setItem(24, recipe.result)
-                    inventory.setItem(49, ItemStack(Material.ARROW))
-                }
                 fun updatePages() {
-                    recipeView = true
                     if (page == 0) {
                         left.amount = 0
                     } else {
@@ -300,12 +285,8 @@ class Event(private val plugin: JavaPlugin) : Listener {
                     } else {
                         right.amount = 1
                     }
-                    for (i in 0..53) {
-                        inventory.setItem(i, ItemStack(Material.GRAY_STAINED_GLASS_PANE))
-                    }
                     inventory.setItem(45, left)
                     inventory.setItem(53, right)
-                    inventory.setItem(49, close)
                     for (index in 0..20) {
                         inventory.setItem(10 + (2 * (index / 7)) + index, null)
                     }
@@ -319,11 +300,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
                 }
                 val builder: InventoryGuiBuilder.() -> Unit = {
                     slot(49, close) {
-                        if (recipeView) {
-                            e.player.closeInventory()
-                        } else {
-                            updatePages()
-                        }
+                        e.player.closeInventory()
                     }
                     slot(45, left) {
                         page--
@@ -335,9 +312,8 @@ class Event(private val plugin: JavaPlugin) : Listener {
                     }
                     for (index in 0..20) {
                         slot(10 + (2 * (index / 7)) + index, ItemStack(Material.AIR)) {
-                            if (recipeView) {
-                                renderRecipe(pages[page][index])
-                            }
+                            println(pages[page][index])
+                            println("CLICKED INVENTORY")
                         }
                     }
                 }
@@ -349,3 +325,6 @@ class Event(private val plugin: JavaPlugin) : Listener {
 
     }
 }
+
+
+
