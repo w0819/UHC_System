@@ -34,7 +34,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
         player.health + 20.0
 
         player.sendMessage("오늘의 폐치노트 마컴이 추가됨 (플레이어 없으면 작동안함 주의)")
-        player.inventory.addItem(Item.recipeBook)
+        player.inventory.removeItem(Item.recipeBook) // 레시피 북 버그 때문에 임시 차단
     }
 
     @EventHandler
