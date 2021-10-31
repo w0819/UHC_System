@@ -16,7 +16,6 @@ import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.entity.EntityInteractEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.inventory.CraftItemEvent
-import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.*
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
@@ -240,7 +239,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
     }
 
     @EventHandler
-    fun onRecipeBookUse(e: PlayerInteractEvent,event: InventoryClickEvent) {
+    fun onRecipeBookUse(e: PlayerInteractEvent) {
         if (e.player.inventory.itemInMainHand == Item.recipeBook) {
             if (e.action == Action.RIGHT_CLICK_AIR || e.action == Action.RIGHT_CLICK_BLOCK) {
                 lateinit var inventory: Inventory
