@@ -34,7 +34,14 @@ class Event(private val plugin: JavaPlugin) : Listener {
         player.health + 20.0
 
         player.sendMessage("오늘의 폐치노트 마컴이 추가됨 (플레이어 없으면 작동안함 주의)")
-        player.inventory.addItem(Item.recipeBook)
+        player.inventory.setItem(4,Item.recipeBook)
+    }
+    @EventHandler
+    fun onPlayerKill(event: PlayerKickEvent) {
+        val player = event.player
+        if (player.itemInUse == Item.Bloodlust) {
+            Item.Bloodlust.addEnchantment(Enchantment.DAMAGE_ALL,2)
+        }
     }
 
     @EventHandler
@@ -73,6 +80,26 @@ class Event(private val plugin: JavaPlugin) : Listener {
                         }
                     }
                 }
+                    Item.Essence_of_yggdrasil -> {
+                        player.inventory.removeItem(Item.Essence_of_yggdrasil)
+                        player.giveExpLevels(30)
+                    }
+                    Item.golden_head -> {
+                        player.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,200,2,true,true,true))
+                        player.addPotionEffect(PotionEffect(PotionEffectType.ABSORPTION,2400,1,true,true,true))
+                        player.health += 6.0
+                    }
+                    Item.chest_of_fate -> {
+                        player.addPotionEffect(PotionEffect(PotionEffectType.ABSORPTION,2400,5,true,true,true))
+                        player.addPotionEffect(PotionEffect(PotionEffectType.SPEED,2400,2,true,true,true))
+                    }
+                    Item.Cornucopia -> {
+                        player.addPotionEffect(PotionEffect(PotionEffectType.SATURATION,1_4400,1,true,true,true))
+                        player.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,240,1,true,true,true))
+                    }
+                    Item.Enchantment_Book -> {
+                        player.giveExpLevels(30)
+                    }
             }
         }
     }
@@ -209,15 +236,15 @@ class Event(private val plugin: JavaPlugin) : Listener {
         val item = event.recipe
         if (item == Item.apprentice_Sword) {
             Thread.sleep(6_0000)
-            Item.apprentice_Sword.itemMeta.addEnchant(Enchantment.DAMAGE_ALL,1,true)
+            Item.apprentice_Sword.addEnchantment(Enchantment.DAMAGE_ALL,1)
             Thread.sleep(6_0000)
-            Item.dragon_sword.itemMeta.addEnchant(Enchantment.DAMAGE_ALL,1,true)
+            Item.dragon_sword.addEnchantment(Enchantment.DAMAGE_ALL,1)
         }
         if (item == Item.apprentice_Bow) {
             Thread.sleep(6_000)
-            Item.apprentice_Bow.itemMeta.addEnchant(Enchantment.ARROW_DAMAGE,1,true)
+            Item.apprentice_Bow.addEnchantment(Enchantment.ARROW_DAMAGE,1)
             Thread.sleep(3_000)
-            Item.apprentice_Bow.itemMeta.addEnchant(Enchantment.ARROW_DAMAGE,1,true)
+            Item.apprentice_Bow.addEnchantment(Enchantment.ARROW_DAMAGE,1)
         }
     }
 
