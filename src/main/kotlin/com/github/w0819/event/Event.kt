@@ -240,7 +240,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
     }
 
     @EventHandler
-    fun onRecipeBookUse(e: PlayerInteractEvent,event: InventoryClickEvent) {
+    fun onRecipeBookUse(e: PlayerInteractEvent) {
         if (e.player.inventory.itemInMainHand == Item.recipeBook) {
             if (e.action == Action.RIGHT_CLICK_AIR || e.action == Action.RIGHT_CLICK_BLOCK) {
                 lateinit var inventory: Inventory
@@ -261,7 +261,35 @@ class Event(private val plugin: JavaPlugin) : Listener {
                         displayName(text("right"))
                     }
                 }
+                // When viewer is viewing the list of recipes
+                // False if the viewer is viewing one item's recipe
+                var recipeView = true
+                fun recipeToMap(recipe: UHCRecipe): Array<ItemStack?> {
+                    val result = ArrayList<ItemStack?>()
+                    recipe.shape.map { line ->
+                        line.forEach { char ->
+                            if (char == ' ') {
+                                result.add(null)
+                            } else {
+                                result.add(recipe.ingredientMap[char])
+                            }
+                        }
+                    }
+                    return result.toTypedArray()
+                }
+                fun renderRecipe(recipe: UHCRecipe) {
+                    recipeView = false
+                    for (i in 0..53) {
+                        inventory.setItem(i, ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE))
+                    }
+                    recipeToMap(recipe).forEachIndexed { i, item ->
+                        inventory.setItem((i % 3) + 11 + ((i / 3) * 9), item)
+                    }
+                    inventory.setItem(24, recipe.result)
+                    inventory.setItem(49, ItemStack(Material.ARROW))
+                }
                 fun updatePages() {
+                    recipeView = true
                     if (page == 0) {
                         left.amount = 0
                     } else {
@@ -274,6 +302,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
                     }
                     inventory.setItem(45, left)
                     inventory.setItem(53, right)
+                    inventory.setItem(49, close)
                     for (index in 0..20) {
                         inventory.setItem(10 + (2 * (index / 7)) + index, null)
                     }
@@ -287,7 +316,11 @@ class Event(private val plugin: JavaPlugin) : Listener {
                 }
                 val builder: InventoryGuiBuilder.() -> Unit = {
                     slot(49, close) {
-                        e.player.closeInventory()
+                        if (recipeView) {
+                            e.player.closeInventory()
+                        } else {
+                            updatePages()
+                        }
                     }
                     slot(45, left) {
                         page--
@@ -299,8 +332,9 @@ class Event(private val plugin: JavaPlugin) : Listener {
                     }
                     for (index in 0..20) {
                         slot(10 + (2 * (index / 7)) + index, ItemStack(Material.AIR)) {
-                            println(pages[page][index])
-                            println("CLICKED INVENTORY")
+                            if (recipeView) {
+                                renderRecipe(pages[page][index])
+                            }
                         }
                     }
                 }
