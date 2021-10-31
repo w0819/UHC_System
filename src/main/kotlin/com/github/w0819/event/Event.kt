@@ -274,20 +274,13 @@ class Event(private val plugin: JavaPlugin) : Listener {
                     }
                     inventory.setItem(45, left)
                     inventory.setItem(53, right)
-                    for (index in 0..6) {
-                        inventory.setItem(10 + index, null)
+                    for (index in 0..20) {
+                        inventory.setItem(10 + (2 * (index / 7)) + index, null)
                     }
-                    for (index in 7..13) {
-                        inventory.setItem(12 + index, null)
-                    }
-                    for (index in 14..20) {
-                        inventory.setItem(14 + index, null)
-                    }
+
                     pages[page].forEachIndexed { i, recipe ->
                         when (i) {
-                            in 0..6 -> inventory.setItem(10 + i, recipe.recipe.result)
-                            in 7..13 -> inventory.setItem(12 + i, recipe.recipe.result)
-                            in 14..20 -> inventory.setItem (14 + i, recipe.recipe.result)
+                            in 0..20 -> inventory.setItem(10 + (2 * (i / 7)) + i, recipe.result)
                             else -> throw RuntimeException("Should not reach here: $i")
                         }
                     }
@@ -303,6 +296,12 @@ class Event(private val plugin: JavaPlugin) : Listener {
                     slot(53, right) {
                         page++
                         updatePages()
+                    }
+                    for (index in 0..20) {
+                        slot(10 + (2 * (index / 7)) + index, ItemStack(Material.AIR)) {
+                            println(pages[page][index])
+                            println("CLICKED INVENTORY")
+                        }
                     }
                 }
                 val a = InventoryGuiBuilder(e.player, InventoryType.CHEST_54, text("Recipe Book"), plugin)
