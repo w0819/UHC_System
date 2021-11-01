@@ -25,7 +25,6 @@ import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import kotlin.random.Random
 
-
 class Event(private val plugin: JavaPlugin) : Listener {
 
 
@@ -59,11 +58,12 @@ class Event(private val plugin: JavaPlugin) : Listener {
         var lowestDistanceSoFar = Double.MAX_VALUE
 
             if (event.action == Action.RIGHT_CLICK_AIR || event.action == Action.RIGHT_CLICK_BLOCK) {
+                if (event.item?.type == Material.PLAYER_HEAD) {
+                    player.inventory.removeItem(item)
+                    player.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,100,1,true,true))
+                    event.isCancelled = true
+                }
                 when(event.item) {
-                    item -> {
-                        player.inventory.removeItem(item)
-                        player.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,100,1,true,true))
-                    }
                     Item.Master_Compass -> {
                         player.inventory.removeItem(Item.Master_Compass)
                         for (entity in entities) { // This loops through all the entities, setting the variable "entity" to each element.
