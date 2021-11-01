@@ -5,7 +5,7 @@ import com.github.w0819.UHCRecipe
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 
-class Cupid_s_Bow : UHCRecipe(
+class CupidsBow : UHCRecipe(
     NamespacedKey.minecraft("cupid_s_bow"),
     Item.Cupid_s_Bow
 ) {

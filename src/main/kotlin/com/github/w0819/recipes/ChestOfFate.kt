@@ -5,7 +5,7 @@ import com.github.w0819.UHCRecipe
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 
-class chest_Of_Fate : UHCRecipe(
+class ChestOfFate : UHCRecipe(
     NamespacedKey.minecraft("chest_of_fate"),
     Item.chest_of_fate
 ){

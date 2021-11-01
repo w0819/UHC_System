@@ -56,15 +56,15 @@ class Main : JavaPlugin() {
             SugarRush().register(),
             Tarnhelm().register(),
             VorpalSword().register(),
-            Cupid_s_Bow().register(),
-            spiked_armor().register(),
-            chest_Of_Fate().register(),
+            CupidsBow().register(),
+            SpikedArmor().register(),
+            ChestOfFate().register(),
             Cornucopia().register(),
-            Essence_of_yggdrasil().register(),
-            Potion_of_velocity().register(),
+            EssenceOfYggdrasil().register(),
+            PotionOfVelocity().register(),
             Panacea().register(),
             EnchantmentBook().register(),
-            Shoes_of_Vidar().register()
+            ShoesOfVidar().register()
         ))
 //        val leatherHelmet = ItemStack(Material.LEATHER_HELMET).apply {
 //            itemMeta = itemMeta.apply {
