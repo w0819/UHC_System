@@ -31,22 +31,28 @@ class Event(private val plugin: JavaPlugin) : Listener {
     // 플레이어 조인
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
+
+        // scoreboard
         val playerCoin = event.player.scoreboard
         val coin = playerCoin.getObjective("coin")
         if (coin == null) playerCoin.registerNewObjective("coin","coin",text("coin", NamedTextColor.GOLD))
         val giveCoin = event.player.killer?.scoreboard?.getObjective("coin")
         giveCoin?.name + 10
+
         val player = event.player
         player.health + 20.0
 
         player.sendMessage("오늘의 폐치노트 마컴이 추가됨 (플레이어 없으면 작동안함 주의)")
         player.inventory.setItem(4,Item.recipeBook)
     }
+
+    // time set
     @EventHandler
     fun onServerTimeSet(event: PlayerMoveEvent) {
         val world = event.player.location.world
         world.time = 1000
     }
+
     // 일반 플레이어 머리
     @EventHandler
     fun onPlayerInteract(event: PlayerInteractEvent) {
@@ -286,6 +292,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
                         displayName(text("right"))
                     }
                 }
+
                 // When viewer is viewing the list of recipes
                 // False if the viewer is viewing one item's recipe
                 var recipeView = true

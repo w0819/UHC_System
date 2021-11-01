@@ -15,7 +15,7 @@ class Cornucopia : UHCRecipe(
             "121",
             "111"
         )
-        setIngredient('1', Material.CARROTS)
+        setIngredient('1', Material.CARROT)
         setIngredient('2',Material.GOLDEN_APPLE)
     }
 }

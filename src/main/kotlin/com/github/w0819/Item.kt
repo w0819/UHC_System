@@ -19,6 +19,14 @@ object Item {
         addEnchantment(Enchantment.LOOT_BONUS_BLOCKS,2)
         (itemMeta as Damageable).damage = 500
     }
+    var HideOfLeviathan = ItemStack(Material.DIAMOND_LEGGINGS).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Hide of Leviathan"))
+        }
+        addEnchantment(Enchantment.OXYGEN,3)
+        addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,4)
+        addEnchantment(Enchantment.WATER_WORKER,1)
+    }
     var quick_pick = ItemStack(Material.IRON_PICKAXE).apply {
         addEnchantment(Enchantment.DIG_SPEED,1)
     }
