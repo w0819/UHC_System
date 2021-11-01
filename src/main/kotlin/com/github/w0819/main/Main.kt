@@ -64,7 +64,11 @@ class Main : JavaPlugin() {
             PotionOfVelocity().register(),
             Panacea().register(),
             EnchantmentBook().register(),
-            ShoesOfVidar().register()
+            ShoesOfVidar().register(),
+            KingsRod().register(),
+            Bloodlust().register(),
+            Daredevil().register(),
+            BarbarianChestplate().register()
         ))
 //        val leatherHelmet = ItemStack(Material.LEATHER_HELMET).apply {
 //            itemMeta = itemMeta.apply {
