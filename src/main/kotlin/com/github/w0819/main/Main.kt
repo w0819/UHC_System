@@ -3,6 +3,8 @@ package com.github.w0819.main
 import com.github.w0819.UHCRecipe
 import com.github.w0819.event.Event
 import com.github.w0819.recipes.*
+import net.kyori.adventure.text.Component.text
+import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.plugin.java.JavaPlugin
 
 
@@ -16,6 +18,12 @@ class Main : JavaPlugin() {
         server.pluginManager.registerEvents(Event(this), this)
         recipe()
         server.logger.info("Recipe is enabled")
+
+        val sm = server.scoreboardManager
+        val sc = sm.mainScoreboard
+
+        val coin = sc.getObjective("coin")
+        if (coin == null) sc.registerNewObjective("coin","coin",text("coin",NamedTextColor.GOLD))
     }
 
     private fun recipe() {
@@ -46,7 +54,17 @@ class Main : JavaPlugin() {
             Saddle().register(),
             SparklingWatermelon().register(),
             SugarRush().register(),
-            Tarnhelm().register()
+            Tarnhelm().register(),
+            VorpalSword().register(),
+            Cupid_s_Bow().register(),
+            spiked_armor().register(),
+            chest_Of_Fate().register(),
+            Cornucopia().register(),
+            Essence_of_yggdrasil().register(),
+            Potion_of_velocity().register(),
+            Panacea().register(),
+            EnchantmentBook().register(),
+            Shoes_of_Vidar().register()
         ))
 //        val leatherHelmet = ItemStack(Material.LEATHER_HELMET).apply {
 //            itemMeta = itemMeta.apply {

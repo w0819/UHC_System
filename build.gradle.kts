@@ -16,7 +16,7 @@ java {
 }
 
 dependencies {
-    compileOnly(kotlin("stdlib"))
+    compileOnly("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
     compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
     compileOnly("io.github.monun:tap-api:4.1.9")
     compileOnly("io.github.monun:kommand-api:2.6.6")

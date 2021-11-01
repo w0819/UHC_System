@@ -4,6 +4,7 @@ import com.github.w0819.Item
 import com.github.w0819.UHCRecipe
 import com.github.w0819.main.Main
 import net.kyori.adventure.text.Component.text
+import net.kyori.adventure.text.format.NamedTextColor
 import net.projecttl.inventory.gui.InventoryGuiBuilder
 import net.projecttl.inventory.gui.utils.InventoryType
 import org.bukkit.Material
@@ -26,16 +27,21 @@ import kotlin.random.Random
 
 class Event(private val plugin: JavaPlugin) : Listener {
 
+
     // 플레이어 조인
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
+        val playerCoin = event.player.scoreboard
+        val coin = playerCoin.getObjective("coin")
+        if (coin == null) playerCoin.registerNewObjective("coin","coin",text("coin", NamedTextColor.GOLD))
+        val giveCoin = event.player.killer?.scoreboard?.getObjective("coin")
+        giveCoin?.name + 10
         val player = event.player
         player.health + 20.0
 
         player.sendMessage("오늘의 폐치노트 마컴이 추가됨 (플레이어 없으면 작동안함 주의)")
-        player.inventory.addItem(Item.recipeBook)
+        player.inventory.setItem(4,Item.recipeBook)
     }
-
     @EventHandler
     fun onServerTimeSet(event: PlayerMoveEvent) {
         val world = event.player.location.world
@@ -72,6 +78,26 @@ class Event(private val plugin: JavaPlugin) : Listener {
                         }
                     }
                 }
+                    Item.Essence_of_yggdrasil -> {
+                        player.inventory.removeItem(Item.Essence_of_yggdrasil)
+                        player.giveExpLevels(30)
+                    }
+                    Item.golden_head -> {
+                        player.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,200,2,true,true,true))
+                        player.addPotionEffect(PotionEffect(PotionEffectType.ABSORPTION,2400,1,true,true,true))
+                        player.health += 6.0
+                    }
+                    Item.chest_of_fate -> {
+                        player.addPotionEffect(PotionEffect(PotionEffectType.ABSORPTION,2400,5,true,true,true))
+                        player.addPotionEffect(PotionEffect(PotionEffectType.SPEED,2400,2,true,true,true))
+                    }
+                    Item.Cornucopia -> {
+                        player.addPotionEffect(PotionEffect(PotionEffectType.SATURATION,1_4400,1,true,true,true))
+                        player.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,240,1,true,true,true))
+                    }
+                    Item.Enchantment_Book -> {
+                        player.giveExpLevels(30)
+                    }
             }
         }
     }
@@ -208,15 +234,15 @@ class Event(private val plugin: JavaPlugin) : Listener {
         val item = event.recipe
         if (item == Item.apprentice_Sword) {
             Thread.sleep(6_0000)
-            Item.apprentice_Sword.itemMeta.addEnchant(Enchantment.DAMAGE_ALL,1,true)
+            Item.apprentice_Sword.addEnchantment(Enchantment.DAMAGE_ALL,1)
             Thread.sleep(6_0000)
-            Item.dragon_sword.itemMeta.addEnchant(Enchantment.DAMAGE_ALL,1,true)
+            Item.dragon_sword.addEnchantment(Enchantment.DAMAGE_ALL,1)
         }
         if (item == Item.apprentice_Bow) {
             Thread.sleep(6_000)
-            Item.apprentice_Bow.itemMeta.addEnchant(Enchantment.ARROW_DAMAGE,1,true)
+            Item.apprentice_Bow.addEnchantment(Enchantment.ARROW_DAMAGE,1)
             Thread.sleep(3_000)
-            Item.apprentice_Bow.itemMeta.addEnchant(Enchantment.ARROW_DAMAGE,1,true)
+            Item.apprentice_Bow.addEnchantment(Enchantment.ARROW_DAMAGE,1)
         }
     }
 
