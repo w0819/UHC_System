@@ -5,7 +5,7 @@ import com.github.w0819.UHCRecipe
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 
-class Essence_of_yggdrasil : UHCRecipe(
+class EssenceOfYggdrasil : UHCRecipe(
     NamespacedKey.minecraft("essence_of_yggdrasil"),
     Item.Essence_of_yggdrasil
 ){

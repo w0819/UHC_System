@@ -5,7 +5,7 @@ import com.github.w0819.UHCRecipe
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 
-class King_s_Rod : UHCRecipe(
+class KingsRod : UHCRecipe(
     NamespacedKey.minecraft("king_s_rod"),
     Item.King_s_Rod
 ){

@@ -5,7 +5,7 @@ import com.github.w0819.UHCRecipe
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 
-class Barbarian_Chestplate : UHCRecipe(
+class BarbarianChestplate : UHCRecipe(
     NamespacedKey.minecraft("barbarian_chestplate"),
     Item.Barbarian_Chestplate
 ){

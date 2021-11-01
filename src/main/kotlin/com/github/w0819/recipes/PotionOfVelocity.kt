@@ -5,7 +5,7 @@ import com.github.w0819.UHCRecipe
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 
-class Potion_of_velocity : UHCRecipe(
+class PotionOfVelocity : UHCRecipe(
     NamespacedKey.minecraft("potion_of_velocity"),
     Item.Potion_of_velocity
 ) {

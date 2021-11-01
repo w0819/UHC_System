@@ -5,7 +5,7 @@ import com.github.w0819.UHCRecipe
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 
-class spiked_armor : UHCRecipe(
+class SpikedArmor : UHCRecipe(
     NamespacedKey.minecraft("spiked_armor"),
     Item.spiked_armor
 ) {

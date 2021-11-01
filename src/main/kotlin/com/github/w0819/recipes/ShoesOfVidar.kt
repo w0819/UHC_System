@@ -5,7 +5,7 @@ import com.github.w0819.UHCRecipe
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 
-class Shoes_of_Vidar: UHCRecipe(
+class ShoesOfVidar: UHCRecipe(
     NamespacedKey.minecraft("shoes_of_vidar"),
     Item.Shoes_of_Vidar
 ) {
