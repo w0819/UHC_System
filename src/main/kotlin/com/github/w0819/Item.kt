@@ -12,6 +12,11 @@ object Item {
 
     var notch_apple = ItemStack(Material.ENCHANTED_GOLDEN_APPLE).apply {
     }
+    var HolyWater = ItemStack(Material.POTION).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Holy Water"))
+        }
+    }
     var Philosopher_Pickaxe = ItemStack(Material.DIAMOND_PICKAXE,1).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Philosopher Pickaxe"))
@@ -23,11 +28,12 @@ object Item {
         itemMeta = itemMeta.apply {
             displayName(text("Hide of Leviathan"))
         }
-        addEnchantment(Enchantment.OXYGEN,3)
         addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,4)
-        addEnchantment(Enchantment.WATER_WORKER,1)
     }
     var quick_pick = ItemStack(Material.IRON_PICKAXE).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Quick Pick"))
+        }
         addEnchantment(Enchantment.DIG_SPEED,1)
     }
     var dragon_sword = ItemStack(Material.DIAMOND_SWORD).apply {
@@ -37,6 +43,11 @@ object Item {
 
         }
         addEnchantment(Enchantment.DAMAGE_ALL,2)
+    }
+    var DeusExMachina = ItemStack(Material.POTION).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Deus Ex Machina"))
+        }
     }
     var dragon_armor = ItemStack(Material.DIAMOND_CHESTPLATE).apply {
         itemMeta = itemMeta.apply {

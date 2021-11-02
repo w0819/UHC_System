@@ -36,14 +36,20 @@ class Event(private val plugin: JavaPlugin) : Listener {
         val playerCoin = event.player.scoreboard
         val coin = playerCoin.getObjective("coin")
         if (coin == null) playerCoin.registerNewObjective("coin","coin",text("coin", NamedTextColor.GOLD))
-        val giveCoin = event.player.killer?.scoreboard?.getObjective("coin")
-        giveCoin?.name + 10
+
 
         val player = event.player
         player.health + 20.0
 
         player.sendMessage("오늘의 폐치노트 마컴이 추가됨 (플레이어 없으면 작동안함 주의)")
         player.inventory.setItem(4,Item.recipeBook)
+
+    }
+    @EventHandler
+    fun onPlayerKill(event: PlayerDeathEvent) {
+        val player = event.entity.player?.killer
+        val giveCoin = player?.scoreboard?.getObjective("coin")
+        giveCoin?.name + 10
     }
 
     // time set
@@ -217,6 +223,12 @@ class Event(private val plugin: JavaPlugin) : Listener {
         }
 
     }
+    @EventHandler
+    fun onPlayerKill(player: Player) {
+        val killer = player.killer
+        val giveCoin = killer?.scoreboard?.getObjective("coin")
+        giveCoin?.name + 10
+    }
 
     // 금머리 효과
     @EventHandler
@@ -225,15 +237,18 @@ class Event(private val plugin: JavaPlugin) : Listener {
         val player = event.player
         if (item == Item.golden_head) {
             player.health += 8.0
-            event.player.addPotionEffect(PotionEffect(PotionEffectType.SPEED,200,1,true,false,true))
-            event.player.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200,1,true,false,true))
-            event.player.addPotionEffect(PotionEffect(PotionEffectType.HEAL,100,1,true,false,true))
+            event.player.addPotionEffect(PotionEffect(PotionEffectType.SPEED, 200, 1, true, false, true))
+            event.player.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200, 1, true, false, true))
+            event.player.addPotionEffect(PotionEffect(PotionEffectType.HEAL, 100, 1, true, false, true))
         }
         if (item == Item.panacea) {
             player.health += 16.0
         }
         if (item == Item.potion_of_toughness) {
-            player.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,2400,2,true,true,true))
+            player.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 2400, 2, true, true, true))
+        }
+        if (item == Item.DeusExMachina) {
+         player.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,300,4,true,true,true))
         }
     }
     @EventHandler
@@ -295,6 +310,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
 
                 // When viewer is viewing the list of recipes
                 // False if the viewer is viewing one item's recipe
+
                 var recipeView = true
                 fun recipeToMap(recipe: UHCRecipe): Array<ItemStack?> {
                     val result = ArrayList<ItemStack?>()
@@ -309,6 +325,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
                     }
                     return result.toTypedArray()
                 }
+
                 fun renderRecipe(recipe: UHCRecipe) {
                     recipeView = false
                     for (i in 0..53) {
@@ -320,6 +337,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
                     inventory.setItem(24, recipe.result)
                     inventory.setItem(49, ItemStack(Material.ARROW))
                 }
+
                 fun updatePages() {
                     recipeView = true
                     if (page == 0) {
@@ -349,6 +367,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
                         }
                     }
                 }
+
                 val builder: InventoryGuiBuilder.() -> Unit = {
                     slot(49, close) {
                         if (recipeView) {
@@ -372,12 +391,12 @@ class Event(private val plugin: JavaPlugin) : Listener {
                             }
                         }
                     }
+
                 }
                 val a = InventoryGuiBuilder(e.player, InventoryType.CHEST_54, text("Recipe Book"), plugin)
                 inventory = a.apply(builder).build()
                 updatePages()
             }
         }
-
     }
 }
