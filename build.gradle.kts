@@ -4,10 +4,11 @@ plugins {
     kotlin("jvm") version "1.5.31"
 }
 
+val archiveName = rootProject.name
+
 repositories {
     mavenCentral()
     maven("https://papermc.io/repo/repository/maven-public/")
-    maven("https://repo.dmulloy2.net/repository/public/")
 }
 java {
     toolchain {
@@ -16,27 +17,29 @@ java {
 }
 
 dependencies {
-    compileOnly("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
-    compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
-    compileOnly("io.github.monun:tap-api:4.1.9")
-    compileOnly("io.github.monun:kommand-api:2.6.6")
-    compileOnly("net.projecttl:InventoryGUI-api:4.1.8")
+    implementation(kotlin("stdlib"))
+    implementation("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
+    implementation("io.github.monun:tap-api:4.1.10")
+    implementation("io.github.monun:kommand-api:2.6.6")
+    implementation("net.projecttl:InventoryGUI-api:4.1.8")
 }
 
 tasks {
-    val archive = project.properties["pluginName"].toString()
 
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = JavaVersion.VERSION_16.toString()
+        kotlinOptions.jvmTarget = "16"
     }
+
     processResources {
         filesMatching("**/*.yml") {
             expand(project.properties)
         }
+
         filteringCharset = "UTF-8"
     }
+
     register<Jar>("paperJar") {
-        archiveBaseName.set(archive)
+        archiveBaseName.set(this@Build_gradle.archiveName)
         archiveClassifier.set("")
         archiveVersion.set("")
 
