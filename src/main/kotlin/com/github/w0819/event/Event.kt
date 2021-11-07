@@ -1,5 +1,6 @@
 package com.github.w0819.event
 
+import com.github.w0819.game.resource.UHCResourceManager
 import com.github.w0819.game.util.Item.recipeBook
 import net.kyori.adventure.text.Component.text
 import net.projecttl.inventory.gui.InventoryGuiBuilder
@@ -41,12 +42,15 @@ class Event(private val plugin: JavaPlugin) : Listener {
         player.sendMessage("오늘의 폐치노트 마컴이 추가됨 (플레이어 없으면 작동안함 주의)")
         player.inventory.setItem(4,recipeBook)
 
+        UHCPlugin.game.addPlayer(player)
     }
     @EventHandler
     fun onPlayerKill(event: PlayerDeathEvent) {
-        val player = event.entity.player?.killer
-        val giveCoin = player?.scoreboard?.getObjective("coin")
-        giveCoin?.name + 10
+        val killer = event.entity.player?.killer
+
+        killer?.let {
+            UHCResourceManager.addCoin(it, 10)
+        }
     }
 
     // time set
