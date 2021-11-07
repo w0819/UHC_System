@@ -1,9 +1,6 @@
 package com.github.w0819.event
 
-import com.github.w0819.game.util.Item
-import com.github.w0819.game.util.UHCRecipe
-import com.github.w0819.plugin.UHCPlugin
-import com.github.w0819.game.resource.UHCResourceManager
+import com.github.w0819.game.util.Item.recipeBook
 import net.kyori.adventure.text.Component.text
 import net.projecttl.inventory.gui.InventoryGuiBuilder
 import net.projecttl.inventory.gui.utils.InventoryType
@@ -24,36 +21,32 @@ import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import kotlin.random.Random
+import com.github.w0819.game.util.Item
+import com.github.w0819.game.util.UHCRecipe
+import com.github.w0819.plugin.UHCPlugin
 
 class Event(private val plugin: JavaPlugin) : Listener {
 
+    @EventHandler
+    fun onPlayerFristJoin(event: PlayerJoinEvent) {
+        if (!event.player.hasPlayedBefore()) {
+            event.player.addPotionEffect(PotionEffect(PotionEffectType.ABSORPTION,1000000000,4,true,true,true))
+        }
+    }
 
     // 플레이어 조인
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
-
-        // scoreboard
-//        val playerCoin = event.player.scoreboard
-//        val coin = playerCoin.getObjective("coin")
-//        if (coin == null) playerCoin.registerNewObjective("coin","coin",text("coin", NamedTextColor.GOLD))
-
-
         val player = event.player
-        player.health += 20.0
-
         player.sendMessage("오늘의 폐치노트 마컴이 추가됨 (플레이어 없으면 작동안함 주의)")
-        player.inventory.setItem(4, Item.recipeBook)
+        player.inventory.setItem(4,recipeBook)
 
-        UHCPlugin.game.addPlayer(player)
     }
-
     @EventHandler
     fun onPlayerKill(event: PlayerDeathEvent) {
-        val killer = event.entity.player?.killer
-
-        killer?.let {
-            UHCResourceManager.addCoin(it, 10)
-        }
+        val player = event.entity.player?.killer
+        val giveCoin = player?.scoreboard?.getObjective("coin")
+        giveCoin?.name + 10
     }
 
     // time set
@@ -291,7 +284,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
 
     @EventHandler
     fun onRecipeBookUse(e: PlayerInteractEvent) {
-        if (e.player.inventory.itemInMainHand == Item.recipeBook) {
+        if (e.player.inventory.itemInMainHand == recipeBook) {
             if (e.action == Action.RIGHT_CLICK_AIR || e.action == Action.RIGHT_CLICK_BLOCK) {
                 lateinit var inventory: Inventory
                 var page = 0
