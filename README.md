@@ -18,3 +18,4 @@
 - Hypixel UHC의 레시피 추가 완료
 - Hypixel UHC의 월드 생성
 - Hypixel UHC의 Game Modifier
+- Hypixel UHC의 키트들 추가
