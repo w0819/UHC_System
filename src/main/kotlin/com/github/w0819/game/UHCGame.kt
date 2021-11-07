@@ -1,8 +1,11 @@
-package com.github.w0819
+package com.github.w0819.game
 
-import com.github.w0819.team.UHCTeam
-import com.github.w0819.timer.UHCTimer
-import com.github.w0819.util.GameUtils
+import com.github.w0819.game.util.GameStatus
+import com.github.w0819.game.timer.StartAction
+import com.github.w0819.game.team.UHCTeam
+import com.github.w0819.game.timer.UHCTimer
+import com.github.w0819.game.util.GameUtils
+import com.github.w0819.game.world.UHCWorldManager
 import org.bukkit.entity.Player
 
 class UHCGame private constructor(
@@ -45,7 +48,7 @@ class UHCGame private constructor(
         teams = UHCTeam.divide(players, PLAYERS_PER_TEAM)
         timer = UHCTimer(this, startActions)
         timer.initTimer()
-        GameUtils.spreadTeams(teams)
+        GameUtils.spreadTeams(teams, UHCWorldManager.generateWorld().overworld)
     }
 
     fun stopGame() {

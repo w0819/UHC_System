@@ -1,10 +1,10 @@
 package com.github.w0819.event
 
-import com.github.w0819.Item
-import com.github.w0819.UHCRecipe
-import com.github.w0819.main.Main
+import com.github.w0819.game.util.Item
+import com.github.w0819.game.util.UHCRecipe
+import com.github.w0819.plugin.UHCPlugin
+import com.github.w0819.game.resource.UHCResourceManager
 import net.kyori.adventure.text.Component.text
-import net.kyori.adventure.text.format.NamedTextColor
 import net.projecttl.inventory.gui.InventoryGuiBuilder
 import net.projecttl.inventory.gui.utils.InventoryType
 import org.bukkit.Material
@@ -33,23 +33,27 @@ class Event(private val plugin: JavaPlugin) : Listener {
     fun onPlayerJoin(event: PlayerJoinEvent) {
 
         // scoreboard
-        val playerCoin = event.player.scoreboard
-        val coin = playerCoin.getObjective("coin")
-        if (coin == null) playerCoin.registerNewObjective("coin","coin",text("coin", NamedTextColor.GOLD))
+//        val playerCoin = event.player.scoreboard
+//        val coin = playerCoin.getObjective("coin")
+//        if (coin == null) playerCoin.registerNewObjective("coin","coin",text("coin", NamedTextColor.GOLD))
 
 
         val player = event.player
-        player.health + 20.0
+        player.health += 20.0
 
         player.sendMessage("오늘의 폐치노트 마컴이 추가됨 (플레이어 없으면 작동안함 주의)")
-        player.inventory.setItem(4,Item.recipeBook)
+        player.inventory.setItem(4, Item.recipeBook)
 
+        UHCPlugin.game.addPlayer(player)
     }
+
     @EventHandler
     fun onPlayerKill(event: PlayerDeathEvent) {
-        val player = event.entity.player?.killer
-        val giveCoin = player?.scoreboard?.getObjective("coin")
-        giveCoin?.name + 10
+        val killer = event.entity.player?.killer
+
+        killer?.let {
+            UHCResourceManager.addCoin(it, 10)
+        }
     }
 
     // time set
@@ -291,7 +295,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
             if (e.action == Action.RIGHT_CLICK_AIR || e.action == Action.RIGHT_CLICK_BLOCK) {
                 lateinit var inventory: Inventory
                 var page = 0
-                val pages = organizePages(Main.recipeList)
+                val pages = organizePages(UHCPlugin.recipeList)
                 val close = ItemStack(Material.BARRIER).apply {
                     itemMeta = itemMeta.apply {
                         displayName(text("close"))

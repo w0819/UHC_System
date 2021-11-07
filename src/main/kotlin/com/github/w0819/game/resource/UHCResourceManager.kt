@@ -1,6 +1,6 @@
-package com.github.w0819.util
+package com.github.w0819.game.resource
 
-import com.github.w0819.UHCRecipe
+import com.github.w0819.game.util.UHCRecipe
 import com.github.w0819.plugin.UHCPlugin
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player

@@ -1,4 +1,4 @@
-package com.github.w0819
+package com.github.w0819.game.util
 
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.TextDecoration

@@ -1,4 +1,4 @@
-package com.github.w0819
+package com.github.w0819.game.util
 
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey

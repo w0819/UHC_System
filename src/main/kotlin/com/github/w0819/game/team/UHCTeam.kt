@@ -1,4 +1,4 @@
-package com.github.w0819.team
+package com.github.w0819.game.team
 
 import com.github.w0819.util.ListUtils
 import org.bukkit.entity.Player

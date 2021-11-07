@@ -1,12 +1,13 @@
-package com.github.w0819.util
+package com.github.w0819.game.util
 
-import com.github.w0819.team.UHCTeam
+import com.github.w0819.game.team.UHCTeam
+import org.bukkit.World
 import java.util.*
 
 class GameUtils {
     companion object {
         @JvmStatic
-        fun spreadTeams(teams: List<UHCTeam>) {
+        fun spreadTeams(teams: List<UHCTeam>, world: World? = null) {
             val xBounds = 3001
             val yBounds = 3001
             val random = Random()
@@ -16,7 +17,7 @@ class GameUtils {
                 val z = random.nextInt(yBounds) - 1500
 
                 team.players.forEach {
-                    it.teleport(it.world.getHighestBlockAt(x, z).location)
+                    it.teleport((world ?: it.world).getHighestBlockAt(x, z).location)
                 }
             }
         }

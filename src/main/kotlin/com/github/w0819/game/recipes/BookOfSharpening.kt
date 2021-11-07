@@ -1,6 +1,6 @@
-package com.github.w0819.recipes
+package com.github.w0819.game.recipes
 
-import com.github.w0819.UHCRecipe
+import com.github.w0819.game.util.UHCRecipe
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.NamespacedKey

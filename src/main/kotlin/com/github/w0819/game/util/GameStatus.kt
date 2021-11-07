@@ -1,4 +1,4 @@
-package com.github.w0819
+package com.github.w0819.game.util
 
 enum class GameStatus(val index: Int) {
     BEFORE_START(0),

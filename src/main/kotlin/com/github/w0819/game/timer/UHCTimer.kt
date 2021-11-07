@@ -1,8 +1,7 @@
-package com.github.w0819.timer
+package com.github.w0819.game.timer
 
-import com.github.w0819.GameStatus
-import com.github.w0819.StartAction
-import com.github.w0819.UHCGame
+import com.github.w0819.game.util.GameStatus
+import com.github.w0819.game.UHCGame
 import io.github.monun.heartbeat.coroutines.HeartbeatScope
 import io.github.monun.heartbeat.coroutines.Suspension
 import kotlinx.coroutines.*
