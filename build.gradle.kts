@@ -22,6 +22,8 @@ dependencies {
     implementation("io.github.monun:tap-api:4.1.10")
     implementation("io.github.monun:kommand-api:2.6.6")
     implementation("net.projecttl:InventoryGUI-api:4.1.8")
+    implementation("io.github.monun:heartbeat-coroutines:0.0.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
 }
 
 tasks {
@@ -31,7 +33,7 @@ tasks {
     }
 
     processResources {
-        filesMatching("**/*.yml") {
+        filesMatching("*.yml") {
             expand(project.properties)
         }
 
