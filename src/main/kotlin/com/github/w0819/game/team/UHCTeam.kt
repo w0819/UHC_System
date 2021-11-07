@@ -1,12 +1,13 @@
 package com.github.w0819.team
 
+import com.github.w0819.util.ListUtils
 import org.bukkit.entity.Player
 
-class UHCTeam {
+data class UHCTeam(val players: List<Player>) {
     companion object {
         @JvmStatic
         fun divide(players: List<Player>, playerPerTeam: Int): List<UHCTeam> {
-            TODO("")
+            return ListUtils.divide(players, playerPerTeam).map { UHCTeam(it) }
         }
     }
 }

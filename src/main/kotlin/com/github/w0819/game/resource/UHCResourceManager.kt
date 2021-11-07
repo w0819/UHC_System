@@ -1,7 +1,7 @@
 package com.github.w0819.util
 
 import com.github.w0819.UHCRecipe
-import com.github.w0819.main.Main
+import com.github.w0819.plugin.UHCPlugin
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
 import org.bukkit.persistence.PersistentDataType
@@ -30,7 +30,7 @@ open class UHCResourceManager {
     fun recipe(player: Player): List<UHCRecipe> {
         val ids = recipeIds(player)
 
-        return ids.map { id -> Main.recipeList[id] }
+        return ids.map { id -> UHCPlugin.recipeList[id] }
     }
 
     fun addCoin(player: Player, amount: Int) {
@@ -41,7 +41,7 @@ open class UHCResourceManager {
 
     fun addRecipe(player: Player, recipe: UHCRecipe) {
         val ids = arrayListOf(*recipeIds(player).toTypedArray())
-        ids.add(Main.recipeList.indexOf(recipe))
+        ids.add(UHCPlugin.recipeList.indexOf(recipe))
         player.persistentDataContainer.set(recipesKey, PersistentDataType.INTEGER_ARRAY, ids.toIntArray())
     }
 }
