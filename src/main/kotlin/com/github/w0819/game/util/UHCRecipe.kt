@@ -22,7 +22,6 @@ open class UHCRecipe(key: NamespacedKey, result: ItemStack): ShapedRecipe(key, r
             return recipes.toTypedArray()
         }
     }
-
     fun register(): UHCRecipe {
         Bukkit.getServer().addRecipe(this)
         return this

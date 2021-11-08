@@ -1,28 +1,37 @@
 package com.github.w0819.game.util
 
 import net.kyori.adventure.text.Component.text
+import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
+import org.bukkit.inventory.meta.PotionMeta
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
 
 
 object Item {
 
     var notch_apple = ItemStack(Material.ENCHANTED_GOLDEN_APPLE).apply {
     }
+
     var HolyWater = ItemStack(Material.POTION).apply {
         itemMeta = itemMeta.apply {
-            displayName(text("Holy Water"))
+            displayName(text("Holy Water").decorate(TextDecoration.ITALIC))
+            (this as PotionMeta).apply {
+                addCustomEffect(PotionEffect(PotionEffectType.HEAL,20,5),true)
+                addCustomEffect(PotionEffect(PotionEffectType.ABSORPTION,2400,2),true)
+            }
         }
     }
     var Philosopher_Pickaxe = ItemStack(Material.DIAMOND_PICKAXE,1).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Philosopher Pickaxe"))
+            (this as Damageable).damage = 1559
         }
         addEnchantment(Enchantment.LOOT_BONUS_BLOCKS,2)
-        (itemMeta as Damageable).damage = 500
     }
     var HideOfLeviathan = ItemStack(Material.DIAMOND_LEGGINGS).apply {
         itemMeta = itemMeta.apply {
@@ -42,11 +51,11 @@ object Item {
             setLocalizedName("damage is 8")
 
         }
-        addEnchantment(Enchantment.DAMAGE_ALL,2)
     }
     var DeusExMachina = ItemStack(Material.POTION).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Deus Ex Machina"))
+            (this as PotionMeta).addCustomEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,300,4,true,true,true),true)
         }
     }
     var dragon_armor = ItemStack(Material.DIAMOND_CHESTPLATE).apply {
@@ -73,9 +82,40 @@ object Item {
             setLocalizedName("Panacea")
         }
     }
-    var potion_of_toughness = ItemStack(Material.POTION).apply {
+    var FlaskOfCleansing = ItemStack(Material.SPLASH_POTION).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Flask of Cleansing"))
+            (this as PotionMeta).addCustomEffect(PotionEffect(PotionEffectType.WEAKNESS,240,2,true,true,true),true)
+        }
+    }
+    var FlaskOfIchor = ItemStack(Material.SPLASH_POTION).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Flask of Ichor"))
+            (this as PotionMeta).addCustomEffect(PotionEffect(PotionEffectType.HARM,100,3,true,true,true),true)
+        }
+    }
+    var Nectar = ItemStack(Material.POTION).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Nectar"))
+            (this as PotionMeta).addCustomEffect(PotionEffect(PotionEffectType.REGENERATION,160,2,true,true,true),true)
+        }
+    }
+    var PotionOfVitality = ItemStack(Material.SPLASH_POTION).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Potion of Vitality"))
+            (this as PotionMeta).apply {
+                addCustomEffect(PotionEffect(PotionEffectType.SPEED,240,2),true)
+                addCustomEffect(PotionEffect(PotionEffectType.REGENERATION,180,2),true)
+                addCustomEffect(PotionEffect(PotionEffectType.WEAKNESS,240,2),true)
+                addCustomEffect(PotionEffect(PotionEffectType.WITHER,120,2), true)
+            }
+
+        }
+    }
+    var PotionofToughness = ItemStack(Material.POTION).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Potion of Toughness"))
+            (this as PotionMeta).addCustomEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,2400,2,true,true,true),true)
         }
     }
     var vorpal_sword = ItemStack(Material.IRON_SWORD).apply {
@@ -88,9 +128,10 @@ object Item {
     }
 
 
-    var Potion_of_velocity = ItemStack(Material.POTION).apply {
+    var Potion_of_velocity = ItemStack(Material.SPLASH_POTION).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Potion of Velocity"))
+            (this as PotionMeta).addCustomEffect(PotionEffect(PotionEffectType.SPEED,1000,1),true)
         }
     }
     var Cornucopia = ItemStack(Material.GOLDEN_CARROT).apply {
@@ -116,6 +157,13 @@ object Item {
         addEnchantment(Enchantment.LURE,3)
         addEnchantment(Enchantment.DURABILITY,3)
     }
+    var SevenleagueBoots = ItemStack(Material.DIAMOND_BOOTS).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Seven league Boots"))
+        }
+        addEnchantment(Enchantment.PROTECTION_FALL,3)
+        addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,3)
+    }
     var Shoes_of_Vidar = ItemStack(Material.DIAMOND_BOOTS).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Shoes of Vidar"))
@@ -123,6 +171,11 @@ object Item {
         addEnchantment(Enchantment.DURABILITY,3)
         addEnchantment(Enchantment.PROTECTION_PROJECTILE,2)
         addEnchantment(Enchantment.THORNS,1)
+    }
+    var ExpertSeal = ItemStack(Material.NETHER_STAR).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Expert Seal").decorate(TextDecoration.ITALIC))
+        }
     }
     var Essence_of_yggdrasil = ItemStack(Material.ENCHANTING_TABLE).apply {
         itemMeta = itemMeta.apply {
@@ -185,6 +238,11 @@ object Item {
         addEnchantment(Enchantment.PROTECTION_FIRE,1)
         addEnchantment(Enchantment.WATER_WORKER,1)
     }
+    var FateSCall = ItemStack(Material.FLOWER_POT).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Fate's Call").decorate(TextDecoration.BOLD).color(TextColor.color(50,205,50)))
+        }
+    }
 
     val recipeBook = ItemStack(Material.ENCHANTED_BOOK).apply {
         itemMeta = itemMeta.apply {
@@ -192,4 +250,3 @@ object Item {
         }
     }
 }
-

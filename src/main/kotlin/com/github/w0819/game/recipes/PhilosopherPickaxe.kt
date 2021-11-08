@@ -17,7 +17,34 @@ class PhilosopherPickaxe : UHCRecipe(
         )
         setIngredient('1', Material.IRON_ORE)
         setIngredient('2', Material.GOLD_ORE)
-        setIngredient('3', Material.LAPIS_LAZULI)
+        setIngredient('3', Material.LAPIS_BLOCK)
         setIngredient('4', Material.STICK)
+        shape(
+            "121",
+            "343",
+            " 4 "
+        )
+        setIngredient('1',Material.DEEPSLATE_IRON_ORE)
+        setIngredient('2',Material.DEEPSLATE_GOLD_ORE)
+        setIngredient('3',Material.LAPIS_BLOCK)
+        setIngredient('4',Material.STICK)
+        shape(
+            "121",
+            "343",
+            " 4 "
+        )
+        setIngredient('1',Material.DEEPSLATE_IRON_ORE)
+        setIngredient('2',Material.GOLD_ORE)
+        setIngredient('3',Material.LAPIS_BLOCK)
+        setIngredient('4',Material.STICK)
+        shape(
+            "121",
+            "343",
+            " 4 "
+        )
+        setIngredient('1',Material.IRON_ORE)
+        setIngredient('1',Material.DEEPSLATE_GOLD_ORE)
+        setIngredient('3',Material.LAPIS_BLOCK)
+        setIngredient('4',Material.STICK)
     }
 }

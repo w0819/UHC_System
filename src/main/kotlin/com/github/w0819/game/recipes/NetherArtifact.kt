@@ -15,7 +15,7 @@ class NetherArtifact : UHCRecipe(
             "131",
             "121"
         )
-        setIngredient('1', Material.GRASS_BLOCK)
+        setIngredient('1', Material.ORANGE_STAINED_GLASS)
         setIngredient('2', Material.LAVA_BUCKET)
         setIngredient('3', Material.FIREWORK_ROCKET)
     }

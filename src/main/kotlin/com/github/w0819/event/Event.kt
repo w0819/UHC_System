@@ -23,15 +23,29 @@ import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import kotlin.random.Random
 import com.github.w0819.game.util.Item
+import com.github.w0819.game.util.UHCKits
 import com.github.w0819.game.util.UHCRecipe
 import com.github.w0819.plugin.UHCPlugin
+import org.bukkit.Location
+import org.bukkit.event.block.BlockPlaceEvent
+import org.bukkit.event.entity.EntityDamageEvent
+import org.bukkit.event.inventory.InventoryClickEvent
 
 class Event(private val plugin: JavaPlugin) : Listener {
 
     @EventHandler
+    fun onItemBurn(event: EntityDamageEvent) {
+        val ent = event.entity
+        if (ent is org.bukkit.entity.Item) {
+            if (event.cause == EntityDamageEvent.DamageCause.FIRE || event.cause == EntityDamageEvent.DamageCause.LAVA) {
+                event.isCancelled = true
+            }
+        }
+    }
+    @EventHandler
     fun onPlayerFristJoin(event: PlayerJoinEvent) {
         if (!event.player.hasPlayedBefore()) {
-            event.player.addPotionEffect(PotionEffect(PotionEffectType.ABSORPTION,1000000000,4,true,true,true))
+            event.player.addPotionEffect(PotionEffect(PotionEffectType.HEALTH_BOOST,1000000000,4,true,true,true))
         }
     }
 
@@ -144,6 +158,15 @@ class Event(private val plugin: JavaPlugin) : Listener {
         }
     }
 
+    @EventHandler
+    fun onPlayerDamage(event: EntityDamageEvent) {
+        if (event.entity is Player) {
+            if (event.cause == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION) {
+                event.isCancelled = true
+            }
+        }
+    }
+
     // 엔티티 드롭아이템
     @EventHandler
     fun onEntityDeath(e: EntityDeathEvent) {
@@ -218,19 +241,20 @@ class Event(private val plugin: JavaPlugin) : Listener {
     }
 
     @EventHandler
-    fun onPlayerDamage(event: PlayerItemDamageEvent) {
+    fun onPlayerItemDamage(event: PlayerItemDamageEvent) {
         if (event.player.inventory.helmet == Item.Exodus) {
             event.player.addPotionEffect(PotionEffect(PotionEffectType.HEAL,50,1,true,true,true))
         }
 
     }
     @EventHandler
-    fun onPlayerKill(player: Player) {
-        val killer = player.killer
-        val giveCoin = killer?.scoreboard?.getObjective("coin")
-        giveCoin?.name + 10
-    }
+    fun onPlayerCraft(event: CraftItemEvent) {
+        val player: Player = event.whoClicked as Player
+        val location: Location = player.location
+        if (event.recipe.result == Item.FateSCall) {
 
+        }
+    }
     // 금머리 효과
     @EventHandler
     fun onPlayerItemConsume(event: PlayerItemConsumeEvent) {
@@ -242,33 +266,13 @@ class Event(private val plugin: JavaPlugin) : Listener {
             event.player.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200, 1, true, false, true))
             event.player.addPotionEffect(PotionEffect(PotionEffectType.HEAL, 100, 1, true, false, true))
         }
+        if (item == ItemStack(Material.GOLDEN_APPLE)) {
+            player.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,3,100,true,true,true))
+        }
         if (item == Item.panacea) {
             player.health += 16.0
         }
-        if (item == Item.potion_of_toughness) {
-            player.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 2400, 2, true, true, true))
-        }
-        if (item == Item.DeusExMachina) {
-         player.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,300,4,true,true,true))
-        }
     }
-    @EventHandler
-    fun onPlayerCraft(event: CraftItemEvent) {
-        val item = event.recipe
-        if (item == Item.apprentice_Sword) {
-            Thread.sleep(6_0000)
-            Item.apprentice_Sword.addEnchantment(Enchantment.DAMAGE_ALL,1)
-            Thread.sleep(6_0000)
-            Item.dragon_sword.addEnchantment(Enchantment.DAMAGE_ALL,1)
-        }
-        if (item == Item.apprentice_Bow) {
-            Thread.sleep(6_000)
-            Item.apprentice_Bow.addEnchantment(Enchantment.ARROW_DAMAGE,1)
-            Thread.sleep(3_000)
-            Item.apprentice_Bow.addEnchantment(Enchantment.ARROW_DAMAGE,1)
-        }
-    }
-
     private fun organizePages(recipes: ArrayList<UHCRecipe>): ArrayList<ArrayList<UHCRecipe>> {
         val limit = 21
         val result = ArrayList<ArrayList<UHCRecipe>>()
