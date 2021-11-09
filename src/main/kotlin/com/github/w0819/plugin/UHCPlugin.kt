@@ -53,11 +53,4 @@ class UHCPlugin : JavaPlugin() {
             }
         }
     }
-    private fun recipe() {
-        recipeList.addAll(arrayOf(
-            ApprenticeBow().register(),
-            ApprenticeSword().register()
-        ))
-    }
-
 }
