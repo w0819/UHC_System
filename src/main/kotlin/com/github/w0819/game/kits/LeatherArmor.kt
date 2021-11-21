@@ -6,5 +6,6 @@ import org.bukkit.inventory.ItemStack
 
 
 class LeatherArmor : UHCKits(
+
     ItemStack(Material.LEATHER,1)
 )

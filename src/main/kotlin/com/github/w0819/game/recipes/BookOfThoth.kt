@@ -43,6 +43,6 @@ class BookOfThoth : UHCRecipe(
         )
         setIngredient('1',Material.ENDER_EYE)
         setIngredient('2',Material.PAPER)
-        setIngredient('3',Material.FLINT_AND_STEEL)
+        setIngredient('3',Material.FIRE_CHARGE)
     }
 }

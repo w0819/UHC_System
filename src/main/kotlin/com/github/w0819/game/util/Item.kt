@@ -82,6 +82,11 @@ object Item {
             setLocalizedName("Panacea")
         }
     }
+    var Fenrir = ItemStack(Material.WOLF_SPAWN_EGG).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Fenrir").color(TextColor.color(220,20,60)))
+        }
+    }
     var FlaskOfCleansing = ItemStack(Material.SPLASH_POTION).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Flask of Cleansing"))
@@ -211,6 +216,24 @@ object Item {
             displayName(text("Master's Compass"))
         }
     }
+    var Andūril = ItemStack(Material.IRON_SWORD).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Andūril"))
+        }
+        addEnchantment(Enchantment.DAMAGE_ALL,2)
+    }
+    var AxeOfPerun = ItemStack(Material.DIAMOND_AXE).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Axe of Perun"))
+        }
+        addEnchantment(Enchantment.DURABILITY,1)
+    }
+    var Artemis_Bow = ItemStack(Material.BOW).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Artemis Bow"))
+        }
+        addEnchantment(Enchantment.ARROW_DAMAGE,3)
+    }
     var apprentice_Helmet = ItemStack(Material.IRON_HELMET).apply {
         itemMeta = itemMeta.apply {
             displayName(text("apprentice Helmet").decorate(TextDecoration.BOLD))
@@ -248,5 +271,11 @@ object Item {
         itemMeta = itemMeta.apply {
             displayName(text("recipe_book"))
         }
+    }
+    var ModularBow = ItemStack(Material.BOW).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Modular Bow"))
+        }
+        addEnchantment(Enchantment.ARROW_KNOCKBACK,1)
     }
 }

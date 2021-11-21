@@ -1,19 +1,21 @@
 package com.github.w0819.event
 
 import com.github.w0819.game.resource.UHCResourceManager
+import com.github.w0819.game.util.Item
 import com.github.w0819.game.util.Item.recipeBook
+import com.github.w0819.game.util.UHCRecipe
+import com.github.w0819.plugin.UHCPlugin
 import net.kyori.adventure.text.Component.text
 import net.projecttl.inventory.gui.InventoryGuiBuilder
 import net.projecttl.inventory.gui.utils.InventoryType
+import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.*
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
-import org.bukkit.event.entity.EntityDeathEvent
-import org.bukkit.event.entity.EntityInteractEvent
-import org.bukkit.event.entity.PlayerDeathEvent
+import org.bukkit.event.entity.*
 import org.bukkit.event.inventory.CraftItemEvent
 import org.bukkit.event.player.*
 import org.bukkit.inventory.Inventory
@@ -22,14 +24,7 @@ import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import kotlin.random.Random
-import com.github.w0819.game.util.Item
-import com.github.w0819.game.util.UHCKits
-import com.github.w0819.game.util.UHCRecipe
-import com.github.w0819.plugin.UHCPlugin
-import org.bukkit.Location
-import org.bukkit.event.block.BlockPlaceEvent
-import org.bukkit.event.entity.EntityDamageEvent
-import org.bukkit.event.inventory.InventoryClickEvent
+
 
 class Event(private val plugin: JavaPlugin) : Listener {
 
@@ -61,7 +56,12 @@ class Event(private val plugin: JavaPlugin) : Listener {
     @EventHandler
     fun onPlayerKill(event: PlayerDeathEvent) {
         val killer = event.entity.player?.killer
-
+        val item = killer?.inventory?.itemInMainHand
+        if (item == Item.Bloodlust) {
+            item.itemMeta.apply {
+                addEnchant(Enchantment.DAMAGE_ALL,1,true)
+            }
+        }
         killer?.let {
             UHCResourceManager.addCoin(it, 10)
         }
@@ -72,6 +72,24 @@ class Event(private val plugin: JavaPlugin) : Listener {
     fun onServerTimeSet(event: PlayerMoveEvent) {
         val world = event.player.location.world
         world.time = 1000
+    }
+    @EventHandler
+    fun onInteract(e: PlayerInteractAtEntityEvent) {
+        val player = e.player
+        val wolfName = e.rightClicked.customName
+        if (e.rightClicked.type == EntityType.WOLF) {
+            if (wolfName == "Fenrir") {
+                if ((e.rightClicked as Tameable).isTamed) {
+                    if ((e.rightClicked as Tameable).owner!!.name != player.name) {
+                        (e.rightClicked as Tameable).owner = player
+                    }
+                }
+            }
+        }
+    }
+    @EventHandler
+    fun onPlayerItemHeld(e: PlayerItemHeldEvent) {
+
     }
 
     // 일반 플레이어 머리
@@ -91,6 +109,9 @@ class Event(private val plugin: JavaPlugin) : Listener {
                     event.isCancelled = true
                 }
                 when(event.item) {
+                    Item.ModularBow -> {
+
+                    }
                     Item.Master_Compass -> {
                         player.inventory.removeItem(Item.Master_Compass)
                         for (entity in entities) { // This loops through all the entities, setting the variable "entity" to each element.
@@ -130,6 +151,17 @@ class Event(private val plugin: JavaPlugin) : Listener {
         }
     }
 
+    @EventHandler
+    fun onCraftItem(event: CraftItemEvent) {
+        val player = event.whoClicked
+        val location = player.location
+        if (event.recipe == Item.Fenrir) {
+            val wolf = location.world.spawnEntity(location,EntityType.WOLF)
+            wolf.customName = "Fenrir"
+            event.view.player.inventory.removeItem(Item.Fenrir)
+        }
+    }
+
     // 앙털
     @EventHandler
     fun onPlayerEntityInteract(event: EntityInteractEvent) {
@@ -154,6 +186,16 @@ class Event(private val plugin: JavaPlugin) : Listener {
                 event.player.world.dropItemNaturally(
                     event.player.location, ItemStack(Material.FLINT)
                 )
+            }
+        }
+    }
+    @EventHandler
+    fun onEntityDamagebyEntity(e : EntityDamageByEntityEvent) {
+        val damgar = e.damager
+        val location = damgar.location.apply { z += 1 }
+        if (damgar is Player) {
+            if (damgar.inventory.itemInMainHand == Item.AxeOfPerun) {
+                location.world.strikeLightning(location)
             }
         }
     }
