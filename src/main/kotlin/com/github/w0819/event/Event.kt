@@ -10,9 +10,14 @@ import net.projecttl.inventory.gui.InventoryGuiBuilder
 import net.projecttl.inventory.gui.utils.InventoryType
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.block.Block
+import org.bukkit.block.BlockState
+import org.bukkit.block.Chest
+import org.bukkit.block.Container
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.*
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.entity.*
@@ -23,7 +28,14 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
+import javax.swing.plaf.basic.BasicComboBoxUI
 import kotlin.random.Random
+import jdk.nashorn.internal.objects.NativeJava.typeName
+
+import sun.jvm.hotspot.HelloWorld.e
+
+
+
 
 
 class Event(private val plugin: JavaPlugin) : Listener {
@@ -52,6 +64,18 @@ class Event(private val plugin: JavaPlugin) : Listener {
         player.inventory.setItem(4,recipeBook)
 
         UHCPlugin.game.addPlayer(player)
+    }
+    @EventHandler
+    fun onArrowShoot(e: ProjectileHitEvent) {
+        val chance = Random
+        val give = chance.nextFloat()
+        if (e.entity.shooter is Player) {
+            if((e.entity.shooter as Player).inventory.itemInMainHand == Item.Artemis_Bow) {
+                if (give <= 0.15f) {
+                    (e.entity.shooter as Player).inventory.addItem(ItemStack(Material.ARROW))
+                }
+            }
+        }
     }
     @EventHandler
     fun onPlayerKill(event: PlayerDeathEvent) {
@@ -89,9 +113,15 @@ class Event(private val plugin: JavaPlugin) : Listener {
     }
     @EventHandler
     fun onPlayerItemHeld(e: PlayerItemHeldEvent) {
-
+        val item = e.player.inventory.itemInMainHand
+        if (item == Item.Andūril) {
+            while (item == Item.Andūril) {
+                e.player.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,1,20))
+                e.player.addPotionEffect(PotionEffect(PotionEffectType.SPEED,1,20))
+                Thread.sleep(1_000)
+            }
+        }
     }
-
     // 일반 플레이어 머리
     @EventHandler
     fun onPlayerInteract(event: PlayerInteractEvent) {
@@ -114,7 +144,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
                     }
                     Item.Master_Compass -> {
                         player.inventory.removeItem(Item.Master_Compass)
-                        for (entity in entities) { // This loops through all the entities, setting the variable "entity" to each element.
+                        for (entity in entities) {
                             if (entity is Player) {
                                 if(entity != player) {
                                 val distance = entity.location.distance(loc)
@@ -196,6 +226,14 @@ class Event(private val plugin: JavaPlugin) : Listener {
         if (damgar is Player) {
             if (damgar.inventory.itemInMainHand == Item.AxeOfPerun) {
                 location.world.strikeLightning(location)
+            }
+            if (damgar.inventory.helmet == Item.Exodus) {
+                damgar.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION, 1, 50))
+            }
+            if (damgar.inventory.itemInMainHand == Item.Death_Scythe) {
+                if (e.entity is Player) {
+                    (e.entity as Player).player!!.health - ((e.entity as Player).player!!.health * 0.2)
+                }
             }
         }
     }
@@ -293,6 +331,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
     fun onPlayerCraft(event: CraftItemEvent) {
         val player: Player = event.whoClicked as Player
         val location: Location = player.location
+
         if (event.recipe.result == Item.FateSCall) {
 
         }

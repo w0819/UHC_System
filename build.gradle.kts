@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.5.31"
+    kotlin("jvm") version "1.6.0"
 }
 
 val archiveName = rootProject.name
@@ -17,13 +17,13 @@ java {
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
     implementation("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
     implementation("io.github.monun:tap-api:4.1.10")
     implementation("io.github.monun:kommand-api:2.6.6")
     implementation("net.projecttl:InventoryGUI-api:4.1.8")
     implementation("io.github.monun:heartbeat-coroutines:0.0.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt")
 }
 
 tasks {

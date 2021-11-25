@@ -49,6 +49,7 @@ class UHCGame private constructor(
         timer = UHCTimer(this, startActions)
         timer.initTimer()
         GameUtils.spreadTeams(teams, UHCWorldManager.generateWorld().overworld)
+
     }
 
     fun stopGame() {

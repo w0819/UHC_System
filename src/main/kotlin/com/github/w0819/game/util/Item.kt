@@ -64,6 +64,11 @@ object Item {
         }
         addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,4)
     }
+    var Death_Scythe = ItemStack(Material.IRON_HOE).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Death's Scythe"))
+        }
+    }
     var Cupid_s_Bow = ItemStack(Material.BOW).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Cupid's Bow"))

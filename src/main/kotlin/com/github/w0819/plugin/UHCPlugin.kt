@@ -22,16 +22,12 @@ class UHCPlugin : JavaPlugin() {
         @JvmStatic
         lateinit var game: UHCGame
             private set
-        @JvmStatic
-        val kitList = ArrayList<UHCKits>()
     }
 
     override fun onEnable() {
-        recipe()
         server.pluginManager.registerEvents(Event(this), this)
         server.logger.info("Recipe is enabled")
         recipeList.addAll(UHCRecipe.registerAll("com.github.w0819.game.recipes"))
-
         game = UHCGame.create(listOf())
 
         Bukkit.getOnlinePlayers().forEach {
