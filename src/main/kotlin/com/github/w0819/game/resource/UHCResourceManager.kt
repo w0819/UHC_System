@@ -25,6 +25,7 @@ open class UHCResourceManager {
             player.persistentDataContainer.set(recipesKey, PersistentDataType.INTEGER_ARRAY, intArrayOf())
         }
         return player.persistentDataContainer.get(recipesKey, PersistentDataType.INTEGER_ARRAY)!!
+
     }
 
     fun recipe(player: Player): List<UHCRecipe> {

@@ -1,5 +1,6 @@
 package com.github.w0819.game.util
 
+import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration
@@ -136,12 +137,22 @@ object Item {
         addEnchantment(Enchantment.DAMAGE_UNDEAD,2)
         addEnchantment(Enchantment.LOOT_BONUS_MOBS,2)
     }
-
+    var Professions = ItemStack(Material.CRAFTING_TABLE).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Professions").color(TextColor.color(255,0,0)))
+            lore(Lore1)
+        }
+    }
 
     var Potion_of_velocity = ItemStack(Material.SPLASH_POTION).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Potion of Velocity"))
             (this as PotionMeta).addCustomEffect(PotionEffect(PotionEffectType.SPEED,1000,1),true)
+        }
+    }
+    var carrot = ItemStack(Material.GOLDEN_CARROT).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Speed UHC Shop").color(TextColor.color(0,255,0)))
         }
     }
     var Cornucopia = ItemStack(Material.GOLDEN_CARROT).apply {
@@ -160,6 +171,15 @@ object Item {
             displayName(text("Bloodlust"))
         }
     }
+    private val Lore = listOf<Component>(text("Purchase from a selection of\n"), text("kits to provide you with items\n"), text("at the beginning of a game!\n"),text("Upgrade and prestige kits to get\n"),text("better items!\n"),text("\n"),text("Click to open!").apply { decorate(TextDecoration.ITALIC);color(TextColor.color(255,255,0))},text("\n"))
+    private val Lore1 = listOf<Component>(text("Select from a collection of\nunique professions which will\ngive you access to new recipes\nand perks!\n\n"),text("Click to open!").color(TextColor.color(255,255,0)))
+    private val Lore2 = listOf<Component>(text("Extra Ultimates require 2 or\nmore maxed out professions"))
+    var kits = ItemStack(Material.IRON_SWORD).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Kits").color(TextColor.color(0,255,0)))
+            lore(Lore)
+        }
+    }
     var King_s_Rod = ItemStack(Material.FISHING_ROD).apply {
         itemMeta = itemMeta.apply {
             displayName(text("King's Rod"))
@@ -174,6 +194,11 @@ object Item {
         addEnchantment(Enchantment.PROTECTION_FALL,3)
         addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,3)
     }
+    var shop = ItemStack(Material.EMERALD).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Shop").color(TextColor.color(127,255,0)))
+        }
+    }
     var Shoes_of_Vidar = ItemStack(Material.DIAMOND_BOOTS).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Shoes of Vidar"))
@@ -181,6 +206,11 @@ object Item {
         addEnchantment(Enchantment.DURABILITY,3)
         addEnchantment(Enchantment.PROTECTION_PROJECTILE,2)
         addEnchantment(Enchantment.THORNS,1)
+    }
+    var Extra_Ultimates = ItemStack(Material.FURNACE).apply {
+        itemMeta = itemMeta.apply {
+
+        }
     }
     var ExpertSeal = ItemStack(Material.NETHER_STAR).apply {
         itemMeta = itemMeta.apply {
@@ -221,6 +251,7 @@ object Item {
             displayName(text("Master's Compass"))
         }
     }
+    val apple = ItemStack(Material.GOLDEN_APPLE).apply { itemMeta = itemMeta.apply { displayName(text("UHC Champions Shop"));setLocalizedName("Chick here to access the\nUHC Champions Shop.") } }
     var Andūril = ItemStack(Material.IRON_SWORD).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Andūril"))
@@ -282,5 +313,25 @@ object Item {
             displayName(text("Modular Bow"))
         }
         addEnchantment(Enchantment.ARROW_KNOCKBACK,1)
+    }
+    val close = ItemStack(Material.BARRIER).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("close").color(TextColor.color(255,0,0)))
+        }
+    }
+    val settings = ItemStack(Material.COMPARATOR).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Settings").color(TextColor.color(255,0,0)))
+        }
+    }
+    val left = ItemStack(Material.ARROW).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("left"))
+        }
+    }
+    val right = ItemStack(Material.ARROW).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("right"))
+        }
     }
 }

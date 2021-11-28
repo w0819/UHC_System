@@ -6,18 +6,15 @@ import com.github.w0819.game.util.Item.recipeBook
 import com.github.w0819.game.util.UHCRecipe
 import com.github.w0819.plugin.UHCPlugin
 import net.kyori.adventure.text.Component.text
+import net.kyori.adventure.text.format.TextColor
 import net.projecttl.inventory.gui.InventoryGuiBuilder
 import net.projecttl.inventory.gui.utils.InventoryType
 import org.bukkit.Location
 import org.bukkit.Material
-import org.bukkit.block.Block
-import org.bukkit.block.BlockState
 import org.bukkit.block.Chest
-import org.bukkit.block.Container
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.*
 import org.bukkit.event.EventHandler
-import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.entity.*
@@ -28,15 +25,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
-import javax.swing.plaf.basic.BasicComboBoxUI
 import kotlin.random.Random
-import jdk.nashorn.internal.objects.NativeJava.typeName
-
-import sun.jvm.hotspot.HelloWorld.e
-
-
-
-
 
 class Event(private val plugin: JavaPlugin) : Listener {
 
@@ -62,6 +51,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
         val player = event.player
         player.sendMessage("오늘의 폐치노트 마컴이 추가됨 (플레이어 없으면 작동안함 주의)")
         player.inventory.setItem(4,recipeBook)
+
 
         UHCPlugin.game.addPlayer(player)
     }
@@ -332,6 +322,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
         val player: Player = event.whoClicked as Player
         val location: Location = player.location
 
+
         if (event.recipe.result == Item.FateSCall) {
 
         }
@@ -378,21 +369,6 @@ class Event(private val plugin: JavaPlugin) : Listener {
                 lateinit var inventory: Inventory
                 var page = 0
                 val pages = organizePages(UHCPlugin.recipeList)
-                val close = ItemStack(Material.BARRIER).apply {
-                    itemMeta = itemMeta.apply {
-                        displayName(text("close"))
-                    }
-                }
-                val left = ItemStack(Material.ARROW).apply {
-                    itemMeta = itemMeta.apply {
-                        displayName(text("left"))
-                    }
-                }
-                val right = ItemStack(Material.ARROW).apply {
-                    itemMeta = itemMeta.apply {
-                        displayName(text("right"))
-                    }
-                }
 
                 // When viewer is viewing the list of recipes
                 // False if the viewer is viewing one item's recipe
@@ -427,21 +403,21 @@ class Event(private val plugin: JavaPlugin) : Listener {
                 fun updatePages() {
                     recipeView = true
                     if (page == 0) {
-                        left.amount = 0
+                        Item.left.amount = 0
                     } else {
-                        left.amount = 1
+                        Item.left.amount = 1
                     }
                     if (page == pages.size - 1) {
-                        right.amount = 0
+                        Item.right.amount = 0
                     } else {
-                        right.amount = 1
+                        Item.right.amount = 1
                     }
                     for (i in 0..53) {
                         inventory.setItem(i, null)
                     }
-                    inventory.setItem(45, left)
-                    inventory.setItem(53, right)
-                    inventory.setItem(49, close)
+                    inventory.setItem(45, Item.left)
+                    inventory.setItem(53, Item.right)
+                    inventory.setItem(49, Item.close)
                     for (index in 0..20) {
                         inventory.setItem(10 + (2 * (index / 7)) + index, null)
                     }
@@ -455,18 +431,18 @@ class Event(private val plugin: JavaPlugin) : Listener {
                 }
 
                 val builder: InventoryGuiBuilder.() -> Unit = {
-                    slot(49, close) {
+                    slot(49, Item.close) {
                         if (recipeView) {
                             e.player.closeInventory()
                         } else {
                             updatePages()
                         }
                     }
-                    slot(45, left) {
+                    slot(45, Item.left) {
                         page--
                         updatePages()
                     }
-                    slot(53, right) {
+                    slot(53, Item.right) {
                         page++
                         updatePages()
                     }

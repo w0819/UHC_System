@@ -7,11 +7,22 @@ import com.github.w0819.game.util.UHCRecipe
 import com.github.w0819.event.Event
 import com.github.w0819.game.recipes.ApprenticeBow
 import com.github.w0819.game.recipes.ApprenticeSword
+import com.github.w0819.game.resource.UHCResourceManager
+import com.github.w0819.game.util.Item
 import com.github.w0819.game.util.UHCKits
+import io.github.monun.kommand.KommandContext
 import io.github.monun.kommand.getValue
 import io.github.monun.kommand.kommand
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.TextColor
+import net.projecttl.inventory.gui.InventoryGuiBuilder
+import net.projecttl.inventory.gui.utils.InventoryType
 import org.bukkit.Bukkit
+import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.inventory.Inventory
+import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
 
 class UHCPlugin : JavaPlugin() {
@@ -48,5 +59,21 @@ class UHCPlugin : JavaPlugin() {
                 }
             }
         }
+    }
+    private fun organizePages(player: Player) {
+        val a = InventoryGuiBuilder(player,InventoryType.CHEST_36, Component.text("UHC shop"),this)
+        val b = InventoryGuiBuilder(player,InventoryType.CHEST_54, Component.text("UHC Champions Shop"),this)
+        lateinit var inventory: Inventory
+        a.apply {
+            slot(12,Item.apple)
+            slot(14,Item.carrot)
+            slot(31,Item.close)
+            slot(32,Item.settings)
+        }
+        b.apply {
+            slot(20,Item.kits)
+            slot(22,Item.Professions)
+        }
+        var page = 0
     }
 }
