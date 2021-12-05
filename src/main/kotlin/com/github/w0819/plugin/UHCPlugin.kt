@@ -33,9 +33,14 @@ class UHCPlugin : JavaPlugin() {
         @JvmStatic
         lateinit var game: UHCGame
             private set
+
+        @JvmStatic
+        lateinit var instance: UHCPlugin
+            private set
     }
 
     override fun onEnable() {
+        instance = this
         server.pluginManager.registerEvents(Event(this), this)
         server.logger.info("Recipe is enabled")
         recipeList.addAll(UHCRecipe.registerAll("com.github.w0819.game.recipes"))

@@ -24,6 +24,7 @@ dependencies {
     implementation("net.projecttl:InventoryGUI-api:4.1.8")
     implementation("io.github.monun:heartbeat-coroutines:0.0.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt")
+    implementation("io.github.dolphin2410:worldgen:0.0.1")
 }
 
 tasks {

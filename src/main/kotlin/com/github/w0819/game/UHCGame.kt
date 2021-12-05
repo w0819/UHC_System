@@ -7,6 +7,7 @@ import com.github.w0819.game.timer.UHCTimer
 import com.github.w0819.game.util.GameUtils
 import com.github.w0819.game.world.UHCWorldManager
 import org.bukkit.entity.Player
+import java.util.concurrent.CompletableFuture
 
 class UHCGame private constructor(
     @Suppress("WeakerAccess") val players: MutableList<Player>
@@ -44,12 +45,19 @@ class UHCGame private constructor(
         return players.remove(player)
     }
 
-    fun startGame(vararg startActions: StartAction<*>) {
-        teams = UHCTeam.divide(players, PLAYERS_PER_TEAM)
-        timer = UHCTimer(this, startActions)
-        timer.initTimer()
-        GameUtils.spreadTeams(teams, UHCWorldManager.generateWorld().overworld)
+    fun startGame(vararg startActions: StartAction<*>): CompletableFuture<Void> {
+        val future = CompletableFuture<Void>()
+        println("Generating World....")
+        UHCWorldManager.generateWorld().thenAccept {
+            println("Generate Complete!")
+            teams = UHCTeam.divide(players, PLAYERS_PER_TEAM)
+            timer = UHCTimer(this, startActions)
+            timer.initTimer()
+            GameUtils.spreadTeams(teams, it.overworld)
+            future.complete(null)
+        }
 
+        return future
     }
 
     fun stopGame() {
