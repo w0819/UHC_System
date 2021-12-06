@@ -12,10 +12,10 @@
 - Hypixel UHC의 단계 추가
 - Hypixel UHC의 레시피 및 코인 시스템 추가
 - Hypixel UHC의 팀 시스템 추가
+- Hypixel UHC의 월드 생성
 
 ### 구현 할 것
 
 - Hypixel UHC의 레시피 추가 완료
-- Hypixel UHC의 월드 생성
 - Hypixel UHC의 Game Modifier
 - Hypixel UHC의 키트들 추가
