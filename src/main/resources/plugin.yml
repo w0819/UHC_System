@@ -1,6 +1,6 @@
 name: ${name}
 version: ${version}
-api-version: 1.17
+api-version: 1.18
 authors: [w0819, dolphin2410]
 libraries:
   - io.github.monun:tap:4.3.0
