@@ -5,24 +5,15 @@ import com.github.w0819.game.timer.StartActionType
 import com.github.w0819.game.UHCGame
 import com.github.w0819.game.util.UHCRecipe
 import com.github.w0819.event.Event
-import com.github.w0819.game.recipes.ApprenticeBow
-import com.github.w0819.game.recipes.ApprenticeSword
-import com.github.w0819.game.resource.UHCResourceManager
 import com.github.w0819.game.util.Item
-import com.github.w0819.game.util.UHCKits
-import io.github.monun.kommand.KommandContext
 import io.github.monun.kommand.getValue
 import io.github.monun.kommand.kommand
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.format.TextColor
-import net.projecttl.inventory.gui.InventoryGuiBuilder
-import net.projecttl.inventory.gui.utils.InventoryType
+import net.projecttl.inventory.gui.SimpleInventoryBuilder
+import net.projecttl.inventory.util.InventoryType
 import org.bukkit.Bukkit
-import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.Inventory
-import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
 
 class UHCPlugin : JavaPlugin() {
@@ -52,9 +43,11 @@ class UHCPlugin : JavaPlugin() {
 
         kommand {
             register("uhc") {
-                requires { isPlayer && isOp }
-                executes {
-                    game.startGame(StartAction(StartActionType.COUNTDOWN, 5))
+                requires { isOp }
+                then("start") {
+                    executes {
+                        game.startGame(StartAction(StartActionType.COUNTDOWN, 5))
+                    }
                 }
                 then("kick" to player()) {
                     executes {
@@ -66,8 +59,8 @@ class UHCPlugin : JavaPlugin() {
         }
     }
     private fun organizePages(player: Player) {
-        val a = InventoryGuiBuilder(player,InventoryType.CHEST_36, Component.text("UHC shop"),this)
-        val b = InventoryGuiBuilder(player,InventoryType.CHEST_54, Component.text("UHC Champions Shop"),this)
+        val a = SimpleInventoryBuilder(player, InventoryType.CHEST_36, Component.text("UHC shop"))
+        val b = SimpleInventoryBuilder(player,InventoryType.CHEST_54, Component.text("UHC Champions Shop"))
         lateinit var inventory: Inventory
         a.apply {
             slot(12,Item.apple)

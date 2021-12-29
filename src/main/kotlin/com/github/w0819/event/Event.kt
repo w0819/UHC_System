@@ -6,12 +6,10 @@ import com.github.w0819.game.util.Item.recipeBook
 import com.github.w0819.game.util.UHCRecipe
 import com.github.w0819.plugin.UHCPlugin
 import net.kyori.adventure.text.Component.text
-import net.kyori.adventure.text.format.TextColor
-import net.projecttl.inventory.gui.InventoryGuiBuilder
-import net.projecttl.inventory.gui.utils.InventoryType
+import net.projecttl.inventory.gui.SimpleInventoryBuilder
+import net.projecttl.inventory.util.InventoryType
 import org.bukkit.Location
 import org.bukkit.Material
-import org.bukkit.block.Chest
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.*
 import org.bukkit.event.EventHandler
@@ -430,7 +428,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
                     }
                 }
 
-                val builder: InventoryGuiBuilder.() -> Unit = {
+                val builder: SimpleInventoryBuilder.() -> Unit = {
                     slot(49, Item.close) {
                         if (recipeView) {
                             e.player.closeInventory()
@@ -455,7 +453,7 @@ class Event(private val plugin: JavaPlugin) : Listener {
                     }
 
                 }
-                val a = InventoryGuiBuilder(e.player, InventoryType.CHEST_54, text("Recipe Book"), plugin)
+                val a = SimpleInventoryBuilder(e.player, InventoryType.CHEST_54, text("Recipe Book"))
                 inventory = a.apply(builder).build()
                 updatePages()
             }
