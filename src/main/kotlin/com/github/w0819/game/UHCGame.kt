@@ -6,6 +6,7 @@ import com.github.w0819.game.team.UHCTeam
 import com.github.w0819.game.timer.UHCTimer
 import com.github.w0819.game.util.GameUtils
 import com.github.w0819.game.world.UHCWorldManager
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import java.util.concurrent.CompletableFuture
 
@@ -47,9 +48,9 @@ class UHCGame private constructor(
 
     fun startGame(vararg startActions: StartAction<*>): CompletableFuture<Void> {
         val future = CompletableFuture<Void>()
-        println("Generating World....")
+        Bukkit.getLogger().info("Generating World....")
         UHCWorldManager.generateWorld().thenAccept {
-            println("Generate Complete!")
+            Bukkit.getLogger().info("Generate Complete!")
             teams = UHCTeam.divide(players, PLAYERS_PER_TEAM)
             timer = UHCTimer(this, startActions)
             timer.initTimer()

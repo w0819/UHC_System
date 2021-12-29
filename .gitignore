@@ -3,3 +3,6 @@
 /.idea/
 build
 /.server/
+
+# Dev
+setup.bat
