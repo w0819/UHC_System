@@ -4,6 +4,7 @@ import com.github.w0819.game.resource.UHCResourceManager
 import com.github.w0819.game.util.Item
 import com.github.w0819.game.util.Item.recipeBook
 import com.github.w0819.game.util.UHCRecipe
+import com.github.w0819.game.util.choiceKit
 import com.github.w0819.plugin.UHCPlugin
 import net.kyori.adventure.text.Component.text
 import net.projecttl.inventory.gui.SimpleInventoryBuilder
@@ -20,6 +21,7 @@ import org.bukkit.event.inventory.CraftItemEvent
 import org.bukkit.event.player.*
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataType
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
@@ -49,6 +51,9 @@ class SystemEvent(private val plugin: JavaPlugin) : Listener {
         player.sendMessage("오늘의 폐치노트 마컴이 추가됨 (플레이어 없으면 작동안함 주의)")
         player.inventory.setItem(4,recipeBook)
         UHCPlugin.game.addPlayer(player)
+        player.persistentDataContainer.apply {
+            set(choiceKit, PersistentDataType.INTEGER,0)
+        }
     }
     @EventHandler
     fun onArrowShoot(e: ProjectileHitEvent) {
