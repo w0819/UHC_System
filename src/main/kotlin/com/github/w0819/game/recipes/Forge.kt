@@ -5,9 +5,9 @@ import com.github.w0819.game.util.UHCRecipe
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 
-class NotchApple: UHCRecipe(
-    NamespacedKey.minecraft("notch_apple"),
-    Item.notch_apple
+class Forge : UHCRecipe(
+    NamespacedKey.minecraft("forge"),
+    Item.Forge
 ) {
     init {
         shape(
@@ -15,7 +15,7 @@ class NotchApple: UHCRecipe(
             "121",
             "111"
         )
-        setIngredient('1', Material.GOLD_BLOCK)
-        setIngredient('2', Material.APPLE)
+        setIngredient('1', Material.COBBLESTONE)
+        setIngredient('2',Material.COAL_BLOCK)
     }
 }

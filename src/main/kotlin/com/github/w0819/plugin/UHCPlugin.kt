@@ -4,8 +4,11 @@ import com.github.w0819.game.timer.StartAction
 import com.github.w0819.game.timer.StartActionType
 import com.github.w0819.game.UHCGame
 import com.github.w0819.game.util.UHCRecipe
-import com.github.w0819.event.Event
+import com.github.w0819.event.SystemEvent
+import com.github.w0819.event.alwaysCallingFunction
 import com.github.w0819.game.util.Item
+import com.github.w0819.game.util.choiceKitItemGive
+import com.github.w0819.game.util.randomModifierChoice
 import io.github.monun.kommand.getValue
 import io.github.monun.kommand.kommand
 import net.kyori.adventure.text.Component
@@ -32,7 +35,7 @@ class UHCPlugin : JavaPlugin() {
 
     override fun onEnable() {
         instance = this
-        server.pluginManager.registerEvents(Event(this), this)
+        server.pluginManager.registerEvents(SystemEvent(this), this)
         server.logger.info("Recipe is enabled")
         recipeList.addAll(UHCRecipe.registerAll("com.github.w0819.game.recipes"))
         game = UHCGame.create(listOf())
@@ -43,10 +46,12 @@ class UHCPlugin : JavaPlugin() {
 
         kommand {
             register("uhc") {
-                requires { isOp }
-                then("start") {
-                    executes {
-                        game.startGame(StartAction(StartActionType.COUNTDOWN, 5))
+                requires { isPlayer && isOp }
+                executes {
+                    game.startGame(StartAction(StartActionType.COUNTDOWN, 5))
+                    for (i in game.players) {
+                        choiceKitItemGive(i)
+                        randomModifierChoice(i)
                     }
                 }
                 then("kick" to player()) {
@@ -57,7 +62,12 @@ class UHCPlugin : JavaPlugin() {
                 }
             }
         }
+        alwaysCallingFunction()
     }
+    /**
+     * ????
+     *
+     * */
     private fun organizePages(player: Player) {
         val a = SimpleInventoryBuilder(player, InventoryType.CHEST_36, Component.text("UHC shop"))
         val b = SimpleInventoryBuilder(player,InventoryType.CHEST_54, Component.text("UHC Champions Shop"))

@@ -12,7 +12,8 @@ class BarbarianChestplate : UHCRecipe(
     init {
         shape(
             "121",
-            "343"
+            "343",
+            "   "
         )
         setIngredient('1', Material.BLAZE_ROD)
         setIngredient('2',Material.DIAMOND_CHESTPLATE)

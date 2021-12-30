@@ -25,8 +25,7 @@ import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import kotlin.random.Random
 
-class Event(private val plugin: JavaPlugin) : Listener {
-
+class SystemEvent(private val plugin: JavaPlugin) : Listener {
     @EventHandler
     fun onItemBurn(event: EntityDamageEvent) {
         val ent = event.entity
@@ -49,8 +48,6 @@ class Event(private val plugin: JavaPlugin) : Listener {
         val player = event.player
         player.sendMessage("오늘의 폐치노트 마컴이 추가됨 (플레이어 없으면 작동안함 주의)")
         player.inventory.setItem(4,recipeBook)
-
-
         UHCPlugin.game.addPlayer(player)
     }
     @EventHandler

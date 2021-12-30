@@ -10,11 +10,29 @@ open class UHCResourceManager {
     companion object: UHCResourceManager()
 
     private val coinsKey = NamespacedKey.minecraft("coins")
+    private val modKey = NamespacedKey.minecraft("mod_s")
     private val recipesKey = NamespacedKey.minecraft("recipes")
+
+    private fun modes(player: Player): Int {
+        if (!player.persistentDataContainer.has(modKey, PersistentDataType.INTEGER)) {
+            player.persistentDataContainer.set(modKey,PersistentDataType.INTEGER,1)
+        }
+        return player.persistentDataContainer.get(modKey, PersistentDataType.INTEGER)!!
+    }
+    fun getModes(player: Player): Int {
+        return player.persistentDataContainer.get(modKey,PersistentDataType.INTEGER)!!
+    }
+    fun switchModes(player: Player) {
+        val modes = modes(player)
+        player.persistentDataContainer.set(modKey,PersistentDataType.INTEGER,modes + 1)
+        if (modes == 3) {
+            player.persistentDataContainer.set(modKey,PersistentDataType.INTEGER,0)
+        }
+    }
 
     @SuppressWarnings("WeakerAccess")
     fun coin(player: Player): Int {
-        if (!player.persistentDataContainer.has(coinsKey, PersistentDataType.INTEGER)) {
+        if (!player.persistentDataContainer.has(coinsKey,PersistentDataType.INTEGER)) {
             player.persistentDataContainer.set(coinsKey, PersistentDataType.INTEGER, 0)
         }
         return player.persistentDataContainer.get(coinsKey, PersistentDataType.INTEGER)!!
