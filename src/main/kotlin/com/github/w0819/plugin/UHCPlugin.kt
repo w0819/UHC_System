@@ -46,12 +46,14 @@ class UHCPlugin : JavaPlugin() {
 
         kommand {
             register("uhc") {
-                requires { isPlayer && isOp }
-                executes {
-                    game.startGame(StartAction(StartActionType.COUNTDOWN, 5))
-                    for (i in game.players) {
-                        choiceKitItemGive(i)
-                        randomModifierChoice(i)
+                requires { isOp }
+                then("start") {
+                    executes {
+                        game.startGame(StartAction(StartActionType.COUNTDOWN, 5))
+                        for (i in game.players) {
+                            choiceKitItemGive(i)
+                            randomModifierChoice(i)
+                        }
                     }
                 }
                 then("kick" to player()) {
