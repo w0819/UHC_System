@@ -9,17 +9,17 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 
 val choiceKit = NamespacedKey.minecraft("choice")
-private val empty = NamespacedKey.minecraft("emptyLevel")
-private val LeatherArmor = NamespacedKey.minecraft("LeatherArmorLevel")
-private val EnchantingSet = NamespacedKey.minecraft("EnchantingSetLevel")
-private val ArcherySet = NamespacedKey.minecraft("ArcherySetLevel")
-private val StoneGear = NamespacedKey.minecraft("StoneGearLevel")
-private val LunchBox = NamespacedKey.minecraft("LunchBoxLevel")
-private val Looter = NamespacedKey.minecraft("LooterLevel")
-private val Ecologist = NamespacedKey.minecraft("EcologistLevel")
-private val Farmer = NamespacedKey.minecraft("EcologistLevel")
-private val Horseman = NamespacedKey.minecraft("HorsemanLevel")
-private val Trapper = NamespacedKey.minecraft("TrapperLevel")
+private val empty = NamespacedKey.minecraft("empty_level")
+private val LeatherArmor = NamespacedKey.minecraft("leather_armor_level")
+private val EnchantingSet = NamespacedKey.minecraft("enchanting_set_level")
+private val ArcherySet = NamespacedKey.minecraft("archery_set_level")
+private val StoneGear = NamespacedKey.minecraft("stone_gear_level")
+private val LunchBox = NamespacedKey.minecraft("lunch_box_level")
+private val Looter = NamespacedKey.minecraft("looter_level")
+private val Ecologist = NamespacedKey.minecraft("ecologist_level")
+private val Farmer = NamespacedKey.minecraft("ecologist_level")
+private val Horseman = NamespacedKey.minecraft("horseman_level")
+private val Trapper = NamespacedKey.minecraft("trapper_level")
 
 enum class KitList {
     Empty,

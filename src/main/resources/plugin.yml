@@ -5,7 +5,7 @@ authors: [w0819, dolphin2410]
 libraries:
   - io.github.monun:tap:4.3.0
   - io.github.monun:kommand:2.8.0
-  - net.projecttl:InventoryGUI-api:4.3.0
+#  - net.projecttl:InventoryGUI-api:4.3.0
   - org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0
   - io.github.monun:heartbeat-coroutines:0.0.3
   - io.github.dolphin2410:worldgen:0.0.2

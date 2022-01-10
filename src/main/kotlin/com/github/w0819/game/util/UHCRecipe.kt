@@ -19,7 +19,9 @@ open class UHCRecipe(key: NamespacedKey, result: ItemStack): ShapedRecipe(key, r
                     recipes.add(Class.forName(fileName.replace("/", ".").removeSuffix(".class")).getDeclaredConstructor().newInstance() as UHCRecipe)
                 }
             }
-            return recipes.toTypedArray()
+            return recipes.toTypedArray().onEach {
+                it.register()
+            }
         }
     }
     fun register(): UHCRecipe {
