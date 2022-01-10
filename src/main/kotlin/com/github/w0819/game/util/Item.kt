@@ -18,6 +18,8 @@ object Item {
     var notch_apple = ItemStack(Material.ENCHANTED_GOLDEN_APPLE).apply {
     }
 
+    var Forge = ItemStack(Material.ANVIL)
+
     var HolyWater = ItemStack(Material.POTION).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Holy Water").decorate(TextDecoration.ITALIC))

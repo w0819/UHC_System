@@ -126,6 +126,7 @@ class SystemEvent(private val plugin: JavaPlugin) : Listener {
                 if (event.item?.type == Material.PLAYER_HEAD) {
                     player.inventory.removeItem(item)
                     player.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,100,1,true,true))
+                    player.addPotionEffect(PotionEffect(PotionEffectType.SPEED,100,1,true,true))
                     event.isCancelled = true
                 }
                 when(event.item) {
