@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.ShapedRecipe
 import java.util.jar.JarFile
 
-open class UHCRecipe(key: NamespacedKey, result: ItemStack): ShapedRecipe(key, result) {
+open class UHCRecipe(key: NamespacedKey, result: ItemStack): ShapedRecipe(key, result), UHC {
     companion object {
         @JvmStatic
         fun registerAll(pkg: String): Array<out UHCRecipe> {
@@ -27,5 +27,9 @@ open class UHCRecipe(key: NamespacedKey, result: ItemStack): ShapedRecipe(key, r
     fun register(): UHCRecipe {
         Bukkit.getServer().addRecipe(this)
         return this
+    }
+
+    override fun toString(): String {
+        return this::class.simpleName ?: "anonymous"
     }
 }

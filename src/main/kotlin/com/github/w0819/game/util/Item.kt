@@ -5,27 +5,38 @@ import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.Material
+import org.bukkit.NamespacedKey
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
+import org.bukkit.inventory.meta.EnchantmentStorageMeta
 import org.bukkit.inventory.meta.PotionMeta
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
-
+/**
+ * this object is recipe result item list
+ */
 object Item {
-
     var notch_apple = ItemStack(Material.ENCHANTED_GOLDEN_APPLE).apply {
     }
 
-    var Forge = ItemStack(Material.ANVIL)
 
-    var HolyWater = ItemStack(Material.POTION).apply {
+    val HolyWater = ItemStack(Material.POTION).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Holy Water").decorate(TextDecoration.ITALIC))
             (this as PotionMeta).apply {
-                addCustomEffect(PotionEffect(PotionEffectType.HEAL,20,5),true)
                 addCustomEffect(PotionEffect(PotionEffectType.ABSORPTION,2400,2),true)
+            }
+        }
+    }
+    val tabletsOfDestiny = ItemStack(Material.ENCHANTED_BOOK).apply {
+        itemMeta = itemMeta.apply {
+            (this as EnchantmentStorageMeta).apply {
+                addStoredEnchant(Enchantment.DAMAGE_ALL,3,true)
+                addStoredEnchant(Enchantment.FIRE_ASPECT,1,true)
+                addStoredEnchant(Enchantment.ARROW_DAMAGE,3,true)
+                addStoredEnchant(Enchantment.KNOCKBACK,1,true)
             }
         }
     }
@@ -42,34 +53,46 @@ object Item {
         }
         addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,4)
     }
-    var quick_pick = ItemStack(Material.IRON_PICKAXE).apply {
+    val HermesBoots = ItemStack(Material.DIAMOND_BOOTS).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Hermes's Boots").color(TextColor.color(0,255,0)))
+        }
+        addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,2)
+        addEnchantment(Enchantment.PROTECTION_FALL,1)
+        addEnchantment(Enchantment.DURABILITY,2)
+    }
+    val quick_pick = ItemStack(Material.IRON_PICKAXE).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Quick Pick"))
         }
         addEnchantment(Enchantment.DIG_SPEED,1)
     }
-    var dragon_sword = ItemStack(Material.DIAMOND_SWORD).apply {
+    val dragon_sword = ItemStack(Material.DIAMOND_SWORD).apply {
         itemMeta = itemMeta.apply {
             displayName(text("dragon sword").decorate(TextDecoration.BOLD))
-            setLocalizedName("damage is 8")
-
+            lore(listOf(text("damage is 8")))
         }
     }
-    var DeusExMachina = ItemStack(Material.POTION).apply {
+    val DeusExMachina = ItemStack(Material.POTION).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Deus Ex Machina"))
             (this as PotionMeta).addCustomEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,300,4,true,true,true),true)
         }
     }
-    var dragon_armor = ItemStack(Material.DIAMOND_CHESTPLATE).apply {
+    val dragon_armor = ItemStack(Material.DIAMOND_CHESTPLATE).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Dragon Armor"))
         }
         addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,4)
     }
-    var Death_Scythe = ItemStack(Material.IRON_HOE).apply {
+    val Death_Scythe = ItemStack(Material.IRON_HOE).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Death's Scythe"))
+        }
+    }
+    val diceOfGod = ItemStack(Material.END_PORTAL_FRAME).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Dice of God").color(TextColor.color(0,255,0)))
         }
     }
     var Cupid_s_Bow = ItemStack(Material.BOW).apply {
@@ -84,10 +107,16 @@ object Item {
             displayName(text("GOLDEN HEAD!!!").decorate(TextDecoration.BOLD))
         }
     }
-    var panacea = ItemStack(Material.POTION).apply {
+    val panacea = ItemStack(Material.POTION).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Instant Health IV Potion"))
-            setLocalizedName("Panacea")
+            lore(listOf(text("Panacea")))
+            (this as PotionMeta).addCustomEffect(PotionEffect(PotionEffectType.HEAL,20,2),true)
+        }
+    }
+    val Forge = ItemStack(Material.FURNACE).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Forge").color(TextColor.color(0,255,0)))
         }
     }
     var Fenrir = ItemStack(Material.WOLF_SPAWN_EGG).apply {
@@ -103,11 +132,41 @@ object Item {
     }
     var FlaskOfIchor = ItemStack(Material.SPLASH_POTION).apply {
         itemMeta = itemMeta.apply {
-            displayName(text("Flask of Ichor"))
-            (this as PotionMeta).addCustomEffect(PotionEffect(PotionEffectType.HARM,100,3,true,true,true),true)
+            displayName(text("Flask of Ichor").color(TextColor.color(0,255,0)))
+            (this as PotionMeta).addCustomEffect(PotionEffect(PotionEffectType.HARM,40,3,true,true,true),true)
         }
     }
-    var Nectar = ItemStack(Material.POTION).apply {
+    val fusionArmorChestplate = ItemStack(Material.DIAMOND_CHESTPLATE).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Fusion Armor").color(TextColor.color(0,255,0)))
+        }
+        addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,4)
+    }
+    val fusionArmorLeggings = ItemStack(Material.DIAMOND_LEGGINGS).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Fusion Armor").color(TextColor.color(0,255,0)))
+        }
+        addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,4)
+    }
+    val fusionArmorBoots = ItemStack(Material.DIAMOND_BOOTS).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("fusion Armor"))
+        }
+        addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,4)
+    }
+    val fusionArmorHelmet = ItemStack(Material.DIAMOND_HELMET).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("fusion Armor"))
+        }
+        addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,4)
+    }
+    val fusionArmorList = arrayListOf(
+        fusionArmorBoots,
+        fusionArmorLeggings,
+        fusionArmorChestplate,
+        fusionArmorHelmet
+    )
+    val Nectar = ItemStack(Material.POTION).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Nectar"))
             (this as PotionMeta).addCustomEffect(PotionEffect(PotionEffectType.REGENERATION,160,2,true,true,true),true)
@@ -131,7 +190,7 @@ object Item {
             (this as PotionMeta).addCustomEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,2400,2,true,true,true),true)
         }
     }
-    var vorpal_sword = ItemStack(Material.IRON_SWORD).apply {
+    val vorpal_sword = ItemStack(Material.IRON_SWORD).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Vorpal Sword"))
         }
@@ -139,6 +198,7 @@ object Item {
         addEnchantment(Enchantment.DAMAGE_UNDEAD,2)
         addEnchantment(Enchantment.LOOT_BONUS_MOBS,2)
     }
+    val VoidBox = ItemStack(Material.ENDER_CHEST,2)
     var Professions = ItemStack(Material.CRAFTING_TABLE).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Professions").color(TextColor.color(255,0,0)))
@@ -173,6 +233,16 @@ object Item {
             displayName(text("Bloodlust"))
         }
     }
+    val backPack = ItemStack(Material.CHEST).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Back Pack").color(TextColor.color(0,255,0)))
+        }
+    }
+    /*
+    * 현재 쓰이지 않고 있는 변수는
+    * 아이템 추가 및 이벤트추가로 쓰일예정
+    * 나중에 쓰일 예정
+    * */
     private val Lore = listOf<Component>(text("Purchase from a selection of\n"), text("kits to provide you with items\n"), text("at the beginning of a game!\n"),text("Upgrade and prestige kits to get\n"),text("better items!\n"),text("\n"),text("Click to open!").apply { decorate(TextDecoration.ITALIC);color(TextColor.color(255,255,0))},text("\n"))
     private val Lore1 = listOf<Component>(text("Select from a collection of\nunique professions which will\ngive you access to new recipes\nand perks!\n\n"),text("Click to open!").color(TextColor.color(255,255,0)))
     private val Lore2 = listOf<Component>(text("Extra Ultimates require 2 or\nmore maxed out professions"))
@@ -189,6 +259,12 @@ object Item {
         addEnchantment(Enchantment.LURE,3)
         addEnchantment(Enchantment.DURABILITY,3)
     }
+    val LumberjackAxe = ItemStack(Material.IRON_AXE).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Lumberjack Axe").color(TextColor.color(0,255,0)))
+        }
+    }
+    val key = NamespacedKey.minecraft("this_is_key")
     var SevenleagueBoots = ItemStack(Material.DIAMOND_BOOTS).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Seven league Boots"))
@@ -196,7 +272,7 @@ object Item {
         addEnchantment(Enchantment.PROTECTION_FALL,3)
         addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,3)
     }
-    var shop = ItemStack(Material.EMERALD).apply {
+    val shop = ItemStack(Material.EMERALD).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Shop").color(TextColor.color(127,255,0)))
         }
@@ -214,17 +290,22 @@ object Item {
 
         }
     }
-    var ExpertSeal = ItemStack(Material.NETHER_STAR).apply {
+    val ExpertSeal = ItemStack(Material.NETHER_STAR).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Expert Seal").decorate(TextDecoration.ITALIC))
         }
     }
-    var Essence_of_yggdrasil = ItemStack(Material.ENCHANTING_TABLE).apply {
+    val Essence_of_yggdrasil = ItemStack(Material.ENCHANTING_TABLE).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Essence of Yggdrasil"))
         }
     }
-    var chest_of_fate = ItemStack(Material.PLAYER_HEAD).apply {
+    val Excalibur = ItemStack(Material.DIAMOND_SWORD).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Excalibur").color(TextColor.color(0,255,0)))
+        }
+    }
+    val chest_of_fate = ItemStack(Material.PLAYER_HEAD).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Chest of Fate").decorate(TextDecoration.BOLD))
         }
@@ -235,25 +316,27 @@ object Item {
         }
     }
 
-    var spiked_armor = ItemStack(Material.LEATHER_CHESTPLATE).apply {
+    val spiked_armor = ItemStack(Material.LEATHER_CHESTPLATE).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Spiked Armor"))
         }
         addEnchantment(Enchantment.THORNS,1)
         addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,4)
     }
-    var Exodus = ItemStack(Material.DIAMOND_HELMET).apply {
+    val Exodus = ItemStack(Material.DIAMOND_HELMET).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Exodus"))
         }
         addEnchantment(Enchantment.DURABILITY,3)
     }
-    var Master_Compass = ItemStack(Material.COMPASS).apply {
+    val Master_Compass = ItemStack(Material.COMPASS).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Master's Compass"))
         }
     }
-    val apple = ItemStack(Material.GOLDEN_APPLE).apply { itemMeta = itemMeta.apply { displayName(text("UHC Champions Shop"));setLocalizedName("Chick here to access the\nUHC Champions Shop.") } }
+    val apple = ItemStack(Material.GOLDEN_APPLE).apply { itemMeta = itemMeta.apply { displayName(text("UHC Champions Shop"))
+        lore(listOf(text("Chick here to access the\nUHC Champions Shop."))) } }
+    val Ambrosia = ItemStack(Material.GLOWSTONE_DUST)
     var Andūril = ItemStack(Material.IRON_SWORD).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Andūril"))
@@ -312,7 +395,7 @@ object Item {
     }
     var ModularBow = ItemStack(Material.BOW).apply {
         itemMeta = itemMeta.apply {
-            displayName(text("Modular Bow"))
+            displayName(text("Modular Bow").color(TextColor.color(0,255,0)))
         }
         addEnchantment(Enchantment.ARROW_KNOCKBACK,1)
     }
@@ -335,5 +418,51 @@ object Item {
         itemMeta = itemMeta.apply {
             displayName(text("right"))
         }
+    }
+
+}
+/**
+* this object Temporary
+* */
+object TemporaryItem {
+    val r = 72
+    val g = 200
+    val b = 81
+    val Andūril = ItemStack(Material.IRON_SWORD).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Andūril").color(TextColor.color(r,g,b)))
+        }
+        addEnchantment(Enchantment.DAMAGE_ALL,2)
+    }
+    val ApprenticeBow = ItemStack(Material.BOW).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Apprentice Bow").color(TextColor.color(r,g,b)))
+            lore(listOf(text("Gains Sharpness I after 10 minutes\n").color(TextColor.color(22,189,200)),text("Gains Sharpness II after 15 minutes\n").color(TextColor.color(22,189,200)),text("Gains Sharpness III at start of Death match\n").color(TextColor.color(22,189,200))))
+        }
+    }
+    val ApprenticeHelmet = ItemStack(Material.IRON_HELMET).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Apprentice Helmet").color(TextColor.color(r,g,b)))
+        }
+        addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,1)
+        addEnchantment(Enchantment.PROTECTION_FIRE,1)
+        addEnchantment(Enchantment.PROTECTION_EXPLOSIONS,1)
+        addEnchantment(Enchantment.PROTECTION_PROJECTILE,1)
+    }
+    val ApprenticeSword = ItemStack(Material.IRON_SWORD).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Apprentice Sword").color(TextColor.color(229, 229, 76)))
+        }
+    }
+    val ArtemisBook = ItemStack(Material.ENCHANTED_BOOK).apply {
+        itemMeta = itemMeta.apply {
+            (this as EnchantmentStorageMeta).addStoredEnchant(Enchantment.PROTECTION_PROJECTILE,1,true)
+        }
+    }
+    val ArtemisBOw = ItemStack(Material.BOW).apply {
+        itemMeta = itemMeta.apply {
+            displayName(text("Artemis Bow").color(TextColor.color(159, 48, 44)))
+        }
+        addEnchantment(Enchantment.ARROW_DAMAGE,3)
     }
 }

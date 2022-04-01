@@ -1,15 +1,16 @@
 package com.github.w0819.game.resource
 
+import com.github.w0819.game.util.UHC
 import com.github.w0819.game.util.UHCRecipe
 import com.github.w0819.plugin.UHCPlugin
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
 import org.bukkit.persistence.PersistentDataType
 
-open class UHCResourceManager {
+open class UHCResourceManager : UHC {
     companion object: UHCResourceManager()
 
-    private val coinsKey = NamespacedKey.minecraft("coins")
+    val coinsKey = NamespacedKey.minecraft("coins")
     private val modKey = NamespacedKey.minecraft("mod_s")
     private val recipesKey = NamespacedKey.minecraft("recipes")
 
@@ -26,7 +27,7 @@ open class UHCResourceManager {
         val modes = modes(player)
         player.persistentDataContainer.set(modKey,PersistentDataType.INTEGER,modes + 1)
         if (modes == 3) {
-            player.persistentDataContainer.set(modKey,PersistentDataType.INTEGER,0)
+            player.persistentDataContainer.set(modKey,PersistentDataType.INTEGER,1)
         }
     }
 

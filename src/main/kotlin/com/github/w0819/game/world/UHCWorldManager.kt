@@ -1,16 +1,16 @@
 package com.github.w0819.game.world
 
+import com.github.w0819.game.util.UHC
 import com.github.w0819.plugin.UHCPlugin
 import io.github.dolphin2410.worldgen.WorldUtils
 import org.bukkit.Bukkit
 import org.bukkit.World
 import org.bukkit.WorldCreator
 import org.bukkit.scheduler.BukkitRunnable
-import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ThreadLocalRandom
 
-class UHCWorldManager {
+class UHCWorldManager : UHC {
     companion object {
         const val OVER_WORLD = "uhc"
         const val NETHER_WORLD = "uhc_nether"
