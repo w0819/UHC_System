@@ -18,7 +18,6 @@ interface UHC{
                     )
                 }
             }
-
             return uhcList.toTypedArray()
         }
     }

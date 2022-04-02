@@ -2,8 +2,7 @@
 /.gradle/
 /.idea/
 build
-/.1.17server/
-/.1.18server/
+/.server/
 
 # Dev
 setup.bat
