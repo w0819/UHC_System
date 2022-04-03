@@ -32,17 +32,20 @@ class EnchantingSet : UHCKit(
         }
     ),
     arrayListOf( // Prestige
-        ItemStack(Material.OBSIDIAN,listOf(1,2,3,4).random()),
-        ItemStack(
-            Material.ENCHANTED_BOOK.apply {
-                val enchant = Enchantment.values().random()
-                val level = (1..enchant.maxLevel).random()
-                (this as? EnchantmentStorageMeta)?.addStoredEnchant(
-                     enchant,
-                     level,
-                    true
-                )
-            }
-        )
+        ItemStack(Material.OBSIDIAN,(1..4).random()),
+        listOf(
+            ItemStack(
+                Material.ENCHANTED_BOOK.apply {
+                    val enchant = Enchantment.values().random()
+                    val level = (1..enchant.maxLevel).random()
+                    (this as? EnchantmentStorageMeta)?.addStoredEnchant(
+                        enchant,
+                        level,
+                        true
+                    )
+                }
+            ),
+            ItemStack(Material.SUGAR_CANE,(10..20).random())
+        ).random()
     )
 )
