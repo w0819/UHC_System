@@ -11,11 +11,19 @@ class ExtraKit : UHCModifier(
     false
 
 ) {
-    fun giveKit(player: Player) {
+     private tailrec fun giveKit(players: List<Player>) {
+         if (players.isEmpty()) return
+         val player = players[0]
         UHCPlugin.kitList.filter {
             it::class is ExtraUltimates
         }.random()[4].forEach {
             player.inventory.addItem(it)
         }
+         giveKit(players - player)
+    }
+
+    override fun specialSkill(players: List<Player>) {
+        super.specialSkill(players)
+        giveKit(players)
     }
 }

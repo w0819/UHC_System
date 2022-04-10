@@ -12,9 +12,16 @@ class ExtraHealth : UHCModifier(
     "[Extra Health]",
     false
 ) {
-    fun extraHealth(player: Player) {
+    private tailrec fun extraHealth(players: List<Player>) {
+        if (players.isEmpty()) return
+        val player = players[0]
         val time = (UHCTimer.GRACE_PERIOD_TIME + UHCTimer.PVP_PERIOD_TIME + UHCTimer.DEATH_MATCH_PERIOD_TIME) * 1200 // 분(60) * 틱(20)
-        player.addPotionEffect(PotionEffect(PotionEffectType.HEALTH_BOOST,2,time * 60))
+        player.addPotionEffect(PotionEffect(PotionEffectType.HEALTH_BOOST,2,time))
+        extraHealth(players - player)
+    }
 
+    override fun specialSkill(players: List<Player>) {
+        super.specialSkill(players)
+        extraHealth(players)
     }
 }

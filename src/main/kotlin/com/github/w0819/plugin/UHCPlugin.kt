@@ -1,6 +1,9 @@
 package com.github.w0819.plugin
 
+import com.github.w0819.enchant.AddDamage
+import com.github.w0819.enchant.ReviveToken
 import com.github.w0819.event.ItemEvent
+import com.github.w0819.event.ModifierEvent
 import com.github.w0819.event.SystemEvent
 import com.github.w0819.game.UHCGame
 import com.github.w0819.game.timer.StartAction
@@ -17,7 +20,7 @@ import java.util.*
 class UHCPlugin : JavaPlugin(),UHC {
     companion object {
         @JvmStatic
-        lateinit var game: UHCGame
+        var game: UHCGame? = null
             private set
 
         @JvmStatic
@@ -28,7 +31,7 @@ class UHCPlugin : JavaPlugin(),UHC {
         val UHCList = ArrayList<UHC>()
 
         @JvmStatic
-        val recipeList = ArrayList<UHCRecipe>()
+        val recipeList = UHCList.filterIsInstance<UHCRecipe>()
 
         @JvmStatic
         val modifierList = UHCList.filterIsInstance<UHCModifier>()
@@ -37,27 +40,29 @@ class UHCPlugin : JavaPlugin(),UHC {
         val kitList = UHCList.filterIsInstance<UHCKit>()
 
         @JvmStatic
-        val playersUHC = HashMap<UUID,List<UHC>>()
+        val PlayersUHC = HashMap<UUID,List<UHC>>()
     }
 
     override fun onEnable() {
         val configYml = File(dataFolder,"config.yml")
 
         config.load(configYml)
-        UHCList.addAll(UHC.registerAll(Path.UHCes.Path))
+        AddDamage.register();ReviveToken.register()
+        UHCList.addAll(UHC.registerAll("com.github.w0819.game.uhc"))
+        recipeList.forEach { it.register() }
         instance = this
         server.logger.info("UHC_System is enabled")
-        recipeList.addAll(UHCRecipe.registerAll(Path.Recipes.Path))
 
         server.pluginManager.apply {
             registerEvents(SystemEvent(this@UHCPlugin), this@UHCPlugin)
             registerEvents(ItemEvent(),this@UHCPlugin)
+            registerEvents(ModifierEvent(),this@UHCPlugin)
         }
 
         game = UHCGame.create(listOf())
 
         Bukkit.getOnlinePlayers().forEach {
-            game.addPlayer(it)
+            game?.addPlayer(it)
         }
 
         kommand {
@@ -76,7 +81,7 @@ class UHCPlugin : JavaPlugin(),UHC {
                 then("kick" to player()) {
                     executes {
                         val kick: Player by it
-                        game.removePlayer(kick)
+                        game?.removePlayer(kick)
                     }
                 }
             }
@@ -87,13 +92,17 @@ class UHCPlugin : JavaPlugin(),UHC {
         playersUHCSave(config,Bukkit.getOnlinePlayers().toList())
     }
     private fun startAll(teamGame: Boolean = false) {
+        if (game == null) {
+            server.logger.info("sorry SomeThing is null please restart the server")
+            return
+        }
         UHCList.apply {
             removeAll(this.toSet())
-            addAll(UHC.registerAll(Path.UHCes.Path))
+            addAll(UHC.registerAll("com.github.w0819.game.uhc"))
         }
-        playersUHCLoad(config, game.players)
-        game.startGame(teamGame,StartAction(StartActionType.COUNTDOWN, 5))
-        game.uhcWorld?.returnSeed()?.forEach {
+        game?.startGame(teamGame,StartAction(StartActionType.COUNTDOWN, 5))
+        playersUHCLoad(config, (game ?: return).players)
+        game?.uhcWorld?.returnSeed()?.forEach {
             println("${it.first}(es)s seed is ${it.second}")
         }
     }

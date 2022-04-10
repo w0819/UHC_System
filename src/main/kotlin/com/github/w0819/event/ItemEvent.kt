@@ -254,7 +254,7 @@ class ItemEvent : Listener {
         }
     }
 
-    private fun organizePages(recipes: ArrayList<UHCRecipe>): ArrayList<ArrayList<UHCRecipe>> {
+    private fun organizePages(recipes: List<UHCRecipe>): ArrayList<ArrayList<UHCRecipe>> {
         val limit = 21
         val result = ArrayList<ArrayList<UHCRecipe>>()
         var arr = ArrayList<UHCRecipe>()

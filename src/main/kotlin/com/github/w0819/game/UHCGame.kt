@@ -6,6 +6,7 @@ import com.github.w0819.game.timer.UHCTimer
 import com.github.w0819.game.util.GameStatus
 import com.github.w0819.game.util.GameUtils
 import com.github.w0819.game.util.UHC
+import com.github.w0819.game.util.UHCModifier
 import com.github.w0819.game.world.UHCWorld
 import com.github.w0819.game.world.UHCWorldManager
 import org.bukkit.Bukkit
@@ -39,7 +40,13 @@ class UHCGame private constructor(
     lateinit var timer: UHCTimer
         private set
 
+    var teamGame: Boolean = false
+        private set
+
     var teams: List<UHCTeam>? = null
+        private set
+
+    var modifier: UHCModifier? = null
         private set
 
     fun modifyGameStatus(newStatus: GameStatus) {
@@ -65,7 +72,9 @@ class UHCGame private constructor(
             timer = UHCTimer(this, startActions)
             timer.initTimer()
             future.complete(null)
+            modifier = UHCModifier.selectModifier(players)
             if (teamGame) {
+                this.teamGame = true
                 teams = UHCTeam.divide(players, PLAYERS_PER_TEAM)
                 GameUtils.spreadTeams(teams ?: return@thenAccept, it.overworld)
             }

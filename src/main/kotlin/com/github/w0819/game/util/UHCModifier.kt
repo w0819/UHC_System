@@ -10,12 +10,12 @@ import java.util.*
 open class UHCModifier(private val emoticon: String, private val message: String, val weekendModifier: Boolean) : UHC {
     companion object {
         @JvmStatic
-        fun playersModifier(player: Player) {
+        fun selectModifier(players: List<Player>): UHCModifier {
             val currentDate = Date()
             val calendar = Calendar.getInstance()
             calendar.time = currentDate
             val dayOfWeekNumber = calendar.get(Calendar.DAY_OF_WEEK)
-            val modifier = if (dayOfWeekNumber in listOf(1,7)) { // 만약에 오늘이 주말 이면
+            val modifier =  if (dayOfWeekNumber in listOf(1,7)) { // 만약에 오늘이 주말 이면
                 UHCPlugin.modifierList.filter {
                     it.weekendModifier
                 }.random()
@@ -24,17 +24,18 @@ open class UHCModifier(private val emoticon: String, private val message: String
                     !it.weekendModifier
                 }.random()
             }
-
-            modifier.sendMessage(player)
+            modifier.sendMessage(players)
+            modifier.specialSkill(players)
+            return modifier
         }
     }
-    fun sendMessage(player: Player) {
-        player.apply {
+    fun sendMessage(players: List<Player>) {
+        for (player in players) player.apply {
             sendTitlePart(TitlePart.TITLE,text(emoticon))
             sendTitlePart(TitlePart.SUBTITLE, text(message))
         }
     }
-    open fun specialSkill(player: Player) {
-        playersModifier(player)
+    open fun specialSkill(players: List<Player>) {
+
     }
 }

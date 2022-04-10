@@ -1,10 +1,11 @@
 package com.github.w0819.event
 
 import com.github.w0819.game.resource.UHCResourceManager
+import com.github.w0819.game.uhc.modifiers.TimeNight
 import com.github.w0819.game.util.Item
 import com.github.w0819.game.util.Item.recipeBook
 import com.github.w0819.game.util.playersDefaultConfig
-import com.github.w0819.plugin.UHCPlugin
+import com.github.w0819.plugin.UHCPlugin.Companion.game
 import org.bukkit.Material
 import org.bukkit.entity.*
 import org.bukkit.event.EventHandler
@@ -36,7 +37,7 @@ class SystemEvent(private val plugin: JavaPlugin) : Listener {
         val player = event.player
         player.inventory.setItem(4,recipeBook)
 
-        UHCPlugin.game.addPlayer(player)
+        game?.addPlayer(player)
         event.player.addPotionEffect(PotionEffect(PotionEffectType.HEALTH_BOOST,1000000000,4,true,true,true))
         playersDefaultConfig(plugin.config,player)
     }
@@ -62,9 +63,12 @@ class SystemEvent(private val plugin: JavaPlugin) : Listener {
 
     // time set
     @EventHandler
-    fun onServerTimeSet(event: PlayerMoveEvent) {
-        val world = event.player.location.world
-        world.time = 1000
+    fun onServerTimeSet(e: PlayerMoveEvent) {
+        val player = e.player
+        if (game?.modifier is TimeNight)
+            TimeNight.playerNight((game ?: return).players)
+        else
+            player.world.time = 0
     }
     // 앙털
     @EventHandler

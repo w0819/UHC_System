@@ -1,10 +1,12 @@
 package com.github.w0819.game.timer
 
-import com.github.w0819.game.util.GameStatus
 import com.github.w0819.game.UHCGame
+import com.github.w0819.game.util.GameStatus
 import io.github.monun.heartbeat.coroutines.HeartbeatScope
 import io.github.monun.heartbeat.coroutines.Suspension
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 /**
  * UHCTimer 는 UHCGame 을
@@ -16,7 +18,8 @@ class UHCTimer(private val game: UHCGame, private val startActions: Array<out St
          *
          * 분 단위의 그레이스 기간
          */
-        const val GRACE_PERIOD_TIME = 10
+        var GRACE_PERIOD_TIME = 10
+            private set
 
         /**
          * Pvp Period duration in minutes
@@ -132,5 +135,9 @@ class UHCTimer(private val game: UHCGame, private val startActions: Array<out St
         }
 
         return true
+    }
+    fun setGraceTime(value: Int) {
+        if (value <= 0) return
+        GRACE_PERIOD_TIME = value
     }
 }
