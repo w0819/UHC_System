@@ -32,7 +32,6 @@ dependencies {
     }
     implementation("io.github.monun:heartbeat-coroutines:0.0.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt")
-    implementation("io.github.dolphin2410:worldgen:0.0.2")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.10")
 }
 dependencies {

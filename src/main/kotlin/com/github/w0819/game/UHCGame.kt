@@ -63,28 +63,22 @@ class UHCGame private constructor(
         return players.remove(player)
     }
 
-    fun startGame(teamGame: Boolean,vararg startActions: StartAction<*>): CompletableFuture<Void> {
-        val future = CompletableFuture<Void>()
+    fun startGame(teamGame: Boolean, vararg startActions: StartAction<*>) {
         Bukkit.getLogger().info("Generating World....")
-        UHCWorldManager.generateWorld().thenAccept {
-            uhcWorld = it
-            Bukkit.getLogger().info("Generate Complete!")
-            timer = UHCTimer(this, startActions)
-            timer.initTimer()
-            future.complete(null)
-            modifier = UHCModifier.selectModifier(players)
-            if (teamGame) {
-                this.teamGame = true
-                teams = UHCTeam.divide(players, PLAYERS_PER_TEAM)
-                GameUtils.spreadTeams(teams ?: return@thenAccept, it.overworld)
-            }
-        }
+        uhcWorld = UHCWorldManager.generateWorld()
 
-        return future
+        Bukkit.getLogger().info("Generate Complete!")
+        timer = UHCTimer(this, startActions)
+        timer.initTimer()
+        modifier = UHCModifier.selectModifier(players)
+        if (teamGame) {
+            this.teamGame = true
+            teams = UHCTeam.divide(players, PLAYERS_PER_TEAM)
+            GameUtils.spreadTeams(teams!!, uhcWorld!!.overworld)
+        }
     }
 
     fun stopGame() {
         timer.cancelTimer()
-
     }
 }
