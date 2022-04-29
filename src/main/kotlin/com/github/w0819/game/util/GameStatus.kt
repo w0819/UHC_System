@@ -1,9 +1,14 @@
 package com.github.w0819.game.util
 
-enum class GameStatus(val index: Int) {
-    BEFORE_START(0),
-    GRACE(1),
-    PVP(2),
-    DEATH_MATCH(3),
-    END(4)
+/**
+ * 게임 진행 상태
+ */
+enum class GameStatus {
+    BEFORE_START,
+    GRACE,
+    PVP,
+    DEATH_MATCH,
+    END;
+
+    val index = values().indexOf(this)
 }

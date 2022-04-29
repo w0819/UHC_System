@@ -1,5 +1,6 @@
 package com.github.w0819.game.util
 
+import com.github.w0819.enchant.ReviveToken
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.TextColor
@@ -17,12 +18,11 @@ import org.bukkit.potion.PotionEffectType
 
 
 /**
- * this object is recipe result item list
+ * 아이템들
  */
 object Item {
     val notch_apple = ItemStack(Material.ENCHANTED_GOLDEN_APPLE).apply {
         val skullMeta = (this.itemMeta as SkullMeta)
-
 
     }
 
@@ -418,6 +418,9 @@ object Item {
             displayName(text("recipe_book"))
         }
     }
+
+    val reviveTokenItem = ItemStack(Material.EMERALD).apply { addEnchantment(ReviveToken,ReviveToken.startLevel) }
+
     var ModularBow = ItemStack(Material.BOW).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Modular Bow").color(TextColor.color(0, 255, 0)))

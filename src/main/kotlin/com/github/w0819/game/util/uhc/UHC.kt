@@ -1,11 +1,14 @@
-package com.github.w0819.game.util
+package com.github.w0819.game.util.uhc
 
 import java.util.jar.JarFile
 
-interface UHC{
+/**
+ * UHC 의 컴포넌트. UHCKit, UHCModifier, UHCRecipe 를 포함합니다
+ */
+interface UHC {
     companion object {
         @JvmStatic
-        fun registerAll(pkg: String): Array<out UHC> {
+        fun load(pkg: String): Array<out UHC> {
             val jarFile = JarFile(this::class.java.protectionDomain.codeSource.location.path)
             val entries = jarFile.entries()
             val uhcList = ArrayList<UHC>()

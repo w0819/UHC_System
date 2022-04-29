@@ -1,6 +1,8 @@
 package com.github.w0819.game.uhc.recipes
 
 import com.github.w0819.game.util.*
+import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
@@ -8,7 +10,7 @@ import org.bukkit.inventory.ItemStack
 class Daredevil : UHCRecipe(
     NamespacedKey.minecraft("daredevil"),
     ItemStack(Material.HORSE_SPAWN_EGG)
-),ExtraUltimates{
+), ExtraUltimates {
     init {
         shape(
             "12 ",

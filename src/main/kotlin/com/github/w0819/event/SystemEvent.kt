@@ -3,56 +3,50 @@ package com.github.w0819.event
 import com.github.w0819.game.resource.UHCResourceManager
 import com.github.w0819.game.uhc.modifiers.TimeNight
 import com.github.w0819.game.util.Item
-import com.github.w0819.game.util.Item.recipeBook
-import com.github.w0819.game.util.playersDefaultConfig
 import com.github.w0819.plugin.UHCPlugin.Companion.game
+import com.github.w0819.game.util.Util
 import org.bukkit.Material
 import org.bukkit.entity.*
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.entity.*
-import org.bukkit.event.player.PlayerItemBreakEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.inventory.ItemStack
-import org.bukkit.plugin.java.JavaPlugin
-import org.bukkit.potion.PotionEffect
-import org.bukkit.potion.PotionEffectType
-import kotlin.random.Random
+import org.bukkit.entity.Item as ItemEntity
 
-class SystemEvent(private val plugin: JavaPlugin) : Listener {
+class SystemEvent : Listener {
+    
+    // 아이템을 타지 못하게
     @EventHandler
     fun onItemBurn(event: EntityDamageEvent) {
-        val ent = event.entity
-        if (ent is org.bukkit.entity.Item) {
+        if (event.entity is ItemEntity) {
             if (event.cause == EntityDamageEvent.DamageCause.FIRE || event.cause == EntityDamageEvent.DamageCause.LAVA) {
                 event.isCancelled = true
             }
         }
     }
 
-    // 플레이어 조인
+    // 플레이어 참가
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
         val player = event.player
-        player.inventory.setItem(4,recipeBook)
-
-        game?.addPlayer(player)
-        event.player.addPotionEffect(PotionEffect(PotionEffectType.HEALTH_BOOST,1000000000,4,true,true,true))
-        playersDefaultConfig(plugin.config,player)
+        game.addPlayer(player)
     }
+    
+    // Artemis Bow 사용시 확률적으로 화살을 얻는다
     @EventHandler
     fun onArrowShoot(e: ProjectileHitEvent) {
-        val chance = Random
-        val give = chance.nextFloat()
-        if (e.entity.shooter is Player) {
-            if((e.entity.shooter as Player).inventory.itemInMainHand == Item.Artemis_Bow) {
-                if (give <= 0.15f) {
-                    (e.entity.shooter as Player).inventory.addItem(ItemStack(Material.ARROW))
-                }
+        val shooter = e.entity.shooter
+        if (shooter is Player && shooter.inventory.itemInMainHand == Item.Artemis_Bow) {
+            if (Util.percent(15)) {
+                shooter.inventory.addItem(ItemStack(Material.ARROW))
             }
         }
     }
+
+    // 플레이어 죽였을 때 +10코인
     @EventHandler
     fun onPlayerKill(event: PlayerDeathEvent) {
         val killer = event.entity.player?.killer
@@ -65,37 +59,37 @@ class SystemEvent(private val plugin: JavaPlugin) : Listener {
     @EventHandler
     fun onServerTimeSet(e: PlayerMoveEvent) {
         val player = e.player
-        if (game?.modifier is TimeNight)
-            TimeNight.playerNight((game ?: return).players)
+        if (game.modifier is TimeNight)
+            TimeNight.playerNight(game.players)
         else
             player.world.time = 0
     }
-    // 앙털
+
+    // 앙털 깎을 때 실 드롭
     @EventHandler
     fun onPlayerEntityInteract(event: EntityInteractEvent) {
         if (event.entity is Sheep) {
-            val r = Random
-            val chance: Float = r.nextFloat()
-            if (chance <= 0.15f) {
+            if (Util.percent(15)) {
                 event.entity.world.dropItemNaturally(
                     event.entity.location, ItemStack(Material.STRING)
                 )
             }
         }
     }
-    // 블럭 드롭아이템
+
+    // 부싯돌 드롭 확률 up
     @EventHandler
-    fun onPlayerBreakBlack(event: PlayerItemBreakEvent) {
-        if(event.brokenItem.isSimilar(ItemStack(Material.GRAVEL))) {
-            val r = Random
-            val chance: Float = r.nextFloat()
-            if (chance <= 0.15f) {
+    fun onPlayerBlockBreak(event: BlockBreakEvent) {
+        if(event.block.type == Material.GRAVEL) {
+            if (Util.percent(15)) {
                 event.player.world.dropItemNaturally(
                     event.player.location, ItemStack(Material.FLINT)
                 )
             }
         }
     }
+    
+    // 폭발로 인한 데미지 제거
     @EventHandler
     fun onPlayerDamage(event: EntityDamageEvent) {
         if (event.entity is Player) {
@@ -105,57 +99,57 @@ class SystemEvent(private val plugin: JavaPlugin) : Listener {
         }
     }
 
-    // 엔티티 드롭아이템
+    // 엔티티별 드롭아이템
     @EventHandler
     fun onEntityDeath(e: EntityDeathEvent) {
         if (e.entity is Spider) {
             e.entity.world.dropItemNaturally(
                 e.entity.location, ItemStack(Material.STRING)
             )
-        }
-        if (e.entity is Chicken) {
-                e.entity.world.dropItemNaturally(
-                    e.entity.location, ItemStack(Material.FEATHER)
-                )
-        }
-        if (e.entity is Spider) {
-            val r = Random
-            val chance: Float = r.nextFloat()
-            if (chance <= 0.10f) {
+
+            if (Util.percent(10)) {
                 e.entity.world.dropItemNaturally(
                     e.entity.location, ItemStack(Material.SPIDER_EYE)
                 )
             }
         }
+        
+        if (e.entity is Chicken) {
+            e.entity.world.dropItemNaturally(
+                e.entity.location, ItemStack(Material.FEATHER)
+            )
+        }
+
         if (e.entity is Blaze) {
             e.entity.world.dropItemNaturally(
                 e.entity.location, ItemStack(Material.BLAZE_ROD)
             )
         }
+
         if (e.entity is Ghast) {
             e.entity.world.dropItemNaturally(
                 e.entity.location, ItemStack(Material.NETHER_WART)
             )
+
             e.entity.world.dropItemNaturally(
                 e.entity.location, ItemStack(Material.ARROW)
             )
         }
+
         if (e.entity is Zombie) {
-            val r = Random
-            val chance: Float = r.nextFloat()
-            if (chance <= 0.20f) {
+            if (Util.percent(20)) {
                 e.entity.killer?.giveExp(1000)
             }
         }
+
         if (e.entity is Skeleton) {
-            val r = Random
-            val chance: Float = r.nextFloat()
-            if (chance <= 0.15f) {
+            if (Util.percent(15)) {
                 e.entity.world.dropItemNaturally(
                     e.entity.location, ItemStack(Material.BOW)
                 )
             }
         }
+
         if (e.entity is Silverfish) {
             e.entity.world.dropItemNaturally(
                 e.entity.location, ItemStack(Material.SLIME_BALL)
@@ -163,13 +157,12 @@ class SystemEvent(private val plugin: JavaPlugin) : Listener {
         }
     }
 
-    // 플레이어 죽을때의 효과
+    // 플레이어 죽을때 번개 효과
     @EventHandler
     fun onPlayerDeath(event: PlayerDeathEvent) {
-        val loc = event.entity.player?.location
-        val world = loc?.world
-        world?.dropItemNaturally(loc, ItemStack(Material.PLAYER_HEAD, 1))
-        world?.strikeLightningEffect(loc)
+        val loc = event.player.location
+        val world = event.player.world
+        world.dropItemNaturally(loc, ItemStack(Material.PLAYER_HEAD, 1))
+        world.strikeLightningEffect(loc)
     }
-
 }

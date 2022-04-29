@@ -4,7 +4,10 @@ import com.github.w0819.game.team.UHCTeam
 import org.bukkit.World
 import java.util.*
 
-class GameUtils {
+/**
+ * 팀을 관리
+ */
+class TeamUtil {
     companion object {
         @JvmStatic
         fun spreadTeams(teams: List<UHCTeam>, world: World? = null) {

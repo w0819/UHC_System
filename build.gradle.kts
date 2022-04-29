@@ -11,10 +11,6 @@ repositories {
     maven("https://papermc.io/repo/repository/maven-public/")
 }
 
-configurations {
-    create("shade")
-}
-
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
@@ -27,17 +23,9 @@ dependencies {
     implementation("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
     implementation("io.github.monun:tap-api:4.4.0")
     implementation("io.github.monun:kommand-api:2.10.0")
-    configurations["shade"]("net.projecttl:InventoryGUI-api:4.3.1") {
-        exclude("org.jetbrains.kotlin")
-    }
     implementation("io.github.monun:heartbeat-coroutines:0.0.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.10")
-}
-dependencies {
-    configurations["shade"].forEach {
-        implementation(files(it))
-    }
 }
 
 tasks {
@@ -60,10 +48,6 @@ tasks {
         archiveVersion.set("")
 
         from(sourceSets["main"].output)
-
-        configurations["shade"].forEach {
-            from(if (it.isDirectory) it else zipTree(it))
-        }
 
         doLast {
             copy {

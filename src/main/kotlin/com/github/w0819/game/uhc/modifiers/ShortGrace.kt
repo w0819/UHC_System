@@ -1,6 +1,6 @@
 package com.github.w0819.game.uhc.modifiers
 
-import com.github.w0819.game.util.UHCModifier
+import com.github.w0819.game.util.uhc.UHCModifier
 import com.github.w0819.plugin.UHCPlugin
 import com.github.w0819.plugin.UHCPlugin.Companion.game
 import org.bukkit.Material
@@ -27,12 +27,12 @@ class ShortGrace : UHCModifier(
             ItemStack(Material.IRON_PICKAXE),
             ItemStack(Material.IRON_SHOVEL)
         )
-        player.inventory.addItem(*UHCPlugin.kitList.random()[4].toTypedArray())
+        player.inventory.addItem(*UHCPlugin.kitList().random()[4].toTypedArray())
         shortGrace(players - player)
     }
     override fun specialSkill(players: List<Player>) {
         super.specialSkill(players)
         shortGrace(players)
-        game?.timer?.setGraceTime(3)
+        game.timer.setGraceTime(3)
     }
 }

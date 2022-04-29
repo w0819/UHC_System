@@ -1,6 +1,6 @@
 package com.github.w0819.game.uhc.modifiers
 
-import com.github.w0819.game.util.UHCModifier
+import com.github.w0819.game.util.uhc.UHCModifier
 import org.bukkit.entity.Player
 
 class TimeNight : UHCModifier(
