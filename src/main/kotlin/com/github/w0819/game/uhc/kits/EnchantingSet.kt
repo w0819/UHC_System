@@ -1,6 +1,6 @@
 package com.github.w0819.game.uhc.kits
 
-import com.github.w0819.game.util.UHCKit
+import com.github.w0819.game.util.uhc.UHCKit
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack

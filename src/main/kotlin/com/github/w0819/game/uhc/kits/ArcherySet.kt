@@ -1,6 +1,6 @@
 package com.github.w0819.game.uhc.kits
 
-import com.github.w0819.game.util.UHCKit
+import com.github.w0819.game.util.uhc.UHCKit
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
@@ -28,5 +28,4 @@ class ArcherySet : UHCKit(
         ItemStack(Material.SUGAR_CANE,(1..5).random()),
         listOf(ItemStack(Material.FLINT_AND_STEEL,(1..2).random()),ItemStack(Material.ARROW,(10..20).random())).random()
     )
-)  {
-}
+)

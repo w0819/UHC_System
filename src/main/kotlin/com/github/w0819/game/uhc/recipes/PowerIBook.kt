@@ -1,6 +1,6 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.UHCRecipe
+import com.github.w0819.game.util.uhc.UHCRecipe
 import net.kyori.adventure.text.Component.text
 import org.bukkit.Material
 import org.bukkit.NamespacedKey

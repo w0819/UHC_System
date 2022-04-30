@@ -1,7 +1,7 @@
 package com.github.w0819.game.uhc.modifiers
 
 import com.github.w0819.game.timer.UHCTimer
-import com.github.w0819.game.util.UHCModifier
+import com.github.w0819.game.util.uhc.UHCModifier
 import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType

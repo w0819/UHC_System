@@ -1,13 +1,15 @@
 package com.github.w0819.game.uhc.recipes
 
 import com.github.w0819.game.util.*
+import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 
 class ChestOfFate : UHCRecipe(
     NamespacedKey.minecraft("chest_of_fate"),
     Item.chest_of_fate
-),ExtraUltimates{
+), ExtraUltimates {
     init {
         shape(
             "111",

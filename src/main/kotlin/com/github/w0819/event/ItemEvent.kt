@@ -2,14 +2,11 @@ package com.github.w0819.event
 
 import com.github.w0819.game.resource.UHCResourceManager
 import com.github.w0819.game.util.Item
-import com.github.w0819.game.util.UHCRecipe
-import com.github.w0819.plugin.UHCPlugin
+import com.github.w0819.game.util.RecipeBook
 import io.github.monun.invfx.InvFX.frame
 import io.github.monun.invfx.openFrame
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.TextColor
-import net.projecttl.inventory.gui.SimpleInventoryBuilder
-import net.projecttl.inventory.util.InventoryType
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.block.Chest
@@ -254,128 +251,20 @@ class ItemEvent : Listener {
         }
     }
 
-    private fun organizePages(recipes: List<UHCRecipe>): ArrayList<ArrayList<UHCRecipe>> {
-        val limit = 21
-        val result = ArrayList<ArrayList<UHCRecipe>>()
-        var arr = ArrayList<UHCRecipe>()
-        var count = 0
-        recipes.forEachIndexed { i, recipe ->
-            count++
-            arr.add(recipe)
-            if (count == limit || i == recipes.size - 1) {
-                count = 0
-                result.add(arr)
-                arr = ArrayList()
-            }
-        }
-        return result
-    }
-
     @EventHandler
     fun onRecipeBookUse(e: PlayerInteractEvent) {
-        if (e.player.inventory.itemInMainHand == Item.recipeBook) {
-            if (e.action == Action.RIGHT_CLICK_AIR || e.action == Action.RIGHT_CLICK_BLOCK) {
-                lateinit var inventory: Inventory
-                var page = 0
-                val pages = organizePages(UHCPlugin.recipeList)
-
-                // When viewer is viewing the list of recipes
-                // False if the viewer is viewing one item's recipe
-
-                var recipeView = true
-                fun recipeToMap(recipe: UHCRecipe): Array<ItemStack?> {
-                    val result = ArrayList<ItemStack?>()
-                    recipe.shape.map { line ->
-                        line.forEach { char ->
-                            if (char == ' ') {
-                                result.add(null)
-                            } else {
-                                result.add(recipe.ingredientMap[char])
-                            }
-                        }
-                    }
-                    return result.toTypedArray()
-                }
-
-                fun renderRecipe(recipe: UHCRecipe) {
-                    recipeView = false
-                    for (i in 0..53) {
-                        inventory.setItem(i, ItemStack(Material.GRAY_STAINED_GLASS_PANE))
-                    }
-                    recipeToMap(recipe).forEachIndexed { i, item ->
-                        inventory.setItem((i % 3) + 11 + ((i / 3) * 9), item)
-                    }
-                    inventory.setItem(24, recipe.result)
-                    inventory.setItem(49, ItemStack(Material.ARROW))
-                }
-
-                fun updatePages() {
-                    recipeView = true
-                    if (page == 0) {
-                        Item.left.amount = 0
-                    } else {
-                        Item.left.amount = 1
-                    }
-                    if (page == pages.size - 1) {
-                        Item.right.amount = 0
-                    } else {
-                        Item.right.amount = 1
-                    }
-                    for (i in 0..53) {
-                        inventory.setItem(i, null)
-                    }
-                    inventory.setItem(45, Item.left)
-                    inventory.setItem(53, Item.right)
-                    inventory.setItem(49, Item.close)
-                    for (index in 0..20) {
-                        inventory.setItem(10 + (2 * (index / 7)) + index, null)
-                    }
-
-                    pages[page].forEachIndexed { i, recipe ->
-                        when (i) {
-                            in 0..20 -> inventory.setItem(10 + (2 * (i / 7)) + i, recipe.result)
-                            else -> throw RuntimeException("Should not reach here: $i")
-                        }
-                    }
-                }
-
-                val builder: SimpleInventoryBuilder.() -> Unit = {
-                    slot(49, Item.close) {
-                        if (recipeView) {
-                            e.player.closeInventory()
-                        } else {
-                            updatePages()
-                        }
-                    }
-                    slot(45, Item.left) {
-                        page--
-                        updatePages()
-                    }
-                    slot(53, Item.right) {
-                        page++
-                        updatePages()
-                    }
-                    for (index in 0..20) {
-                        slot(10 + (2 * (index / 7)) + index, ItemStack(Material.AIR)) {
-                            if (recipeView) {
-                                renderRecipe(pages[page][index])
-                            }
-                        }
-                    }
-                }
-                val a = SimpleInventoryBuilder(e.player, InventoryType.CHEST_54, text("Recipe Book"))
-                inventory = a.apply(builder).build()
-                updatePages()
-            }
-        }
+        e.player.openFrame(RecipeBook.recipeBook)
     }
+
     private val diamondArmors = listOf(
         ItemStack(Material.DIAMOND_BOOTS),
         ItemStack(Material.DIAMOND_LEGGINGS),
         ItemStack(Material.DIAMOND_CHESTPLATE),
         ItemStack(Material.DIAMOND_HELMET)
     )
+
     private var fusionArmor = ItemStack(Material.AIR)
+
     @EventHandler
     fun onInventoryClick(e: InventoryClickEvent) {
         val inventory = e.clickedInventory
@@ -389,6 +278,7 @@ class ItemEvent : Listener {
             var diamondArmorCount = 0
             if (inventory.result !in Item.fusionArmorList) {
                 inventory.matrix?.forEach{ itemStack ->
+                    if (itemStack == null) return@forEach
                     if (itemStack in diamondArmors) {
                         diamondArmorCount++
                     }
@@ -412,6 +302,7 @@ class ItemEvent : Listener {
             event.player.addPotionEffect(PotionEffect(PotionEffectType.HEAL,50,1,true,true,true))
         }
     }
+
     @EventHandler
     fun onForge(e: FurnaceStartSmeltEvent) {
         val loc = e.block.location
@@ -431,20 +322,16 @@ class ItemEvent : Listener {
     }
     @EventHandler
     fun onAnvil(e: PrepareAnvilEvent) {
-        if (e.inventory.contains(Item.apprentice_Bow))
+        if (e.inventory.any { it == Item.apprentice_Bow || it == Item.apprentice_Sword })
             e.inventory.close()
-        if (e.inventory.contains(Item.apprentice_Sword))
-            e.inventory.close()
-
     }
+
     @EventHandler
     fun onEnchantingTable(e: EnchantItemEvent) {
-        if (e.item == Item.apprentice_Bow)
-            e.isCancelled = true
-        if (e.item == Item.apprentice_Sword)
+        if (e.item == Item.apprentice_Bow || e.item == Item.apprentice_Sword)
             e.isCancelled = true
         e.enchanter.sendMessage(
-            text("Not Allowed Enchanting this").color(
+            text("Enchanting this is not allowed").color(
                 TextColor.color(255,10,10)
             )
         )
@@ -458,7 +345,7 @@ class ItemEvent : Listener {
 fun itemList(player: Player): Inventory {
     val itemList = Material.values().filter { item ->
         item.isItem
-        }
+    }
     val inventoryItemList = ArrayList<Material>()
     val chest: Chest = player.location.block.state as Chest
     for (i in 9..18) {

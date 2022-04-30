@@ -1,13 +1,15 @@
 package com.github.w0819.game.uhc.recipes
 
 import com.github.w0819.game.util.*
+import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 
 class ShoesOfVidar: UHCRecipe(
     NamespacedKey.minecraft("shoes_of_vidar"),
     Item.Shoes_of_Vidar
-),ExtraUltimates {
+), ExtraUltimates {
     init {
         shape(
             " 1 ",
