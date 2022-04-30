@@ -46,15 +46,13 @@ class ItemEvent : Listener {
         when(event.recipe.result) {
             Item.FateSCall -> itemList(player)
             Item.Fenrir -> {
-                player.location.world.spawnEntity(player.location,EntityType.WOLF)
-                val fenrir = player.world.getNearbyEntities(player.location,x, y, z) as? Wolf
-                fenrir?.apply {
+                val fenrir = player.location.world.spawn(player.location, Wolf::class.java)
+                fenrir.apply {
                     owner = player
                     health = 2.0
                     addPotionEffect(PotionEffect(PotionEffectType.SPEED,1000000000,2))
                     addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,1000000000,1))
                     addPotionEffect(PotionEffect(PotionEffectType.INCREASE_DAMAGE,1000000000,1))
-
                 }
             }
             Item.fusionArmorChestplate -> {
@@ -269,9 +267,11 @@ class ItemEvent : Listener {
     fun onInventoryClick(e: InventoryClickEvent) {
         val inventory = e.clickedInventory
         if (e.cursor == Item.ExpertSeal) {
-            e.currentItem?.itemMeta?.enchants?.forEach { (key, value) ->
-                e.currentItem?.itemMeta?.removeEnchant(key)
-                e.currentItem?.addEnchantment(key, value + 1)
+            e.currentItem?.let { item ->
+                item.itemMeta?.enchants?.forEach { (key, value) ->
+                    e.currentItem?.editMeta { meta -> meta.addEnchant(key, value + 1, true) }
+                }
+                e.inventory.remove(Item.ExpertSeal)
             }
         }
         if (inventory is CraftingInventory) {
