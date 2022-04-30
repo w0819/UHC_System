@@ -59,7 +59,7 @@ class UHCGame private constructor(
         player.removePotionEffect(PotionEffectType.HEALTH_BOOST)
         player.inventory.setItem(4, Item.recipeBook)
         player.addPotionEffect(PotionEffect(PotionEffectType.HEALTH_BOOST,1000000000,4,true,true,true))
-        ConfigUtil.playersDefaultConfig(UHCPlugin.instance.config, player)
+        ConfigUtil.playersDefaultConfig(player)
     }
 
     fun removePlayer(player: Player): Boolean {

@@ -1,5 +1,7 @@
 package com.github.w0819.game.resource
 
+import com.github.w0819.game.util.ConfigUtil
+import com.github.w0819.game.util.PlayerData
 import com.github.w0819.game.util.uhc.UHC
 import com.github.w0819.game.util.uhc.UHCRecipe
 import com.github.w0819.plugin.UHCPlugin
@@ -20,9 +22,11 @@ open class UHCResourceManager : UHC {
         }
         return player.persistentDataContainer.get(modKey, PersistentDataType.INTEGER)!!
     }
+
     fun getModes(player: Player): Int {
         return player.persistentDataContainer.get(modKey,PersistentDataType.INTEGER)!!
     }
+
     fun switchModes(player: Player) {
         val modes = modes(player)
         player.persistentDataContainer.set(modKey,PersistentDataType.INTEGER,modes + 1)
@@ -31,37 +35,24 @@ open class UHCResourceManager : UHC {
         }
     }
 
-    @SuppressWarnings("WeakerAccess")
-    fun coin(player: Player): Int {
-        if (!player.persistentDataContainer.has(coinsKey,PersistentDataType.INTEGER)) {
-            player.persistentDataContainer.set(coinsKey, PersistentDataType.INTEGER, 0)
-        }
-        return player.persistentDataContainer.get(coinsKey, PersistentDataType.INTEGER)!!
-    }
-
-    private fun recipeIds(player: Player): IntArray {
-        if (!player.persistentDataContainer.has(recipesKey, PersistentDataType.INTEGER_ARRAY)) {
-            player.persistentDataContainer.set(recipesKey, PersistentDataType.INTEGER_ARRAY, intArrayOf())
-        }
-        return player.persistentDataContainer.get(recipesKey, PersistentDataType.INTEGER_ARRAY)!!
-
-    }
-
-    fun recipe(player: Player): List<UHCRecipe> {
-        val ids = recipeIds(player)
-
-        return ids.map { id -> UHCPlugin.recipeList()[id] }
-    }
-
     fun addCoin(player: Player, amount: Int) {
-        val coins = coin(player)
-
-        player.persistentDataContainer.set(coinsKey, PersistentDataType.INTEGER, coins + amount)
+        val data = UHCPlugin.PlayersUHC.computeIfAbsent(player.uniqueId) { PlayerData(player.uniqueId) }
+        data.coins += amount
+        ConfigUtil.savePlayerCoin(player, data)
     }
 
-    fun addRecipe(player: Player, recipe: UHCRecipe) {
-        val ids = arrayListOf(*recipeIds(player).toTypedArray())
-        ids.add(UHCPlugin.recipeList().indexOf(recipe))
-        player.persistentDataContainer.set(recipesKey, PersistentDataType.INTEGER_ARRAY, ids.toIntArray())
+    /**
+     * @return true if successfully added, false if the recipe already existed
+     */
+    fun addRecipe(player: Player, recipe: UHCRecipe): Boolean {
+        val data = UHCPlugin.PlayersUHC.computeIfAbsent(player.uniqueId) { PlayerData(player.uniqueId) }
+
+        if (!data.uhcList.any { it is UHCRecipe && it.key == recipe.key }) {
+            data.uhcList.add(recipe)
+        } else {
+            return false
+        }
+        ConfigUtil.savePlayerUHC(player, data)
+        return true
     }
 }

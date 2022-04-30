@@ -19,8 +19,6 @@ import org.bukkit.Bukkit
 import org.bukkit.World.Environment
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
-import org.bukkit.potion.PotionEffect
-import org.bukkit.potion.PotionEffectType
 import java.io.File
 import java.util.*
 
@@ -51,13 +49,14 @@ class UHCPlugin : JavaPlugin(), UHC {
         val kitList = { UHCList.filterIsInstance<UHCKit>() }
 
         @JvmStatic
-        val PlayersUHC = HashMap<UUID, List<UHC>>()
+        val PlayersUHC = HashMap<UUID, PlayerData>()
     }
 
     override fun onEnable() {
         // config 셋업
         val configYml = File(dataFolder,"config.yml")
         config.load(configYml)
+        ConfigUtil.config = config
         
         // 인챈트 등록
         AddDamage.register();
@@ -124,7 +123,7 @@ class UHCPlugin : JavaPlugin(), UHC {
 
     override fun onDisable() {
         // UHC Data 저장
-        ConfigUtil.playersUHCSave(config, Bukkit.getOnlinePlayers().toList())
+        ConfigUtil.savePlayers(Bukkit.getOnlinePlayers().toList())
     }
 
     /**
@@ -147,7 +146,7 @@ class UHCPlugin : JavaPlugin(), UHC {
         }
         
         // 플레이어 정보를 불러온다
-        ConfigUtil.playersUHCLoad(config, game.players)
+        ConfigUtil.loadPlayers(config, game.players)
         
         // 시드 정보 로깅
         game.uhcWorld.returnSeed().forEach {
@@ -160,7 +159,7 @@ class UHCPlugin : JavaPlugin(), UHC {
     
     // 게임을 멈춘다
     fun stopAll() {
-        ConfigUtil.playersUHCSave(config, Bukkit.getOnlinePlayers().toList())
+        ConfigUtil.savePlayers(Bukkit.getOnlinePlayers().toList())
         game.stopGame()
     }
 

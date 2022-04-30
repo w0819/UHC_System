@@ -24,4 +24,13 @@ interface UHC {
             return uhcList.toTypedArray()
         }
     }
+
+    val isRecipe: Boolean
+        get() = this is UHCRecipe
+
+    val isKit: Boolean
+        get() = this is UHCKit
+
+    val isModifier: Boolean
+        get() = this is UHCModifier
 }
