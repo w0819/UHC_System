@@ -5,7 +5,7 @@ import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 
-class ArcherySet : UHCKit(
+object ArcherySet : UHCKit(
     arrayListOf(
         ItemStack(Material.STRING,3),
         ItemStack(Material.FEATHER,3)

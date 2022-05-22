@@ -5,7 +5,7 @@ import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 
-class Trapper : UHCKit(
+object Trapper : UHCKit(
     arrayListOf(
         ItemStack(Material.PISTON,2),
         ItemStack(Material.STICKY_PISTON,2),
