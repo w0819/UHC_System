@@ -1,15 +1,16 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.*
-import com.github.w0819.game.util.uhc.UHCRecipe
 import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
 
-class Cornucopia : UHCRecipe(
+object Cornucopia : ExtraUltimates(
     NamespacedKey.minecraft("cornucopia"),
-    Item.Cornucopia
-), ExtraUltimates {
+    Cornucopia,
+    50000,
+    "Cooking","Engineering"
+) {
     init {
         shape(
             "111",
@@ -20,11 +21,7 @@ class Cornucopia : UHCRecipe(
         setIngredient('2',Material.GOLDEN_APPLE)
     }
 
-    override fun needProfessions(): List<Professions> {
-        return listOf(Cooking(),Engineering())
-    }
-
-    override fun needCoin(): Int {
-        return 50000
-    }
+    object Cornucopia : Item(
+        ItemStack(Material.GOLDEN_CARROT)
+    )
 }

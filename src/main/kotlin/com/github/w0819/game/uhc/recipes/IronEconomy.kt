@@ -1,13 +1,15 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.Engineering
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 
-class IronEconomy : UHCRecipe(
+object IronEconomy : Engineering(
     NamespacedKey.minecraft("iron_economy"),
-    ItemStack(Material.IRON_INGOT, 8)
+    IronEconomy,
+    3,
+    true
 ) {
     init {
         shape(
@@ -18,4 +20,7 @@ class IronEconomy : UHCRecipe(
         setIngredient('1', Material.IRON_ORE)
         setIngredient('2', Material.COAL)
     }
+    object IronEconomy : Item(
+        ItemStack(Material.IRON_INGOT, 8)
+    )
 }

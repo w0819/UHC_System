@@ -1,13 +1,15 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.Cooking
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 
-class EveIsTemptation : UHCRecipe(
+object `Eve'sTemptation` : Cooking(
     NamespacedKey.minecraft("eve_is_temptation"),
-    ItemStack(Material.APPLE, 2)
+    `Eve'sTemptation`,
+    3,
+    true
 ) {
     init {
         shape(
@@ -17,5 +19,9 @@ class EveIsTemptation : UHCRecipe(
         )
         setIngredient('1', Material.BONE_MEAL)
         setIngredient('2', Material.APPLE)
+        System.`in`
     }
+    object `Eve'sTemptation` : Item(
+        ItemStack(Material.APPLE, 2)
+    )
 }

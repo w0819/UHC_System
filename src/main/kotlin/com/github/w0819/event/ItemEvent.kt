@@ -1,15 +1,25 @@
 package com.github.w0819.event
 
 import com.github.w0819.game.resource.UHCResourceManager
-import com.github.w0819.game.util.Item
+import com.github.w0819.game.uhc.recipes.*
+import com.github.w0819.game.util.ExtraUltimates
 import com.github.w0819.game.util.RecipeBook
+import com.github.w0819.game.util.Util
+import com.github.w0819.plugin.UHCPlugin
+import com.github.w0819.plugin.UHCPlugin.Companion.game
+import com.github.w0819.potion.NoHealing
+import com.github.w0819.potion.PreventDamage
 import io.github.monun.invfx.InvFX.frame
 import io.github.monun.invfx.openFrame
+import io.github.monun.tap.fake.invisible
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.TextColor
+import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.attribute.Attribute
 import org.bukkit.block.Chest
+import org.bukkit.block.data.type.TNT
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.*
 import org.bukkit.event.Event
@@ -19,13 +29,11 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.enchantment.EnchantItemEvent
-import org.bukkit.event.entity.EntityDamageByEntityEvent
-import org.bukkit.event.entity.PlayerDeathEvent
-import org.bukkit.event.entity.ProjectileHitEvent
+import org.bukkit.event.entity.*
 import org.bukkit.event.inventory.*
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerItemConsumeEvent
-import org.bukkit.event.player.PlayerItemDamageEvent
+import org.bukkit.inventory.AnvilInventory
 import org.bukkit.inventory.CraftingInventory
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
@@ -34,20 +42,16 @@ import org.bukkit.persistence.PersistentDataType
 import org.bukkit.potion.PotionBrewer
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
-import kotlin.random.Random
 
 class ItemEvent : Listener {
+
     @EventHandler
     fun onPlayerCraft(event: CraftItemEvent) {
         val player: Player = event.whoClicked as Player
-        val x = player.location.x
-        val y = player.location.y
-        val z = player.location.z
-        when(event.recipe.result) {
-            Item.FateSCall -> itemList(player)
-            Item.Fenrir -> {
-                val fenrir = player.location.world.spawn(player.location, Wolf::class.java)
-                fenrir.apply {
+        when (event.recipe) {
+            `Fate'sCall` -> itemList(player)
+            Fenrir -> {
+                 player.location.world.spawn(player.location, Wolf::class.java).apply {
                     owner = player
                     health = 2.0
                     addPotionEffect(PotionEffect(PotionEffectType.SPEED,1000000000,2))
@@ -55,57 +59,110 @@ class ItemEvent : Listener {
                     addPotionEffect(PotionEffect(PotionEffectType.INCREASE_DAMAGE,1000000000,1))
                 }
             }
-            Item.fusionArmorChestplate -> {
-
-            }
+            DiceOfGod -> event.inventory.result =
+                UHCPlugin.recipeList().filterIsInstance<ExtraUltimates>().random().result
         }
 
     }
 
     @EventHandler
     fun onPlayerPlace(e: BlockPlaceEvent) {
-        if (e.block == Item.Forge) {
-            val location = e.block.location
-            val forgeKey = NamespacedKey.minecraft("forge")
+        val block = e.block
+        if (block.type == Forge.Forge.type) {
+            val location = block.location
             location.world.spawnEntity(location, EntityType.ARMOR_STAND).apply {
-                (this as? ArmorStand)?.persistentDataContainer?.set(forgeKey, PersistentDataType.INTEGER,10)
+                (this as? ArmorStand)?.persistentDataContainer?.set(Forge.key, PersistentDataType.INTEGER, 10)
+                invisible = true
             }
         }
     }
+
     @EventHandler
     fun onPlayerBreak(e: BlockBreakEvent) {
-        if (e.player.inventory.itemInMainHand == Item.LumberjackAxe)  {
-            val treeLogs = arrayOf(Material.OAK_LOG,Material.ACACIA_LOG,Material.BIRCH_LOG,Material.DARK_OAK_LOG, Material.JUNGLE_LOG,Material.SPRUCE_LOG)
-            if (treeLogs.contains(e.block.type)) {
-
+        val block = e.block
+        val x = e.block.x
+        val y = e.block.y
+        val z = e.block.z
+        if (e.player.inventory.itemInMainHand == LumberjackAxe.result) {
+            e.isDropItems = false
+            block.location.block.type = block.type
+            val treeLogs = arrayOf(
+                Material.OAK_LOG,
+                Material.ACACIA_LOG,
+                Material.BIRCH_LOG,
+                Material.DARK_OAK_LOG,
+                Material.JUNGLE_LOG,
+                Material.SPRUCE_LOG
+            )
+            if (block.type in treeLogs) {
+                val groundY = (y..-y).find { i ->
+                    Location(
+                        block.world,
+                        x.toDouble(),
+                        i.toDouble(),
+                        z.toDouble()
+                    ).block.type !in treeLogs
+                } ?: return
+                val groundX = (x..-x).find { i ->
+                    Location(
+                        block.world,
+                        i.toDouble(),
+                        groundY.toDouble(),
+                        z.toDouble()
+                    ).block.type !in treeLogs
+                } ?: return
+                val groundZ = (z..-z).find { i ->
+                    Location(
+                        block.world,
+                        groundX.toDouble(),
+                        groundY.toDouble(),
+                        i.toDouble()
+                    ).block.type !in treeLogs
+                } ?: return
+                for (x1 in (groundX..-groundX)) {
+                    for (z1 in (groundZ..-groundZ)) {
+                        for (y1 in (groundY..-groundY)) {
+                            val location = Location(block.world, x1.toDouble(), z1.toDouble(), y1.toDouble())
+                            if (location.block.type in treeLogs)
+                                location.block.breakNaturally()
+                        }
+                    }
+                }
             }
-
         }
     }
+
     @EventHandler
     fun onPlayerInteract(event: PlayerInteractEvent) {
         val player = event.player
         val loc = player.location
         val world = player.location.world
-        val entities: ArrayList<Entity> = world.getNearbyEntities(player.location, 10000.0, 10000.0, 10000.0) as ArrayList<Entity>
+        val entities: ArrayList<Entity> =
+            world.getNearbyEntities(player.location, 10000.0, 10000.0, 10000.0) as ArrayList<Entity>
         var lowestDistanceSoFar = Double.MAX_VALUE
+        val item = event.item ?: ItemStack(Material.AIR)
 
         if (event.action == Action.RIGHT_CLICK_AIR || event.action == Action.RIGHT_CLICK_BLOCK) {
             if (event.item?.type == Material.PLAYER_HEAD) {
                 player.inventory.removeItem(ItemStack(Material.PLAYER_HEAD))
-                player.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,100,1,true,true))
+                player.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION, 100, 1, true, true))
                 event.isCancelled = true
             }
-            when(event.item) {
-                Item.ModularBow -> {
+            when (item) {
+                FlaskOfCleansing.result -> item.itemMeta.persistentDataContainer.set(
+                    FlaskOfCleansing.key,
+                    PersistentDataType.STRING,
+                    player.name
+                )
+                ModularBow.result -> {
                     val uhcResourceManager = UHCResourceManager
                     uhcResourceManager.switchModes(player)
                 }
-                Item.Master_Compass -> {
-                    player.inventory.removeItem(Item.Master_Compass)
+                `Master'sCompass`.result -> {
+                    player.inventory.removeItem(item)
                     for (entity in entities) {
                         if (entity is Player) {
-                            if(entity != player) {
+                            if (entity != player) {
                                 val distance = entity.location.distance(loc)
                                 if (distance < lowestDistanceSoFar) {
                                     lowestDistanceSoFar = distance
@@ -116,44 +173,50 @@ class ItemEvent : Listener {
                         }
                     }
                 }
-                Item.Essence_of_yggdrasil -> {
-                    player.inventory.removeItem(Item.Essence_of_yggdrasil)
-                    player.giveExpLevels(30)
+                GoldenHead.result -> {
+                    player.inventory.remove(item)
+                    player.addPotionEffect(PotionEffect(PotionEffectType.SPEED, 2, 420))
+
+                    val effects = listOf(
+                        PotionEffect(PotionEffectType.REGENERATION, 200, 2, true, true, true),
+                        PotionEffect(PotionEffectType.ABSORPTION, 2400, 1, true, true, true)
+                    )
+
+                    game.teams.find { it.players.contains(player) }?.players?.forEach { teamPlayer ->
+                        effects.forEach { teamPlayer.addPotionEffect(it) }
+                    } ?: effects.forEach { player.addPotionEffect(it) }
                 }
-                Item.golden_head -> {
-                    player.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,200,2,true,true,true))
-                    player.addPotionEffect(PotionEffect(PotionEffectType.ABSORPTION,2400,1,true,true,true))
-                    player.health += 6.0
+                ChestOfFate.result -> {
+                    if (Util.percent(50)) {
+                        player.addPotionEffect(PotionEffect(PotionEffectType.ABSORPTION, 2400, 5, true, true, true))
+                        player.addPotionEffect(PotionEffect(PotionEffectType.SPEED, 2400, 2, true, true, true))
+                    } else {
+                        player.world.spawnEntity(loc,EntityType.PRIMED_TNT)
+                    }
                 }
-                Item.chest_of_fate -> {
-                    player.addPotionEffect(PotionEffect(PotionEffectType.ABSORPTION,2400,5,true,true,true))
-                    player.addPotionEffect(PotionEffect(PotionEffectType.SPEED,2400,2,true,true,true))
+                Cornucopia.result -> {
+                    player.addPotionEffect(PotionEffect(PotionEffectType.SATURATION, 1_4400, 1, true, true, true))
+                    player.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION, 240, 1, true, true, true))
                 }
-                Item.Cornucopia -> {
-                    player.addPotionEffect(PotionEffect(PotionEffectType.SATURATION,1_4400,1,true,true,true))
-                    player.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,240,1,true,true,true))
-                }
-                Item.backPack -> {
+                BackPack.result -> {
                     val storageInventory = (event.item as? Chest)?.inventory
                     val frame = frame(5, text("Back Pack")) {
                         onClick { _, _, event ->
                             val slot = event.slot
-                            val item = event.cursor
-                            storageInventory?.setItem(slot,item)
+                            val cursorItem = event.cursor
+                            storageInventory?.setItem(slot, cursorItem)
                             if (event.currentItem == ItemStack(Material.GRAY_STAINED_GLASS_PANE))
                                 event.result = Event.Result.DENY
                         }
-
-                        mapOf(5 to 1..9).forEach {
-                            val x = it.key
-                            it.value.forEach { y ->
-                                slot(x,y) {
-                                    item = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
-                                }
+                        val x = 5
+                        (1..9).forEach { y ->
+                            slot(x, y) {
+                                this.item = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
                             }
                         }
-                        slot(5,5) {
-                            item = Item.close
+
+                        slot(5, 5) {
+                            this.item = ItemStack(Material.BARRIER)
                         }
                     }
                     player.openFrame(frame)
@@ -163,91 +226,174 @@ class ItemEvent : Listener {
     }
 
     @EventHandler
-    fun onEnchantBook(e: PrepareAnvilEvent) {
-        val enchantment = Enchantment.values()
-        val randomEnchant = enchantment[Random.nextInt(enchantment.size)]
-        val enchantLevel = randomEnchant.maxLevel
-        if (e.inventory.contains(Item.Enchantment_Book)) {
-            e.result?.apply {
-                itemMeta = itemMeta.apply {
-                    addEnchantment(randomEnchant,enchantLevel)
-                }
+    fun onPlayerRegainHealth(e: EntityRegainHealthEvent) {
+        val player = e.entity as? Player
+        if (player != null)
+            if (NoHealing in player.activePotionEffects.map { it.type }) {
+                e.isCancelled = true
             }
-        }
     }
+
     //  효과
     @EventHandler
     fun onPlayerItemConsume(event: PlayerItemConsumeEvent) {
         val item = event.item
         val player = event.player
-        if (item == ItemStack(Material.GOLDEN_APPLE)) {
-            player.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,3,100,true,true,true))
+        when (item) {
+            ItemStack(Material.GOLDEN_APPLE) -> {
+                player.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION, 3, 100, true, true, true))
+            }
+            DeusExMachina.result -> player.health = player.health / 2
         }
     }
+
     @EventHandler
     fun onArrowShoot(e: ProjectileHitEvent) {
-        val chance = Random
-        val give = chance.nextFloat()
-        val player = e.entity.shooter as? Player
-        if(player?.inventory?.itemInMainHand == Item.Artemis_Bow) {
-            if (give <= 0.15f) {
+        val player = (e.entity.shooter as? Player) ?: return
+        if (player.inventory.itemInMainHand == `Artemis'sBow`.result) {
+            if (Util.percent(15)) {
                 player.inventory.addItem(ItemStack(Material.ARROW))
             }
         }
-        if (player?.inventory?.itemInMainHand == Item.ModularBow) {
-            when(UHCResourceManager.getModes(player)) {
+        if (player.inventory.itemInMainHand == ModularBow.result) {
+            when (UHCResourceManager.getModes(player)) {
                 1 -> e.hitEntity?.velocity?.normalize()?.multiply(3)
                 2 -> {
                     e.hitEntity
-                    // 아직 구연되지 않음
+                    // 아직 구연 되지 않음
                 }
             }
         }
 
     }
+
     @EventHandler
-    fun onPlayerKill(event: PlayerDeathEvent) {
-        val killer = event.entity.player?.killer
-        val item = killer?.inventory?.itemInMainHand
-        if (item == Item.Bloodlust) {
-            item.apply {
-                itemMeta = itemMeta.apply {
-                    addEnchantment(Enchantment.DAMAGE_ALL, 1)
+    fun onPlayerKill(e: PlayerDeathEvent) {
+        val killer = e.entity.player?.killer
+        when (val item = killer?.inventory?.itemInMainHand) {
+            Bloodlust.result -> {
+                item.apply {
+                    itemMeta = itemMeta.apply {
+                        addEnchantment(Enchantment.DAMAGE_ALL, 1)
+                    }
                 }
             }
         }
     }
+
     @EventHandler
-    fun onEntityDamagebyEntity(e : EntityDamageByEntityEvent) {
-        val damgar = e.damager
+    fun onEntityDamageByEntity(e: EntityDamageByEntityEvent) {
+        val damager = e.damager
+        val entity = e.entity
+        val damage = e.damage
         val location = (e.entity as? Player)?.location
-        if (damgar is Player) {
-            if (damgar.inventory.itemInMainHand == Item.AxeOfPerun) {
-                location?.world?.strikeLightning(location)
-            }
-            if (damgar.inventory.helmet == Item.Exodus) {
-                damgar.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION, 1, 40))
-            }
-            if (damgar.inventory.itemInMainHand == Item.Death_Scythe) {
-                if (e.entity is Player) {
-                    (e.entity as? Player)?.player?.health?.minus((e.entity as? Player)?.player?.health?.times(0.2) ?: 0.0)
+        if (damager is Player) {
+            if (PreventDamage in damager.activePotionEffects.map { it.type })
+                e.damage = if (damage - 8 < 0) 0.0 else damage - 8
+
+            when (damager.inventory.helmet) {
+                is Exodus.Exodus -> {
+                    damager.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION, 1, 40))
                 }
             }
-            if (damgar.inventory.itemInMainHand == Item.dragon_sword) {
-                e.damage = 8.0
+            when (damager) {
+                is TNT -> {
+                    repeat(2) {
+                        entity.location.world.createExplosion(entity, 4.0f, false, false)
+                    }
+                }
+            }
+            when (val item = damager.inventory.itemInMainHand) {
+                AxeOfPerun.result -> location?.world?.strikeLightning(location)
+                `Death'sScythe`.result -> {
+                    if (entity is Player) {
+                        entity.health.minus(entity.health.times(0.2))
+                        val addHealth = damager.health * (damage * 0.25)
+                        if (addHealth > damager.healthScale) {
+                            damager.healthScale = addHealth
+                            damager.health = addHealth
+                        } else damager.health = addHealth
+                    }
+                }
+                DragonSword.result -> e.damage = 8.0
+                Excalibur.result -> {
+                    entity.world.spawnEntity(entity.location, EntityType.PRIMED_TNT).apply {
+                        this.persistentDataContainer.set(
+                            NamespacedKey.minecraft("excalibur_tnt"),
+                            PersistentDataType.STRING,
+                            "excalibur's tnt"
+                        )
+                    }
+                    try {
+                        damager.setCooldown(item.type, Excalibur.Excalibur.coolTime)
+                    } catch (e: java.lang.Exception) {
+                        println(e.stackTrace)
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    fun onHorseSpawn(e: EntitySpawnEvent) {
+        when (val entity = e.entity) {
+            is Horse -> {
+                if (entity !is SkeletonHorse) {
+                    entity.damage(entity.health)
+                    entity.location.world.spawnEntity(e.location, EntityType.SKELETON_HORSE).apply {
+                        (this as SkeletonHorse).isTrapped = false
+                        val attribute = getAttribute(Attribute.GENERIC_MOVEMENT_SPEED) ?: return@apply
+                        attribute.baseValue = 10.0
+                        jumpStrength = 2.5
+                    }
+                }
             }
         }
     }
 
     @EventHandler
     fun onPotion(e: BrewEvent) {
-        if (e.contents.ingredient == Item.Ambrosia) {
-        val potions = (e.results as PotionBrewer)
-        for (i in (e.results as PotionMeta).customEffects) {
-                potions.createEffect(i.type,1200,3)
+        if (e.contents.ingredient == Ambrosia.result) {
+            val potions = (e.results as PotionBrewer)
+            for (i in (e.results as PotionMeta).customEffects) {
+                potions.createEffect(i.type, 1200, 3)
             }
         }
     }
+
+    @EventHandler
+    fun onSplashPotion(e: PotionSplashEvent) {
+        val potion = e.potion
+        val item = potion.item
+        val itemPersistentDataContainer = item.itemMeta.persistentDataContainer
+        if (itemPersistentDataContainer.has(FlaskOfCleansing.key)) {
+            val playerName =
+                itemPersistentDataContainer.get(FlaskOfCleansing.key,PersistentDataType.STRING)
+                    ?: ""
+            e.affectedEntities.forEach {
+                val player = (it as? Player) ?: return
+                if (player.name != playerName) {
+                    player.addPotionEffect(PotionEffect(NoHealing, 1, 400))
+                } else {
+                    player.addPotionEffect(PotionEffect(PreventDamage,1,20))
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    fun onPotionBrew(e: BrewEvent) {
+        when (e.contents.ingredient) {
+            Ambrosia.result -> {
+                for (potion in e.results.mapNotNull { it as? PotionMeta }) {
+                    for (effect in potion.customEffects) {
+                        potion.addCustomEffect(PotionEffect(effect.type, 1200, 3), true)
+                    }
+                }
+            }
+        }
+    }
+
 
     @EventHandler
     fun onRecipeBookUse(e: PlayerInteractEvent) {
@@ -261,97 +407,94 @@ class ItemEvent : Listener {
         ItemStack(Material.DIAMOND_HELMET)
     )
 
-    private var fusionArmor = ItemStack(Material.AIR)
-
     @EventHandler
     fun onInventoryClick(e: InventoryClickEvent) {
         val inventory = e.clickedInventory
-        if (e.cursor == Item.ExpertSeal) {
-            e.currentItem?.let { item ->
-                item.itemMeta?.enchants?.forEach { (key, value) ->
-                    e.currentItem?.editMeta { meta -> meta.addEnchant(key, value + 1, true) }
+        when (e.cursor) {
+            ExpertSeal.result -> {
+                e.currentItem?.itemMeta?.enchants?.forEach { (key, value) ->
+                    e.currentItem?.itemMeta?.removeEnchant(key)
+                    e.currentItem?.addEnchantment(key, value + 1)
                 }
-                e.inventory.remove(Item.ExpertSeal)
+            }
+            EssenceOfYggdrasil.result -> {
+                e.cursor?.type = Material.AIR
+                for (human in e.viewers) {
+                    val player = (human as? Player) ?: continue
+                    if (game.teams.find { player in it.players }?.players?.forEach { it.giveExpLevels(8) } == null)
+                        player.giveExp(25)
+                    else player.giveExpLevels(15)
+                }
             }
         }
-        if (inventory is CraftingInventory) {
-            var diamondArmorCount = 0
-            if (inventory.result !in Item.fusionArmorList) {
-                inventory.matrix?.forEach{ itemStack ->
-                    if (itemStack == null) return@forEach
-                    if (itemStack in diamondArmors) {
-                        diamondArmorCount++
-                    }
-                    if (diamondArmorCount == 5) {
-                        if (fusionArmor !in Item.fusionArmorList) {
-                            fusionArmor = Item.fusionArmorList.random()
-                        }
-                        inventory.result = fusionArmor
-                    }
+        if (inventory is AnvilInventory) {
+            when (inventory.secondItem) {
+                EnchantmentBook.result -> {
+                    val enchantment = Enchantment.values()
+                    val randomEnchant = enchantment.random()
+                    val enchantLevel = randomEnchant.maxLevel
+                    inventory.result?.addEnchantment(randomEnchant, enchantLevel)
                 }
-            } else {
-                fusionArmor = ItemStack(Material.AIR)
-                return
+            }
+        }
+
+        if (inventory is CraftingInventory) {
+            if ((inventory.contents?.filter { (it ?: return) in diamondArmors }?.size ?: 0) >= 5) {
+                inventory.contents?.forEachIndexed { index, itemStack ->
+                    if (index == 5) return@forEachIndexed
+                    inventory.remove(itemStack ?: ItemStack(Material.AIR))
+                }
+                inventory.result = diamondArmors.random().apply { addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,4) }
             }
         }
     }
 
-    @EventHandler
-    fun onPlayerItemDamage(event: PlayerItemDamageEvent) {
-        if (event.player.inventory.helmet == Item.Exodus) {
-            event.player.addPotionEffect(PotionEffect(PotionEffectType.HEAL,50,1,true,true,true))
-        }
-    }
+
 
     @EventHandler
     fun onForge(e: FurnaceStartSmeltEvent) {
         val loc = e.block.location
-        val entities = e.block.location.world.getNearbyEntities(e.block.location,loc.x,loc.y,loc.z) as ArrayList<Entity>
-        entities.forEach { entity ->
-            if (entity is ArmorStand) {
-                val keyForge = NamespacedKey.minecraft("ForgeKey")
-                val before = entity.persistentDataContainer.get(keyForge, PersistentDataType.INTEGER)
-                entity.persistentDataContainer.set(
-                    keyForge, PersistentDataType.INTEGER, before?.minus(1) ?: 0
-                )
-                e.totalCookTime = 0
-                if (entity.persistentDataContainer.get(keyForge, PersistentDataType.INTEGER) == 0)
-                    e.block.type= Material.AIR
-            }
-        }
+        val armor = e.block.location.world.getNearbyEntities(e.block.location,loc.x,loc.y,loc.z).find { it.type == EntityType.ARMOR_STAND } ?: return
+        val before = armor.persistentDataContainer.get(Forge.key, PersistentDataType.INTEGER)
+        armor.persistentDataContainer.set(
+            Forge.key, PersistentDataType.INTEGER, before?.minus(1) ?: 0
+        )
+        e.totalCookTime = 0
+        if (armor.persistentDataContainer.get(Forge.key, PersistentDataType.INTEGER) == 0)
+            e.block.type= Material.AIR
     }
+
     @EventHandler
     fun onAnvil(e: PrepareAnvilEvent) {
-        if (e.inventory.any { it == Item.apprentice_Bow || it == Item.apprentice_Sword })
+        if (e.inventory.any { it == ApprenticeBow.result || it == ApprenticeSword.result })
             e.inventory.close()
     }
 
     @EventHandler
     fun onEnchantingTable(e: EnchantItemEvent) {
-        if (e.item == Item.apprentice_Bow || e.item == Item.apprentice_Sword)
+        if (e.item == ApprenticeBow.result || e.item == ApprenticeSword.result)
             e.isCancelled = true
         e.enchanter.sendMessage(
             text("Enchanting this is not allowed").color(
-                TextColor.color(255,10,10)
+                TextColor.color(255, 10, 10)
             )
         )
     }
-
 }
 /**
  * this function is for Fate's Call
  * */
 
-fun itemList(player: Player): Inventory {
+private fun itemList(player: Player): Inventory {
     val itemList = Material.values().filter { item ->
         item.isItem
     }
     val inventoryItemList = ArrayList<Material>()
-    val chest: Chest = player.location.block.state as Chest
+    val chest = player.location.block.state as Chest
     for (i in 9..18) {
-        val item = Random.nextInt(itemList.size)
-        chest.inventory.setItem(i, ItemStack(itemList[item]))
-        if (itemList[item] in inventoryItemList)
+        val randomItem = itemList.random()
+        chest.inventory.setItem(i, ItemStack(randomItem))
+        if (randomItem in inventoryItemList)
             continue
     }
     return chest.inventory

@@ -1,13 +1,13 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.Item
-import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.Apprentice
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
 
-class ApprenticeBow : UHCRecipe(
+object ApprenticeBow : Apprentice(
     NamespacedKey.minecraft("apprentice_bow"),
-    Item.apprentice_Bow
+    ApprenticeBow
 ) {
     init {
         shape(
@@ -18,4 +18,5 @@ class ApprenticeBow : UHCRecipe(
         setIngredient('1', Material.REDSTONE_TORCH)
         setIngredient('2', Material.STRING)
     }
+    object ApprenticeBow : Item(ItemStack(Material.BOW))
 }

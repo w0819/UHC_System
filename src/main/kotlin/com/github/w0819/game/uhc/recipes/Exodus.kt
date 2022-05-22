@@ -1,15 +1,17 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.*
-import com.github.w0819.game.util.uhc.UHCRecipe
 import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.enchantments.Enchantment
+import org.bukkit.inventory.ItemStack
 
-class Exodus : UHCRecipe(
+object Exodus :  ExtraUltimates(
     NamespacedKey.minecraft("exodus"),
-    Item.Exodus
-), ExtraUltimates {
+    Exodus,
+    350000,
+    "Engineering","BloodCraft","Cooking","ArmorSmithing"
+) {
     init {
         shape(
             "111",
@@ -21,12 +23,11 @@ class Exodus : UHCRecipe(
         setIngredient('3',Material.EMERALD)
         setIngredient('4',Material.GOLDEN_CARROT)
     }
-
-    override fun needProfessions(): List<Professions> {
-        return listOf(Engineering(),BloodCraft(),Cooking(),ArmorSmithing())
-    }
-
-    override fun needCoin(): Int {
-        return 350000
+    object Exodus : Item(
+        ItemStack(Material.DIAMOND_HELMET)
+    ) {
+        init {
+            addEnchantment(Enchantment.DURABILITY,3)
+        }
     }
 }

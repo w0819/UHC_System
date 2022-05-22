@@ -1,15 +1,17 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.*
-import com.github.w0819.game.util.uhc.UHCRecipe
 import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.enchantments.Enchantment
+import org.bukkit.inventory.ItemStack
 
-class KingsRod : UHCRecipe(
+object `King'sRod` : ExtraUltimates(
     NamespacedKey.minecraft("king_s_rod"),
-    Item.King_s_Rod
-), ExtraUltimates {
+    `King'sRod`,
+    50000,
+    "Survivalism","Enchanting"
+) {
     init {
         shape(
             " 1 ",
@@ -21,12 +23,12 @@ class KingsRod : UHCRecipe(
         setIngredient('3',Material.COMPASS)
         setIngredient('4',Material.WATER_BUCKET)
     }
-
-    override fun needProfessions(): List<Professions> {
-        return listOf(Survivalism(),Enchanting())
-    }
-
-    override fun needCoin(): Int {
-        return 50000
+    object `King'sRod` : Item(
+        ItemStack(Material.FISHING_ROD)
+    ) {
+        init {
+            addEnchantment(Enchantment.LURE,3)
+            addEnchantment(Enchantment.DURABILITY,3)
+        }
     }
 }

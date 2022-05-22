@@ -1,13 +1,15 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.Enchanting
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 
-class LightEnchantingTable : UHCRecipe(
+object LightEnchantingTable : Enchanting(
     NamespacedKey.minecraft("light_enchanting_table"),
-    ItemStack(Material.ENCHANTING_TABLE)
+    LightEnchantingTable,
+    3,
+    true
 ){
     init {
         shape(
@@ -20,4 +22,7 @@ class LightEnchantingTable : UHCRecipe(
         setIngredient('3',Material.DIAMOND)
         setIngredient('4',Material.EXPERIENCE_BOTTLE)
     }
+    object LightEnchantingTable : Item(
+        ItemStack(Material.ENCHANTING_TABLE)
+    )
 }

@@ -1,15 +1,16 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.*
-import com.github.w0819.game.util.uhc.UHCRecipe
 import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
 
-class DiceOfGod : UHCRecipe(
+object DiceOfGod : ExtraUltimates(
     NamespacedKey.minecraft("dice_of_god"),
-    Item.diceOfGod
-), ExtraUltimates {
+    DiceOfGod,
+    100000,
+    "BloodCraft","Engineering"
+) {
     init {
         shape(
             "121",
@@ -20,12 +21,7 @@ class DiceOfGod : UHCRecipe(
         setIngredient('2',Material.PLAYER_HEAD)
         setIngredient('3',Material.JUKEBOX)
     }
-
-    override fun needProfessions(): List<Professions> {
-        return listOf(BloodCraft(),Engineering())
-    }
-
-    override fun needCoin(): Int {
-        return 100000
-    }
+    object DiceOfGod : Item(
+        ItemStack(Material.END_PORTAL_FRAME)
+    )
 }

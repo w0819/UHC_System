@@ -1,15 +1,17 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.*
-import com.github.w0819.game.util.uhc.UHCRecipe
 import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.enchantments.Enchantment
+import org.bukkit.inventory.ItemStack
 
-class ShoesOfVidar: UHCRecipe(
+object ShoesOfVidar: ExtraUltimates(
     NamespacedKey.minecraft("shoes_of_vidar"),
-    Item.Shoes_of_Vidar
-), ExtraUltimates {
+    ShoesOfVidar,
+    150000,
+    "Enchanting","Engineering","Survivalism"
+) {
     init {
         shape(
             " 1 ",
@@ -22,11 +24,13 @@ class ShoesOfVidar: UHCRecipe(
         setIngredient('4',Material.FISHING_ROD)
     }
 
-    override fun needProfessions(): List<Professions> {
-        return listOf(Enchanting(),Engineering(),Survivalism())
-    }
-
-    override fun needCoin(): Int {
-        return 150000
+    object ShoesOfVidar : Item(
+        ItemStack(Material.DIAMOND_BOOTS)
+    ) {
+        init {
+            addEnchantment(Enchantment.DURABILITY,3)
+            addEnchantment(Enchantment.PROTECTION_PROJECTILE,2)
+            addEnchantment(Enchantment.THORNS,1)
+        }
     }
 }

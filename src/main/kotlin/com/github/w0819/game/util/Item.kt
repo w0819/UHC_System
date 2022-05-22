@@ -1,5 +1,6 @@
 package com.github.w0819.game.util
 
+/*
 import com.github.w0819.enchant.ReviveToken
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.Component.text
@@ -16,11 +17,10 @@ import org.bukkit.inventory.meta.SkullMeta
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
-
+// 차차 제거해나갈 예정
 /**
  * 아이템들
- */
-object Item {
+ */ object Item {
     val notch_apple = ItemStack(Material.ENCHANTED_GOLDEN_APPLE).apply {
         val skullMeta = (this.itemMeta as SkullMeta)
 
@@ -44,14 +44,14 @@ object Item {
             }
         }
     }
-    var Philosopher_Pickaxe = ItemStack(Material.DIAMOND_PICKAXE, 1).apply {
+    val Philosopher_Pickaxe = ItemStack(Material.DIAMOND_PICKAXE, 1).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Philosopher Pickaxe"))
             (this as Damageable).damage = 1559
         }
         addEnchantment(Enchantment.LOOT_BONUS_BLOCKS, 2)
     }
-    var HideOfLeviathan = ItemStack(Material.DIAMOND_LEGGINGS).apply {
+    val HideOfLeviathan = ItemStack(Material.DIAMOND_LEGGINGS).apply {
         itemMeta = itemMeta.apply {
             displayName(text("Hide of Leviathan"))
         }
@@ -137,7 +137,7 @@ object Item {
             displayName(text("Flask of Cleansing"))
             (this as PotionMeta).addCustomEffect(
                 PotionEffect(PotionEffectType.WEAKNESS, 240, 2, true, true, true), true
-            )
+          )
         }
     }
     var FlaskOfIchor = ItemStack(Material.SPLASH_POTION).apply {
@@ -447,4 +447,4 @@ object Item {
             displayName(text("right"))
         }
     }
-}
+}*/

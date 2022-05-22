@@ -80,5 +80,14 @@ object ConfigUtil {
 
         savePlayerCoin(player, data)
         savePlayerUHC(player, data)
+        for (profession in Professions.professions) {
+            savePlayerProfession(data,profession)
+        }
+    }
+
+    fun savePlayerProfession(data: PlayerData,professionName: String):Boolean {
+        return data.uhcList.filterIsInstance<Professions>().filter {
+            it.professionName == professionName
+        }.size == UHCPlugin.recipeList().filterIsInstance<Professions>().filter { it.professionName == professionName }.size
     }
 }

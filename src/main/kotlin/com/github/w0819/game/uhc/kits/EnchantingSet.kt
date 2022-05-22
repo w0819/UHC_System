@@ -6,7 +6,7 @@ import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.EnchantmentStorageMeta
 
-class EnchantingSet : UHCKit(
+object EnchantingSet : UHCKit(
     arrayListOf( // Kit
         ItemStack(Material.BOOK,2),
         ItemStack(Material.EXPERIENCE_BOTTLE,7)

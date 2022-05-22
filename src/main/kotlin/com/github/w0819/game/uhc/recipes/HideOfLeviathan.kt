@@ -1,16 +1,17 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.*
-import com.github.w0819.game.util.uhc.UHCRecipe
 import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.enchantments.Enchantment
+import org.bukkit.inventory.ItemStack
 
-class HideOfLeviathan : UHCRecipe(
+object HideOfLeviathan : ExtraUltimates(
     NamespacedKey.minecraft("hide_of_leviathan"),
-    Item.HideOfLeviathan
-
-), ExtraUltimates {
+    HideOfLeviathan,
+    150000,
+    "ArmorSmithing","Survivalism"
+) {
     init {
         shape(
             "121",
@@ -23,14 +24,12 @@ class HideOfLeviathan : UHCRecipe(
         setIngredient('4',Material.DIAMOND_LEGGINGS)
         setIngredient('5',Material.LILY_PAD)
     }
-
-    override fun needProfessions(): List<Professions> {
-        return listOf(ArmorSmithing(),Survivalism())
+    object HideOfLeviathan : Item(
+        ItemStack(Material.DIAMOND_LEGGINGS)
+    ) {
+        init {
+            addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,4)
+        }
     }
-
-    override fun needCoin(): Int {
-        return 150000
-    }
-
 
 }

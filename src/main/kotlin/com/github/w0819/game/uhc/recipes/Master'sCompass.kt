@@ -1,13 +1,13 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.Item
-import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.Apprentice
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
 
-class MasterCompass : UHCRecipe(
+object `Master'sCompass` : Apprentice(
     NamespacedKey.minecraft("master_compass"),
-    Item.Master_Compass
+    `Master'sCompass`
 ) {
     init {
         shape(
@@ -18,4 +18,7 @@ class MasterCompass : UHCRecipe(
         setIngredient('1', Material.REDSTONE)
         setIngredient('2', Material.COMPASS)
     }
+    object `Master'sCompass` : Item(
+        ItemStack(Material.COMPASS)
+    )
 }

@@ -1,13 +1,15 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.Item
-import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.ToolSmithing
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
 
-class Forge : UHCRecipe(
+object Forge : ToolSmithing(
     NamespacedKey.minecraft("forge"),
-    Item.Forge
+    Forge,
+    3,
+    true
 ) {
     init {
         shape(
@@ -18,4 +20,7 @@ class Forge : UHCRecipe(
         setIngredient('1', Material.COBBLESTONE)
         setIngredient('2',Material.COAL_BLOCK)
     }
+    object Forge : Item(
+        ItemStack(Material.FURNACE)
+    )
 }

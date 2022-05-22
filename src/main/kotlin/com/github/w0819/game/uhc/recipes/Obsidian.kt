@@ -1,13 +1,15 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.Engineering
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 
-class Obsidian : UHCRecipe(
+object Obsidian : Engineering(
     NamespacedKey.minecraft("obsidian"),
-    ItemStack(Material.OBSIDIAN)
+    Obsidian,
+    3,
+    true
 ){
     init {
         shape(
@@ -18,4 +20,7 @@ class Obsidian : UHCRecipe(
         setIngredient('1',Material.LAVA_BUCKET)
         setIngredient('2',Material.WATER_BUCKET)
     }
+    object Obsidian : Item(
+        ItemStack(Material.OBSIDIAN)
+    )
 }

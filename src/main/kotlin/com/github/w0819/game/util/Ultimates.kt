@@ -1,8 +1,25 @@
 package com.github.w0819.game.util
 
-interface Ultimates {
-    fun needProfessions(): List<Professions>
-    fun needCoin(): Int
+import com.github.w0819.game.util.uhc.UHCRecipe
+import net.kyori.adventure.text.Component
+import org.bukkit.NamespacedKey
+
+open class ExtraUltimates(key: NamespacedKey, result: Item, val needCoin: Int, final override vararg val needProfessions: String,
+): UHCRecipe(
+    key,
+    result,
+    1,
+    false
+),Ultimates,Professions {
+    init {
+        result.lore (
+            (listOf(Component.text("")) + needProfessions.map { Component.text("- $it") }),
+        )
+    }
+
+    override val professionName: String = this::class.simpleName!!
 }
 
-interface ExtraUltimates : Ultimates
+interface Ultimates {
+    val needProfessions: Array<out String>
+}

@@ -1,13 +1,15 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.Invention
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 
-class SugarRush: UHCRecipe(
+object SugarRush: Invention(
     NamespacedKey.minecraft("sugar_rush"),
-    ItemStack(Material.SUGAR, 4)
+    SugarRush,
+    3,
+    true
 ) {
     init {
         shape(
@@ -19,4 +21,7 @@ class SugarRush: UHCRecipe(
         setIngredient('2', Material.WHEAT_SEEDS)
         setIngredient('3', Material.SUGAR)
     }
+    object SugarRush : Item(
+        ItemStack(Material.SUGAR,4)
+    )
 }

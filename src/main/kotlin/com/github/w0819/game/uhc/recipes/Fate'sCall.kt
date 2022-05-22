@@ -1,14 +1,16 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.*
-import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
 
-class FatesCall: UHCRecipe(
+object `Fate'sCall`:  ExtraUltimates(
     NamespacedKey.minecraft("fate_s_call"),
-    Item.FateSCall
-), ExtraUltimates {
+    `Fate'sCall`,
+    250000,
+    "Strategist","Engineering"
+) {
     init {
         shape(
             " 1 ",
@@ -18,14 +20,8 @@ class FatesCall: UHCRecipe(
         setIngredient('1', Material.REDSTONE_LAMP)
         setIngredient('2', Material.FIREWORK_STAR)
     }
-
-    override fun needProfessions(): List<Professions> {
-        return listOf(Strategist(), Engineering())
-    }
-
-    override fun needCoin(): Int {
-        return 250000
-    }
-
+    object `Fate'sCall` : Item(
+        ItemStack(Material.FLOWER_POT)
+    )
 
 }

@@ -1,13 +1,15 @@
 package com.github.w0819.event
 
 import com.github.w0819.enchant.AddDamage
+import com.github.w0819.enchant.ReviveToken
 import com.github.w0819.game.uhc.modifiers.*
+import com.github.w0819.game.uhc.recipes.DragonArmor
+import com.github.w0819.game.uhc.recipes.GoldenHead
+import com.github.w0819.game.uhc.recipes.`King'sRod`
 import com.github.w0819.game.util.ExtraUltimates
-import com.github.w0819.game.util.Item
 import com.github.w0819.game.util.GroupUtil
-import com.github.w0819.game.util.uhc.UHCRecipe
-import com.github.w0819.plugin.UHCPlugin
 import com.github.w0819.game.util.Util
+import com.github.w0819.plugin.UHCPlugin
 import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.entity.EnderDragon
@@ -23,16 +25,28 @@ import org.bukkit.event.inventory.CraftItemEvent
 import org.bukkit.event.player.PlayerFishEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
-
 class ModifierEvent : Listener {
+
+    val reviveTokenItem = ItemStack(Material.EMERALD).apply { addEnchantment(ReviveToken,ReviveToken.startLevel) }
     @EventHandler
     fun onPlayerInteract(e: PlayerInteractEvent) {
         val player = e.player
-        val item = e.item
-        if (item != null) {
-            if (item.isSimilar(Item.reviveTokenItem) && item.amount >= 4) {
-                UHCPlugin.game.teams.find { player in it.players }?.players?.find { it.isDead }?.apply { gameMode = GameMode.SURVIVAL }?.teleport(player.location)
-                item.amount -= 4
+        when(val item = e.item) {
+             reviveTokenItem -> {
+                // reviveToken을 이용해 팀원 살리기
+                if (item.isSimilar(reviveTokenItem) && item.amount >= 4) {
+                    val team = UHCPlugin.game.teams.find { player in it.players }
+                    if (team == null) player.sendMessage("you don't have team") else {
+                        val deadPlayers = team.players.filter { it.isDead }
+                        if (deadPlayers.isEmpty()) player.sendMessage("no one dead in your team") else {
+                            deadPlayers.random().apply {
+                                gameMode = GameMode.SURVIVAL
+                                teleport(player.location)
+                            }
+                            item.amount -= 4
+                        }
+                    }
+                }
             }
         }
     }
@@ -44,7 +58,7 @@ class ModifierEvent : Listener {
         when (UHCPlugin.game.modifier) {
             is Gold -> e.drops.add(ItemStack(Material.GOLD_INGOT))
             is Pearl -> e.drops.add(ItemStack(Material.ENDER_PEARL))
-            is DoubleHead -> e.drops.add(Item.golden_head)
+            is DoubleHead -> e.drops.add(GoldenHead.result)
             is SwordMaster -> {
                 val item = killer.inventory.itemInMainHand
                 if (item.type in GroupUtil.swordList) {
@@ -57,7 +71,7 @@ class ModifierEvent : Listener {
                 }
             }
             is ReviveTokens -> {
-                killer.inventory.addItem(Item.reviveTokenItem)
+                killer.inventory.addItem(reviveTokenItem)
             }
         }
     }
@@ -72,12 +86,12 @@ class ModifierEvent : Listener {
         when(UHCPlugin.game.modifier) {
             is ExtraDragon -> {
                 if (e.entity is EnderDragon) {
-                    killer.inventory.addItem(Item.dragon_armor, Item.dragon_sword)
+                    killer.inventory.addItem(DragonArmor.result, DragonArmor.result)
                     ExtraDragon.spawnDragon(killer)
                 }
             }
             is Pearl -> killer.inventory.addItem(ItemStack(Material.ENDER_PEARL))
-            is HealthOnKill -> HealthOnKill.addHealthOnKill(killer)
+            is HealthOnKill -> killer.healthScale++
             is BowMaster -> e.drops.add(ItemStack(Material.ARROW))
         }
     }
@@ -97,7 +111,7 @@ class ModifierEvent : Listener {
             is FlowerPower -> {
                 if (blockType in GroupUtil.flowers) {
                     e.isDropItems = false
-                    val materialList = ((Material.values().toList() - GroupUtil.nonSurvivalItems.toSet()) + Util.readInstanceProperty<ItemStack>(Item).map { it.type })
+                    val materialList = ((Material.values().toList() - GroupUtil.nonSurvivalItems.toSet()) + UHCPlugin.itemList().map { it.type })
                     world.dropItem(
                         location,
                         ItemStack(materialList.random())
@@ -116,7 +130,7 @@ class ModifierEvent : Listener {
             is Fishing -> {
                 if (e.recipe.result.type == Material.FISHING_ROD) {
                     e.result = Event.Result.DENY
-                    e.inventory.result = Item.King_s_Rod
+                    e.inventory.result = `King'sRod`.result
                 }
             }
         }
@@ -125,7 +139,7 @@ class ModifierEvent : Listener {
     fun onPlayerFishing(e: PlayerFishEvent) {
         when(UHCPlugin.game.modifier) {
             is Fishing -> {
-                val extraUltimate = UHCPlugin.recipeList().filterIsInstance<ExtraUltimates>().filterIsInstance<UHCRecipe>().random().result
+                val extraUltimate = UHCPlugin.recipeList().filterIsInstance<ExtraUltimates>().random().result
                 e.hook.location.y = 100000000.0 // TODO ?????
                 e.hook.world.dropItem(e.hook.location, extraUltimate)
             }

@@ -9,6 +9,7 @@ class TimeNight : UHCModifier(
     false
 ) {
     companion object {
+        @JvmStatic
         tailrec fun playerNight(players: List<Player>) {
             if (players.isEmpty()) return
             val player = players[0]

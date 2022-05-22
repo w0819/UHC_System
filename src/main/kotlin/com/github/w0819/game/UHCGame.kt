@@ -5,15 +5,18 @@ import com.github.w0819.game.timer.StartAction
 import com.github.w0819.game.timer.UHCTimer
 import com.github.w0819.game.util.ConfigUtil
 import com.github.w0819.game.util.GameStatus
-import com.github.w0819.game.util.Item
+import com.github.w0819.game.util.RecipeBook
 import com.github.w0819.game.util.TeamUtil
 import com.github.w0819.game.util.uhc.UHC
 import com.github.w0819.game.util.uhc.UHCModifier
 import com.github.w0819.game.world.UHCWorld
 import com.github.w0819.game.world.UHCWorldManager
 import com.github.w0819.plugin.UHCPlugin
+import kotlinx.coroutines.CancellationException
 import org.bukkit.Bukkit
+import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
@@ -23,11 +26,12 @@ class UHCGame private constructor(
     companion object {
         @JvmStatic
         fun create(players: List<Player>): UHCGame {
-            return UHCGame(players.toMutableList())
+            return UHCGame(players.toMutableList()).apply {
+                UHCPlugin.games.add(this)
+            }
         }
 
         const val PLAYERS_PER_TEAM = 3
-        const val GameName: String = "UHC"
     }
 
     lateinit var uhcWorld: UHCWorld
@@ -57,7 +61,10 @@ class UHCGame private constructor(
     fun addPlayer(player: Player) {
         players.add(player)
         player.removePotionEffect(PotionEffectType.HEALTH_BOOST)
-        player.inventory.setItem(4, Item.recipeBook)
+        player.inventory.apply {
+            addItem(getItem(4) ?: ItemStack(Material.AIR))
+            setItem(4, RecipeBook.RecipeBook)
+        }
         player.addPotionEffect(PotionEffect(PotionEffectType.HEALTH_BOOST,1000000000,4,true,true,true))
         ConfigUtil.playersDefaultConfig(player)
     }
@@ -94,8 +101,8 @@ class UHCGame private constructor(
         TeamUtil.spreadTeams(teams, uhcWorld.overworld)
     }
 
-    fun stopGame() {
+    fun stopGame(exception: CancellationException? = null) {
         // 타이머 멈춤
-        timer.cancelTimer()
+        timer.cancelTimer(exception)
     }
 }

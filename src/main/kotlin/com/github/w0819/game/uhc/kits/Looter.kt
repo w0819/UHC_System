@@ -4,7 +4,7 @@ import com.github.w0819.game.util.uhc.UHCKit
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
-class Looter : UHCKit(
+object Looter : UHCKit(
     arrayListOf(
         ItemStack(Material.BONE),
         ItemStack(Material.SLIME_BALL)

@@ -73,6 +73,13 @@ open class EnchantmentWrapper(private val namespace: String, private val enchant
     }
 
     fun register() {
+        try {
+            val f = Enchantment::class.java.getDeclaredField("acceptingNew")
+            f.isAccessible = true
+            f.set(null, true)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         if (!values().contains(this)) registerEnchantment(this)
     }
 }

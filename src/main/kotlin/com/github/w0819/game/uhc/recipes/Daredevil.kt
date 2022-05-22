@@ -1,16 +1,16 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.*
-import com.github.w0819.game.util.uhc.UHCRecipe
 import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 
-class Daredevil : UHCRecipe(
+object Daredevil :  ExtraUltimates(
     NamespacedKey.minecraft("daredevil"),
-    ItemStack(Material.HORSE_SPAWN_EGG)
-), ExtraUltimates {
+    Daredevil,
+    150000,
+    "BloodCraft","Engineering","Hunter"
+) {
     init {
         shape(
             "12 ",
@@ -21,12 +21,7 @@ class Daredevil : UHCRecipe(
         setIngredient('2',Material.SADDLE)
         setIngredient('3',Material.BONE)
     }
-
-    override fun needProfessions(): List<Professions> {
-        return listOf(BloodCraft(),Engineering(),Hunter())
-    }
-
-    override fun needCoin(): Int {
-        return 150000
-    }
+    object Daredevil : Item(
+        ItemStack(Material.HORSE_SPAWN_EGG)
+    )
 }

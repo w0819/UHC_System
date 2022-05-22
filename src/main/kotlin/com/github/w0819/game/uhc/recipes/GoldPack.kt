@@ -1,14 +1,16 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.Invention
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 
-class GoldPack : UHCRecipe(
+object GoldPack : Invention(
     NamespacedKey.minecraft("gold_pack"),
-    ItemStack(Material.GOLD_INGOT, 8)
-) {
+    GoldPack,
+    3,
+    true
+){
     init {
         shape(
             "111",
@@ -18,4 +20,7 @@ class GoldPack : UHCRecipe(
         setIngredient('1', Material.GOLD_ORE)
         setIngredient('2', Material.COAL)
     }
+    object GoldPack : Item(
+        ItemStack(Material.GOLD_INGOT,8)
+    )
 }

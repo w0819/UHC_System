@@ -1,13 +1,16 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.Item
 import com.github.w0819.game.util.uhc.UHCRecipe
+import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
 
-class GoldenHead : UHCRecipe(
+object GoldenHead : UHCRecipe(
     NamespacedKey.minecraft("golden_head"),
-    Item.golden_head
+    GoldenHead,
+    3,
+    true
 ) {
     init {
         shape(
@@ -18,4 +21,11 @@ class GoldenHead : UHCRecipe(
         setIngredient('1', Material.GOLD_INGOT)
         setIngredient('2', Material.PLAYER_HEAD)
     }
+
+    object GoldenHead : Item(
+        ItemStack(Material.ENCHANTED_GOLDEN_APPLE),
+        listOf(
+            Component.text("")
+        )
+    )
 }

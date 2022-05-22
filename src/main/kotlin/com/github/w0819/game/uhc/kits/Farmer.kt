@@ -4,7 +4,7 @@ import com.github.w0819.game.util.uhc.UHCKit
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
-class Farmer : UHCKit(
+object Farmer : UHCKit(
     arrayListOf(
         ItemStack(Material.STONE_HOE),
         ItemStack(Material.MELON_SLICE),
