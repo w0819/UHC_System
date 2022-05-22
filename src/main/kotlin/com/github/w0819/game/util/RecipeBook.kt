@@ -6,6 +6,7 @@ import io.github.monun.invfx.InvFX.frame
 import io.github.monun.invfx.frame.InvFrame
 import io.github.monun.invfx.openFrame
 import net.kyori.adventure.text.Component.text
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -14,6 +15,14 @@ import org.bukkit.inventory.ItemStack
  * 레시피북
  */
 object RecipeBook {
+    object RecipeBook : UHCRecipe.Item(
+        ItemStack(Material.ENCHANTED_BOOK),
+        listOf(
+            text("book for check recipes"),
+            text("right click to open inventory").color(TextColor.color(0,255,0))
+        )
+    ) {
+    }
     /**
      * 레시피를 ItemStack 리스트로 변환
      */
@@ -76,21 +85,33 @@ object RecipeBook {
             }
         }.let { list ->
             slot(0, 5) {
-                item = Item.left
+                item = ItemStack(Material.ARROW).apply {
+                    itemMeta = itemMeta.apply {
+                        displayName(text("left"))
+                    }
+                }
                 onClick {
                     list.index--
                 }
             }
 
             slot(0, 4) {
-                item = Item.close
+                item = ItemStack(Material.BARRIER).apply {
+                    itemMeta = itemMeta.apply {
+                        displayName(text("close inventory").color(TextColor.color(255,0,0)))
+                    }
+                }
                 onClick {
                     it.whoClicked.closeInventory()
                 }
             }
 
             slot(8, 5) {
-                item = Item.right
+                item = ItemStack(Material.ARROW).apply {
+                    itemMeta = itemMeta.apply {
+                        displayName(text("right"))
+                    }
+                }
                 onClick {
                     list.index++
                 }

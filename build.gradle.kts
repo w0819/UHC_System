@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.6.10"
+    kotlin("jvm") version "1.6.20"
 }
 
 val archiveName = rootProject.name
@@ -19,13 +19,13 @@ java {
 
 dependencies {
     implementation("io.github.monun:invfx-api:3.1.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
     implementation("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
     implementation("io.github.monun:tap-api:4.4.0")
     implementation("io.github.monun:kommand-api:2.10.0")
     implementation("io.github.monun:heartbeat-coroutines:0.0.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.10")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1-native-mt")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.21")
 }
 
 tasks {
