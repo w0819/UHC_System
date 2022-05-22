@@ -2,9 +2,10 @@ package com.github.w0819.event
 
 import com.github.w0819.game.resource.UHCResourceManager
 import com.github.w0819.game.uhc.modifiers.TimeNight
-import com.github.w0819.game.util.Item
-import com.github.w0819.plugin.UHCPlugin.Companion.game
+import com.github.w0819.game.uhc.recipes.`Artemis'sBow`
 import com.github.w0819.game.util.Util
+import com.github.w0819.plugin.UHCPlugin.Companion.game
+import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.entity.*
 import org.bukkit.event.EventHandler
@@ -39,11 +40,11 @@ class SystemEvent : Listener {
     @EventHandler
     fun onArrowShoot(e: ProjectileHitEvent) {
         val shooter = e.entity.shooter
-        if (shooter is Player && shooter.inventory.itemInMainHand == Item.Artemis_Bow) {
+        if (shooter is Player && shooter.inventory.itemInMainHand == `Artemis'sBow`.result) {
             if (Util.percent(15)) {
                 shooter.inventory.addItem(ItemStack(Material.ARROW))
             }
-        }
+       }
     }
 
     // 플레이어 죽였을 때 +10코인
@@ -160,8 +161,12 @@ class SystemEvent : Listener {
     // 플레이어 죽을때 번개 효과
     @EventHandler
     fun onPlayerDeath(event: PlayerDeathEvent) {
-        val loc = event.player.location
-        val world = event.player.world
+        val player = event.player
+        val loc = player.location
+        val world = player.world
+        player.apply {
+            gameMode = GameMode.SPECTATOR
+        }
         world.dropItemNaturally(loc, ItemStack(Material.PLAYER_HEAD, 1))
         world.strikeLightningEffect(loc)
     }
