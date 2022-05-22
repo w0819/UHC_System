@@ -1,29 +1,97 @@
 package com.github.w0819.game.util
 
-interface Professions
+import com.github.w0819.game.util.uhc.UHC
+import com.github.w0819.game.util.uhc.UHCRecipe
+import org.bukkit.NamespacedKey
 
-open class Apprentice : Professions
+interface Professions: UHC {
+    /**
+     * recipe가 상속한 [Professions]이름
+     *
+     * */
+    val professionName: String
+    companion object {
+        val professions = UHC.load<Professions>("com.github.w0819.util").map { it.professionName }
+    }
+}
 
-open class WeaponSmithing : Professions
+open class Apprentice(key: NamespacedKey,result: Item) : Professions,UHCRecipe(
+    key,
+    result,
+    1,
+    false
+) {
+    final override val professionName: String = this::class.simpleName!!
+}
 
-open class ArmorSmithing : Professions
+open class WeaponSmithing(key: NamespacedKey, result: Item, craftsPerGame: Int, oneMoreCraft: Boolean) : Professions,UHCRecipe(
+    key,result,craftsPerGame, oneMoreCraft
+) {
+    final override val professionName: String = this::class.simpleName!!
+}
 
-open class Alchemy : Professions
+open class ArmorSmithing(key: NamespacedKey, result: Item, craftsPerGame: Int, oneMoreCraft: Boolean) : Professions,UHCRecipe(
+    key, result, craftsPerGame, oneMoreCraft
+) {
+    final override val professionName: String = this::class.simpleName!!
+}
 
-open class Survivalism : Professions
+open class Alchemy(key: NamespacedKey, result: Item, craftsPerGame: Int, oneMoreCraft: Boolean) : Professions,UHCRecipe(
+    key, result, craftsPerGame, oneMoreCraft
+) {
+    final override val professionName: String = this::class.simpleName!!
+}
 
-open class Engineering : Professions
+open class  Survivalism(key: NamespacedKey, result: Item, craftsPerGame: Int, oneMoreCraft: Boolean) : Professions,UHCRecipe(
+    key, result, craftsPerGame, oneMoreCraft
+) {
+    final override val professionName: String = this::class.simpleName!!
+}
 
-open class Enchanting : Professions
+open class Engineering(key: NamespacedKey, result: Item, craftsPerGame: Int, oneMoreCraft: Boolean) : Professions,UHCRecipe(
+    key, result, craftsPerGame, oneMoreCraft
+) {
+    final override val professionName: String = this::class.simpleName!!
+}
 
-open class Cooking : Professions
+open class Enchanting(key: NamespacedKey, result: Item, craftsPerGame: Int, oneMoreCraft: Boolean) : Professions,UHCRecipe(
+    key, result, craftsPerGame, oneMoreCraft
+) {
+    final override val professionName: String = this::class.simpleName!!
+}
 
-open class BloodCraft : Professions
+open class Cooking(key: NamespacedKey, result: Item, craftsPerGame: Int, oneMoreCraft: Boolean) : Professions,UHCRecipe(
+    key, result, craftsPerGame, oneMoreCraft
+) {
+    final override val professionName: String = this::class.simpleName!!
+}
 
-open class Hunter : Professions
+open class BloodCraft(key: NamespacedKey, result: Item, craftsPerGame: Int, oneMoreCraft: Boolean) : Professions,UHCRecipe(
+    key, result, craftsPerGame, oneMoreCraft
+) {
+    final override val professionName: String = this::class.simpleName!!
+}
 
-open class ToolSmithing : Professions
+open class Hunter(key: NamespacedKey, result: Item, craftsPerGame: Int, oneMoreCraft: Boolean) : Professions,UHCRecipe(
+    key, result, craftsPerGame, oneMoreCraft
+) {
+    final override val professionName: String = this::class.simpleName!!
+}
 
-open class Invention : Professions
+open class ToolSmithing(key: NamespacedKey, result: Item, craftsPerGame: Int, oneMoreCraft: Boolean) : Professions,UHCRecipe(
+    key, result, craftsPerGame, oneMoreCraft
+) {
+    final override val professionName: String = this::class.simpleName!!
+}
 
-open class Strategist : Professions
+open class Invention(key: NamespacedKey, result: Item, craftsPerGame: Int, oneMoreCraft: Boolean) : Professions,UHCRecipe(
+    key, result, craftsPerGame, oneMoreCraft
+) {
+    final override val professionName: String = this::class.simpleName!!
+}
+
+open class Strategist(key: NamespacedKey, result: Item, craftsPerGame: Int, oneMoreCraft: Boolean) : Professions,UHCRecipe(
+    key, result, craftsPerGame, oneMoreCraft
+) {
+    final override val professionName: String = this::class.simpleName!!
+}
