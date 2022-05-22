@@ -1,13 +1,15 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.Alchemy
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 
-class DustOfLight : UHCRecipe(
+object DustOfLight : Alchemy(
     NamespacedKey.minecraft("dust_of_light"),
-    ItemStack(Material.GLOWSTONE_DUST)
+    DustOfLight,
+    3,
+    true
 ){
     init {
         shape(
@@ -18,4 +20,7 @@ class DustOfLight : UHCRecipe(
         setIngredient('1',Material.REDSTONE)
         setIngredient('2',Material.FLINT_AND_STEEL)
     }
+    object DustOfLight : Item(
+        ItemStack(Material.REDSTONE,8)
+    )
 }

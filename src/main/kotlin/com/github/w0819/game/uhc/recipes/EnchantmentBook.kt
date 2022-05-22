@@ -1,13 +1,15 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.Item
-import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.ToolSmithing
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
 
-class EnchantmentBook : UHCRecipe(
+object EnchantmentBook : ToolSmithing(
     NamespacedKey.minecraft("enchantment_book"),
-    Item.Enchantment_Book
+    EnchantmentBook,
+    1,
+    true
 ){
     init {
         shape(
@@ -20,4 +22,7 @@ class EnchantmentBook : UHCRecipe(
         setIngredient('3',Material.ENCHANTING_TABLE)
         setIngredient('4',Material.BOOKSHELF)
     }
+    object EnchantmentBook : Item(
+        ItemStack(Material.ENCHANTING_TABLE)
+    )
 }

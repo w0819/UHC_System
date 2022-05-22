@@ -1,15 +1,16 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.*
-import com.github.w0819.game.util.uhc.UHCRecipe
 import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
 
-class ExpertSeal : UHCRecipe(
+object ExpertSeal :  ExtraUltimates(
     NamespacedKey.minecraft("expert_seal"),
-    Item.ExpertSeal
-), ExtraUltimates {
+    ExpertSeal,
+    200000,
+    "Engineering","Invention"
+) {
     init {
         shape(
             "121",
@@ -22,11 +23,7 @@ class ExpertSeal : UHCRecipe(
         setIngredient('4',Material.DIAMOND_BLOCK)
     }
 
-    override fun needProfessions(): List<Professions> {
-        return listOf(Engineering(),Invention())
-    }
-
-    override fun needCoin(): Int {
-        return 200000
-    }
+    object ExpertSeal : Item(
+        ItemStack(Material.NETHER_STAR)
+    )
 }

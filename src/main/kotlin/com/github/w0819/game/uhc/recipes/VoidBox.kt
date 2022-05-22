@@ -1,15 +1,16 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.*
-import com.github.w0819.game.util.uhc.UHCRecipe
 import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
 
-class VoidBox : UHCRecipe(
+object VoidBox :  ExtraUltimates(
     NamespacedKey.minecraft("void_box"),
-    Item.VoidBox
-), ExtraUltimates {
+    VoidBox,
+    50000,
+    "BloodCraft","Hunter"
+) {
     init {
         shape(
             "121",
@@ -21,11 +22,7 @@ class VoidBox : UHCRecipe(
         setIngredient('3',Material.PLAYER_HEAD)
     }
 
-    override fun needProfessions(): List<Professions> {
-        return listOf(BloodCraft(),Hunter())
-    }
-
-    override fun needCoin(): Int {
-        return 50000
-    }
+    object VoidBox : Item(
+        ItemStack(Material.ENDER_CHEST,2)
+    )
 }

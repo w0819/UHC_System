@@ -1,13 +1,15 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.Item
-import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.Hunter
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
 
-class Fenrir : UHCRecipe(
+object Fenrir : Hunter(
     NamespacedKey.minecraft("fenrir"),
-    Item.Fenrir
+    Fenrir,
+    1,
+    true
 ){
     init {
         shape(
@@ -19,4 +21,7 @@ class Fenrir : UHCRecipe(
         setIngredient('2',Material.BONE)
         setIngredient('3',Material.EXPERIENCE_BOTTLE)
     }
+    object Fenrir : Item(
+        ItemStack(Material.WOLF_SPAWN_EGG)
+    )
 }

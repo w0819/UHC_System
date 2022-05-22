@@ -1,15 +1,16 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.*
-import com.github.w0819.game.util.uhc.UHCRecipe
 import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
 
-class DeathScythe: UHCRecipe(
+object `Death'sScythe`:  ExtraUltimates(
     NamespacedKey.minecraft("death_scythe"),
-    Item.Death_Scythe
-), ExtraUltimates {
+    `Death'sScythe`,
+    200000,
+    "BloodCraft","WeaponSmithing"
+) {
     init {
         shape(
             " 11",
@@ -21,11 +22,7 @@ class DeathScythe: UHCRecipe(
         setIngredient('3',Material.CLOCK)
     }
 
-    override fun needProfessions(): List<Professions> {
-        return listOf(BloodCraft(),WeaponSmithing())
-    }
-
-    override fun needCoin(): Int {
-        TODO("Not yet implemented")
-    }
+    object `Death'sScythe` : Item(
+        ItemStack(Material.IRON_HOE)
+    )
 }

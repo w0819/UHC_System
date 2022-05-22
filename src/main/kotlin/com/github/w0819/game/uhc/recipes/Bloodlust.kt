@@ -1,15 +1,16 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.*
-import com.github.w0819.game.util.uhc.UHCRecipe
 import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
 
-class Bloodlust : UHCRecipe(
+object Bloodlust : ExtraUltimates(
     NamespacedKey.minecraft("bloodlust"),
-    Item.Bloodlust
-), ExtraUltimates {
+    Bloodlust,
+    100000,
+    "BloodCraft","Invention"
+) {
     init {
         shape(
             "121",
@@ -22,12 +23,7 @@ class Bloodlust : UHCRecipe(
         setIngredient('4',Material.EXPERIENCE_BOTTLE)
     }
 
-    override fun needProfessions(): List<Professions> {
-        return listOf(BloodCraft(),Invention())
-    }
-
-    override fun needCoin(): Int {
-        return 100000
-    }
-
+    object Bloodlust : Item(
+        ItemStack(Material.DIAMOND_SWORD)
+    )
 }

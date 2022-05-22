@@ -1,15 +1,16 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.*
-import com.github.w0819.game.util.uhc.UHCRecipe
 import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
 
-class ChestOfFate : UHCRecipe(
+object ChestOfFate :  ExtraUltimates(
     NamespacedKey.minecraft("chest_of_fate"),
-    Item.chest_of_fate
-), ExtraUltimates {
+    ChestOfFate,
+    75000,
+    "BloodCraft","Engineering"
+) {
     init {
         shape(
             "111",
@@ -20,11 +21,7 @@ class ChestOfFate : UHCRecipe(
         setIngredient('2',Material.PLAYER_HEAD)
     }
 
-    override fun needProfessions(): List<Professions> {
-        return listOf(BloodCraft(),Engineering())
-    }
-
-    override fun needCoin(): Int {
-        return 75000
-    }
+    object ChestOfFate : Item(
+        ItemStack(Material.PLAYER_HEAD)
+    )
 }

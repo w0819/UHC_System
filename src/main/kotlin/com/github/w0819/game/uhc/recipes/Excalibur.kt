@@ -1,15 +1,16 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.*
-import com.github.w0819.game.util.uhc.UHCRecipe
 import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
 
-class Excalibur : UHCRecipe(
+object Excalibur : ExtraUltimates(
     NamespacedKey.minecraft("excalibur"),
-    Item.Excalibur
-), ExtraUltimates {
+    Excalibur,
+    150000,
+    "WeaponSmithing","Alchemy"
+) {
     init {
         shape(
             "121",
@@ -22,11 +23,9 @@ class Excalibur : UHCRecipe(
         setIngredient('4',Material.DIAMOND_SWORD)
     }
 
-    override fun needProfessions(): List<Professions> {
-        return listOf(WeaponSmithing(),Alchemy())
-    }
-
-    override fun needCoin(): Int {
-       return 150000
-    }
+    object Excalibur : Item(
+        ItemStack(Material.DIAMOND_SWORD),
+        listOf(),
+        20
+    )
 }

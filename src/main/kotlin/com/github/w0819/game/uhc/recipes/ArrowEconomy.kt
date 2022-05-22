@@ -1,13 +1,15 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.Hunter
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 
-class ArrowEconomy : UHCRecipe(
+object ArrowEconomy : Hunter(
     NamespacedKey.minecraft("arrow_economy"),
-    ItemStack(Material.ARROW, 20)
+    ArrowEconomy,
+    1,
+    true
 ) {
     init {
         shape(
@@ -19,4 +21,7 @@ class ArrowEconomy : UHCRecipe(
         setIngredient('2', Material.STICK)
         setIngredient('3', Material.FEATHER)
     }
+    object  ArrowEconomy : Item(
+        ItemStack(Material.ARROW,20)
+    )
 }

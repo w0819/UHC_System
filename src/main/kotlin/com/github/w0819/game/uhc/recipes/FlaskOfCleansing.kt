@@ -1,15 +1,19 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.*
-import com.github.w0819.game.util.uhc.UHCRecipe
 import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.PotionMeta
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
 
-class FlaskOfCleansing : UHCRecipe(
+object FlaskOfCleansing : ExtraUltimates(
     NamespacedKey.minecraft("flask_of_cleansing"),
-    Item.FlaskOfCleansing
-), ExtraUltimates {
+    FlaskOfCleansing,
+    100000,
+    "Hunter","Engineering"
+) {
     init {
         shape(
             " 1 ",
@@ -21,11 +25,15 @@ class FlaskOfCleansing : UHCRecipe(
         setIngredient('3',Material.GLASS_BOTTLE)
     }
 
-    override fun needProfessions(): List<Professions> {
-        return listOf(Hunter(),Engineering())
-    }
-
-    override fun needCoin(): Int {
-        return 1000000
+    object FlaskOfCleansing : Item(
+        ItemStack(Material.SPLASH_POTION)
+    ) {
+        init {
+            itemMeta = itemMeta.apply {
+                (this as PotionMeta).addCustomEffect(
+                    PotionEffect(PotionEffectType.WEAKNESS,240,2)
+                ,true)
+            }
+        }
     }
 }

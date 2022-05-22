@@ -1,13 +1,15 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.Cooking
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 
-class LightApple : UHCRecipe(
+object LightApple : Cooking(
     NamespacedKey.minecraft("light_apple"),
-    ItemStack(Material.GOLDEN_APPLE)
+    LightApple,
+    1,
+    true
 ){
     init {
         shape(
@@ -18,4 +20,7 @@ class LightApple : UHCRecipe(
         setIngredient('1',Material.GOLD_INGOT)
         setIngredient('2',Material.APPLE)
     }
+    object LightApple : Item(
+        ItemStack(Material.GOLDEN_APPLE)
+    )
 }

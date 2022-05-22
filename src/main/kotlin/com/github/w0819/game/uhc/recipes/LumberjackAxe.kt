@@ -1,13 +1,15 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.Item
-import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.ToolSmithing
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
 
-class LumberjackAxe : UHCRecipe(
+object LumberjackAxe : ToolSmithing(
     NamespacedKey.minecraft("lumberjack_axe"),
-    Item.LumberjackAxe
+    LumberjackAxe,
+    3,
+    true
 ) {
     init {
         shape(
@@ -19,4 +21,7 @@ class LumberjackAxe : UHCRecipe(
         setIngredient('2', Material.FLINT)
         setIngredient('3', Material.STICK)
     }
+    object LumberjackAxe : Item(
+        ItemStack(Material.IRON_AXE)
+    )
 }

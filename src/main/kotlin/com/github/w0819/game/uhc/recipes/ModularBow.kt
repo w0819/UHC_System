@@ -1,13 +1,16 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.Item
-import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.enchantments.Enchantment
+import org.bukkit.inventory.ItemStack
 
-class ModularBow : UHCRecipe(
+object ModularBow : ExtraUltimates(
     NamespacedKey.minecraft("modular_bow"),
-    Item.ModularBow
+    ModularBow,
+    150000,
+    "Invention","WephonSmithing"
 ) {
     init {
         shape(
@@ -20,5 +23,12 @@ class ModularBow : UHCRecipe(
         setIngredient('3',Material.BOW)
         setIngredient('4',Material.SPIDER_EYE)
         setIngredient('5',Material.SLIME_BALL)
+    }
+    object ModularBow : Item(
+        ItemStack(Material.BOW)
+    ) {
+        init {
+            addEnchantment(Enchantment.ARROW_KNOCKBACK,1)
+        }
     }
 }

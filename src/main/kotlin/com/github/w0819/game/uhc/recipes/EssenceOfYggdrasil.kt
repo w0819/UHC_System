@@ -1,15 +1,16 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.*
-import com.github.w0819.game.util.uhc.UHCRecipe
 import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
 
-class EssenceOfYggdrasil : UHCRecipe(
+object EssenceOfYggdrasil : ExtraUltimates(
     NamespacedKey.minecraft("essence_of_yggdrasil"),
-    Item.Essence_of_yggdrasil
-), ExtraUltimates {
+    EssenceOfYggdrasil,
+    75000,
+    "Enchanting","Alchemy"
+) {
     init {
         shape(
             "121",
@@ -23,11 +24,7 @@ class EssenceOfYggdrasil : UHCRecipe(
         setIngredient('5',Material.REDSTONE)
     }
 
-    override fun needProfessions(): List<Professions> {
-        return listOf(Enchanting(),Alchemy())
-    }
-
-    override fun needCoin(): Int {
-        return 75000
-    }
+    object EssenceOfYggdrasil : Item(
+        ItemStack(Material.ENCHANTING_TABLE)
+    )
 }

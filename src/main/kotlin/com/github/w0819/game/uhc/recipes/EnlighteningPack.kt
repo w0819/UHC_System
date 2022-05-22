@@ -1,13 +1,15 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.Enchanting
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 
-class EnlighteningPack : UHCRecipe(
+object EnlighteningPack : Enchanting(
     NamespacedKey.minecraft("enlightening_pack"),
-    ItemStack(Material.EXPERIENCE_BOTTLE,8)
+    EnlighteningPack,
+    3,
+    true
 ){
     init {
         shape(
@@ -18,4 +20,7 @@ class EnlighteningPack : UHCRecipe(
         setIngredient('1',Material.REDSTONE_BLOCK)
         setIngredient('2',Material.GLASS_BOTTLE)
     }
+    object EnlighteningPack : Item(
+        ItemStack(Material.EXPERIENCE_BOTTLE,8)
+    )
 }

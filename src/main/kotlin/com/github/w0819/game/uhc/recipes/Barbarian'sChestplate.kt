@@ -1,13 +1,16 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.Item
-import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.enchantments.Enchantment
+import org.bukkit.inventory.ItemStack
 
-class BarbarianChestplate : UHCRecipe(
+object `Barbarian'sChestplate` : ExtraUltimates(
     NamespacedKey.minecraft("barbarian_chestplate"),
-    Item.Barbarian_Chestplate
+    `Barbarian'sChestplate`,
+    250000,
+    "BloodCraft","Hunter"
 ){
     init {
         shape(
@@ -19,5 +22,12 @@ class BarbarianChestplate : UHCRecipe(
         setIngredient('2',Material.DIAMOND_CHESTPLATE)
         setIngredient('3',Material.IRON_BLOCK)
         setIngredient('4',Material.POTION)
+    }
+    object `Barbarian'sChestplate` : Item(
+        ItemStack(Material.DIAMOND_CHESTPLATE)
+    ) {
+        init {
+            addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,1)
+        }
     }
 }

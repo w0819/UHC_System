@@ -1,13 +1,15 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.uhc.UHCRecipe
+import com.github.w0819.game.util.Alchemy
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 
-class NetherArtifact : UHCRecipe(
+object NetherArtifact : Alchemy(
     NamespacedKey.minecraft("nether_artifact"),
-    ItemStack(Material.BLAZE_ROD)
+    NetherArtifact,
+    1,
+    true
 ) {
     init {
         shape(
@@ -19,4 +21,7 @@ class NetherArtifact : UHCRecipe(
         setIngredient('2', Material.LAVA_BUCKET)
         setIngredient('3', Material.FIREWORK_ROCKET)
     }
+    object NetherArtifact : Item(
+        ItemStack(Material.BLAZE_ROD)
+    )
 }

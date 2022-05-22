@@ -1,13 +1,16 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.Item
 import com.github.w0819.game.util.uhc.UHCRecipe
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
 
-class NotchApple: UHCRecipe(
+// 1.9 이상에는 노치 사과가 없어서 추가 Professions 없음
+object NotchApple: UHCRecipe(
     NamespacedKey.minecraft("notch_apple"),
-    Item.notch_apple
+    NotchApple,
+    10000000,
+    true
 ) {
     init {
         shape(
@@ -18,4 +21,7 @@ class NotchApple: UHCRecipe(
         setIngredient('1', Material.GOLD_BLOCK)
         setIngredient('2', Material.APPLE)
     }
+    object NotchApple : Item(
+        ItemStack(Material.ENCHANTED_GOLDEN_APPLE)
+    )
 }

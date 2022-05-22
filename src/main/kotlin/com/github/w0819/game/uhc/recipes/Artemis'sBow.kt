@@ -1,15 +1,17 @@
 package com.github.w0819.game.uhc.recipes
 
-import com.github.w0819.game.util.*
-import com.github.w0819.game.util.uhc.UHCRecipe
 import com.github.w0819.game.util.ExtraUltimates
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.enchantments.Enchantment
+import org.bukkit.inventory.ItemStack
 
-class ArtemisBow : UHCRecipe(
+object `Artemis'sBow` : ExtraUltimates(
     NamespacedKey.minecraft("artemis_bow"),
-    Item.Artemis_Bow
-), ExtraUltimates {
+    `Artmeis'sBow`,
+    100000,
+    "Alchemy","BloodCraft"
+) {
     init {
         shape(
             "121",
@@ -21,12 +23,11 @@ class ArtemisBow : UHCRecipe(
         setIngredient('3',Material.BOW)
         setIngredient('4',Material.ENDER_EYE)
     }
-
-    override fun needProfessions(): List<Professions> {
-        return listOf(Alchemy(),BloodCraft())
-    }
-
-    override fun needCoin(): Int {
-        return 100000
+    object `Artmeis'sBow` : Item(
+        ItemStack(Material.BOW)
+    ) {
+        init {
+            addEnchantment(Enchantment.ARROW_DAMAGE,3)
+        }
     }
 }
