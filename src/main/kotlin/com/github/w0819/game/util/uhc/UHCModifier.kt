@@ -42,4 +42,8 @@ open class UHCModifier(private val emoticon: String, private val message: String
     open fun specialSkill(players: List<Player>) {
 
     }
+
+    final override fun toString(): String {
+        return name
+    }
 }
